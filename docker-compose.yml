@@ -1,0 +1,16 @@
+version: '3'
+services:
+    postgres:
+      image: postgres:11
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=repeatnotes_dev
+        - PGDATA=/var/lib/postgresql/data/pgdata
+      volumes:
+        - pgdata:/var/lib/postgresql/data/pgdata
+      ports:
+        - "25432:5432"
+
+volumes:
+    pgdata:
