@@ -2,17 +2,40 @@
 
 ## Features
 
-### Self study
+### For life long learner
 
-- Self quizzing
-- Spaced
-- Interleaving
+- Self quizzing (MCQ or type in answer)
+- Spaced (SuperMemo2)
+- Interleaving (Cross decks learning)
 
-### For classroom & teams
+### Extra features
 
 - Assessment tests
 - Test sharing
 - Collection sharing
+
+## How it works
+
+- Question content is in Markdown format
+- There are 2 types of quiz: Multiple Choice & Type Answer
+- You can draft your answer & use that as hints when answering the question
+- SuperMemo2 algorithm will rate your answer as follow:
+
+  + Wrong answer: Again
+  + Partially correct (MCQ: apply for multiple correct answers, TA:
+  Levenshtein distance == 1): Hard
+  + Correct when revealing drafts: Ok
+  + Correct: Easy
+
+- A deck contains multiple cards, maxium 1000. Sm2 will work cross deck or by
+  single deck
+
+
+## API
+
+- CRUD decks
+- CRUD cards
+
 
 ## Setup
 
