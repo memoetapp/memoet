@@ -1,9 +1,9 @@
-defmodule RepeatNotes.MixProject do
+defmodule Memoet.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :repeatnotes,
+      app: :memoet,
       version: "0.1.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule RepeatNotes.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {RepeatNotes.Application, []},
+      mod: {Memoet.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

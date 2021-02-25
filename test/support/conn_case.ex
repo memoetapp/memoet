@@ -1,4 +1,4 @@
-defmodule RepeatNotesWeb.ConnCase do
+defmodule MemoetWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule RepeatNotesWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use RepeatNotesWeb.ConnCase, async: true`, although
+  by setting `use MemoetWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -22,20 +22,20 @@ defmodule RepeatNotesWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import RepeatNotesWeb.ConnCase
+      import MemoetWeb.ConnCase
 
-      alias RepeatNotesWeb.Router.Helpers, as: Routes
+      alias MemoetWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint RepeatNotesWeb.Endpoint
+      @endpoint MemoetWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(RepeatNotes.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Memoet.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(RepeatNotes.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Memoet.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

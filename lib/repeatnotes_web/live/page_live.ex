@@ -1,5 +1,5 @@
-defmodule RepeatNotesWeb.PageLive do
-  use RepeatNotesWeb, :live_view
+defmodule MemoetWeb.PageLive do
+  use MemoetWeb, :live_view
 
   @impl true
   def mount(_params, _session, socket) do
@@ -26,7 +26,7 @@ defmodule RepeatNotesWeb.PageLive do
   end
 
   defp search(query) do
-    if not RepeatNotesWeb.Endpoint.config(:code_reloader) do
+    if not MemoetWeb.Endpoint.config(:code_reloader) do
       raise "action disabled when not in development"
     end
 

@@ -1,16 +1,16 @@
-defmodule RepeatNotesWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :repeatnotes
+defmodule MemoetWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :memoet
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_repeatnotes_key",
+    key: "_memoet_key",
     signing_salt: "VVtWiaWL"
   ]
 
-  socket "/socket", RepeatNotesWeb.UserSocket,
+  socket "/socket", MemoetWeb.UserSocket,
     websocket: true,
     longpoll: false
 
@@ -22,7 +22,7 @@ defmodule RepeatNotesWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :repeatnotes,
+    from: :memoet,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
@@ -32,7 +32,7 @@ defmodule RepeatNotesWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :repeatnotes
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :memoet
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -50,5 +50,5 @@ defmodule RepeatNotesWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug RepeatNotesWeb.Router
+  plug MemoetWeb.Router
 end

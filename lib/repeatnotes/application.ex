@@ -1,4 +1,4 @@
-defmodule RepeatNotes.Application do
+defmodule Memoet.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -8,27 +8,27 @@ defmodule RepeatNotes.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      RepeatNotes.Repo,
+      Memoet.Repo,
       # Start the Telemetry supervisor
-      RepeatNotesWeb.Telemetry,
+      MemoetWeb.Telemetry,
       # Start the PubSub system
-      {Phoenix.PubSub, name: RepeatNotes.PubSub},
+      {Phoenix.PubSub, name: Memoet.PubSub},
       # Start the Endpoint (http/https)
-      RepeatNotesWeb.Endpoint
-      # Start a worker by calling: RepeatNotes.Worker.start_link(arg)
-      # {RepeatNotes.Worker, arg}
+      MemoetWeb.Endpoint
+      # Start a worker by calling: Memoet.Worker.start_link(arg)
+      # {Memoet.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: RepeatNotes.Supervisor]
+    opts = [strategy: :one_for_one, name: Memoet.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    RepeatNotesWeb.Endpoint.config_change(changed, removed)
+    MemoetWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

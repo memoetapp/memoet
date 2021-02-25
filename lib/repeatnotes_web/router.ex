@@ -1,11 +1,11 @@
-defmodule RepeatNotesWeb.Router do
-  use RepeatNotesWeb, :router
+defmodule MemoetWeb.Router do
+  use MemoetWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {RepeatNotesWeb.LayoutView, :root}
+    plug :put_root_layout, {MemoetWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -14,14 +14,14 @@ defmodule RepeatNotesWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", RepeatNotesWeb do
+  scope "/", MemoetWeb do
     pipe_through :browser
 
     live "/", PageLive, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", RepeatNotesWeb do
+  # scope "/api", MemoetWeb do
   #   pipe_through :api
   # end
 
@@ -37,7 +37,7 @@ defmodule RepeatNotesWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: RepeatNotesWeb.Telemetry
+      live_dashboard "/dashboard", metrics: MemoetWeb.Telemetry
     end
   end
 end

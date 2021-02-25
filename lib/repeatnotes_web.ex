@@ -1,12 +1,12 @@
-defmodule RepeatNotesWeb do
+defmodule MemoetWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use RepeatNotesWeb, :controller
-      use RepeatNotesWeb, :view
+      use MemoetWeb, :controller
+      use MemoetWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,19 +19,19 @@ defmodule RepeatNotesWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: RepeatNotesWeb
+      use Phoenix.Controller, namespace: MemoetWeb
 
       import Plug.Conn
-      import RepeatNotesWeb.Gettext
-      alias RepeatNotesWeb.Router.Helpers, as: Routes
+      import MemoetWeb.Gettext
+      alias MemoetWeb.Router.Helpers, as: Routes
     end
   end
 
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/repeatnotes_web/templates",
-        namespace: RepeatNotesWeb
+        root: "lib/memoet_web/templates",
+        namespace: MemoetWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -45,7 +45,7 @@ defmodule RepeatNotesWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {RepeatNotesWeb.LayoutView, "live.html"}
+        layout: {MemoetWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
     end
@@ -72,7 +72,7 @@ defmodule RepeatNotesWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import RepeatNotesWeb.Gettext
+      import MemoetWeb.Gettext
     end
   end
 
@@ -87,9 +87,9 @@ defmodule RepeatNotesWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import RepeatNotesWeb.ErrorHelpers
-      import RepeatNotesWeb.Gettext
-      alias RepeatNotesWeb.Router.Helpers, as: Routes
+      import MemoetWeb.ErrorHelpers
+      import MemoetWeb.Gettext
+      alias MemoetWeb.Router.Helpers, as: Routes
     end
   end
 

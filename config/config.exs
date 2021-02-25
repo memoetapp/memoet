@@ -7,15 +7,15 @@
 # General application configuration
 use Mix.Config
 
-config :repeatnotes,
-  ecto_repos: [RepeatNotes.Repo]
+config :memoet,
+  ecto_repos: [Memoet.Repo]
 
 # Configures the endpoint
-config :repeatnotes, RepeatNotesWeb.Endpoint,
+config :memoet, MemoetWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "v1DV0Du47Is5/EZiRXMCO5h1pp7reS1kR8IMjdH9UH9QqMjED3b/LdwKuwWlC+TG",
-  render_errors: [view: RepeatNotesWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: RepeatNotes.PubSub,
+  render_errors: [view: MemoetWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: Memoet.PubSub,
   live_view: [signing_salt: "yWHiYT3q"]
 
 # Configures Elixir's Logger

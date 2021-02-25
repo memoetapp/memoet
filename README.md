@@ -1,4 +1,4 @@
-# RepeatNotes
+# Memoet
 
 ## Features
 

@@ -1,10 +1,10 @@
 use Mix.Config
 
 # Configure your database
-config :repeatnotes, RepeatNotes.Repo,
+config :memoet, Memoet.Repo,
   username: "postgres",
   password: "postgres",
-  database: "repeatnotes_dev",
+  database: "memoet_dev",
   hostname: "localhost",
   port: System.get_env("DATABASE_PORT") || 25432,
   show_sensitive_data_on_connection_error: true,
@@ -16,7 +16,7 @@ config :repeatnotes, RepeatNotes.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :repeatnotes, RepeatNotesWeb.Endpoint,
+config :memoet, MemoetWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -53,13 +53,13 @@ config :repeatnotes, RepeatNotesWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :repeatnotes, RepeatNotesWeb.Endpoint,
+config :memoet, MemoetWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/repeatnotes_web/(live|views)/.*(ex)$",
-      ~r"lib/repeatnotes_web/templates/.*(eex)$"
+      ~r"lib/memoet_web/(live|views)/.*(ex)$",
+      ~r"lib/memoet_web/templates/.*(eex)$"
     ]
   ]
 

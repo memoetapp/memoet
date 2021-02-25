@@ -1,5 +1,5 @@
-defmodule RepeatNotes.Repo do
+defmodule Memoet.Repo do
   use Ecto.Repo,
-    otp_app: :repeatnotes,
+    otp_app: :memoet,
     adapter: Ecto.Adapters.Postgres
 end

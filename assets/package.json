@@ -1,5 +1,5 @@
 {
-  "name": "repeatnotes",
+  "name": "memoet",
   "version": "0.0.0",
   "scripts": {
     "dev": "yarn stop && vite --port 3333",

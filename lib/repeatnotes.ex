@@ -1,6 +1,6 @@
-defmodule RepeatNotes do
+defmodule Memoet do
   @moduledoc """
-  RepeatNotes keeps the contexts that define your domain
+  Memoet keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless

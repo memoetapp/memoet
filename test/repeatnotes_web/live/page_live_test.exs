@@ -1,5 +1,5 @@
-defmodule RepeatNotesWeb.PageLiveTest do
-  use RepeatNotesWeb.ConnCase
+defmodule MemoetWeb.PageLiveTest do
+  use MemoetWeb.ConnCase
 
   import Phoenix.LiveViewTest
 

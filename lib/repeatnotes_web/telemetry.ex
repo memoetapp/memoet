@@ -1,4 +1,4 @@
-defmodule RepeatNotesWeb.Telemetry do
+defmodule MemoetWeb.Telemetry do
   use Supervisor
   import Telemetry.Metrics
 
@@ -31,11 +31,11 @@ defmodule RepeatNotesWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("repeatnotes.repo.query.total_time", unit: {:native, :millisecond}),
-      summary("repeatnotes.repo.query.decode_time", unit: {:native, :millisecond}),
-      summary("repeatnotes.repo.query.query_time", unit: {:native, :millisecond}),
-      summary("repeatnotes.repo.query.queue_time", unit: {:native, :millisecond}),
-      summary("repeatnotes.repo.query.idle_time", unit: {:native, :millisecond}),
+      summary("memoet.repo.query.total_time", unit: {:native, :millisecond}),
+      summary("memoet.repo.query.decode_time", unit: {:native, :millisecond}),
+      summary("memoet.repo.query.query_time", unit: {:native, :millisecond}),
+      summary("memoet.repo.query.queue_time", unit: {:native, :millisecond}),
+      summary("memoet.repo.query.idle_time", unit: {:native, :millisecond}),
 
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
@@ -49,7 +49,7 @@ defmodule RepeatNotesWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {RepeatNotesWeb, :count_users, []}
+      # {MemoetWeb, :count_users, []}
     ]
   end
 end

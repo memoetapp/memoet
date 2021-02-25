@@ -1,3 +1,3 @@
-defmodule RepeatNotesWeb.LayoutView do
-  use RepeatNotesWeb, :view
+defmodule MemoetWeb.LayoutView do
+  use MemoetWeb, :view
 end

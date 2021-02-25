@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(RepeatNotes.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(Memoet.Repo, :manual)
