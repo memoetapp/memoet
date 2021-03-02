@@ -7,7 +7,7 @@ defmodule MemoetWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_memoet_key",
-    signing_salt: "VVtWiaWL"
+    signing_salt: "zhjjuLFG"
   ]
 
   socket "/socket", MemoetWeb.UserSocket,

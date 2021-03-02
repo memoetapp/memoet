@@ -13,10 +13,10 @@ config :memoet,
 # Configures the endpoint
 config :memoet, MemoetWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "v1DV0Du47Is5/EZiRXMCO5h1pp7reS1kR8IMjdH9UH9QqMjED3b/LdwKuwWlC+TG",
+  secret_key_base: "zoKAHRc9F8QPfx/Tx/CXJA12dY2RaVK3nC151hcXALgZJmOSMHswzs4tF0x/YXyj",
   render_errors: [view: MemoetWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Memoet.PubSub,
-  live_view: [signing_salt: "yWHiYT3q"]
+  live_view: [signing_salt: "cPUFUjaA"]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -25,23 +25,6 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
-
-# Read .env
-try do
-  File.stream!("./.env")
-  |> Stream.map(&String.trim_trailing/1)
-  |> Enum.each(fn line ->
-    line
-    |> String.replace("export ", "")
-    |> String.split("=", parts: 2)
-    |> Enum.reduce(fn value, key ->
-      System.put_env(key, value)
-    end)
-  end)
-rescue
-  _ -> IO.puts("no .env file found!")
-end
-
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

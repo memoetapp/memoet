@@ -6,7 +6,7 @@ config :memoet, Memoet.Repo,
   password: "postgres",
   database: "memoet_dev",
   hostname: "localhost",
-  port: System.get_env("DATABASE_PORT") || 25432,
+  port: System.get_env("DATABASE_PORT") || 5433,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -22,8 +22,11 @@ config :memoet, MemoetWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    yarn: [
-      "dev",
+    node: [
+      "node_modules/webpack/bin/webpack.js",
+      "--mode",
+      "development",
+      "--watch-stdin",
       cd: Path.expand("../assets", __DIR__)
     ]
   ]

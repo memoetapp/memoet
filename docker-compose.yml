@@ -1,7 +1,7 @@
 version: '3'
 services:
     postgres:
-      image: postgres:11
+      image: postgres:13
       environment:
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
@@ -10,7 +10,7 @@ services:
       volumes:
         - pgdata:/var/lib/postgresql/data/pgdata
       ports:
-        - "25432:5432"
+        - "5433:5432"
 
 volumes:
     pgdata:
