@@ -1,0 +1,19 @@
+<h1>Register</h1>
+
+<%= form_for @changeset, Routes.signup_path(@conn, :create), fn f -> %>
+  <%= label f, :email %>
+  <%= email_input f, :email %>
+  <%= error_tag f, :email %>
+
+  <%= label f, :password %>
+  <%= password_input f, :password %>
+  <%= error_tag f, :password %>
+
+  <%= label f, :password_confirmation %>
+  <%= password_input f, :password_confirmation %>
+  <%= error_tag f, :password_confirmation %>
+
+  <%= submit "Register" %>
+<% end %>
+
+<span><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>

@@ -46,7 +46,10 @@ defmodule Memoet.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      # Auth
+      {:pow, "~> 1.0.22"},
+      {:pow_postgres_store, "~> 1.0.0-rc2"}
     ]
   end
 

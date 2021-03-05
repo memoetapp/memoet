@@ -1,6 +1,10 @@
 defmodule MemoetWeb.Router do
   use MemoetWeb, :router
 
+  use Pow.Phoenix.Router
+  use Pow.Extension.Phoenix.Router,
+    extensions: [PowResetPassword, PowEmailConfirmation]
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -14,8 +18,32 @@ defmodule MemoetWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated,
+      error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
+  pipeline :not_authenticated do
+    plug Pow.Plug.RequireNotAuthenticated,
+      error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
   scope "/", MemoetWeb do
+    pipe_through [:browser, :not_authenticated]
+
+    get "/signup", RegistrationController, :new, as: :signup
+    post "/signup", RegistrationController, :create, as: :signup
+  end
+
+  scope "/" do
     pipe_through :browser
+
+    pow_routes()
+    pow_extension_routes()
+  end
+
+  scope "/", MemoetWeb do
+    pipe_through [:browser, :protected]
 
     live "/", PageLive, :index
   end
