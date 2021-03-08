@@ -3,7 +3,7 @@ defmodule MemoetWeb.Router do
 
   use Pow.Phoenix.Router
   use Pow.Extension.Phoenix.Router,
-    extensions: [PowResetPassword, PowEmailConfirmation]
+    extensions: [PowResetPassword]
 
   pipeline :browser do
     plug :accepts, ["html"]

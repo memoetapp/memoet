@@ -15,12 +15,12 @@ defmodule MemoetWeb.RegistrationController do
     |> user_with_account_transaction(user_params)
     |> Memoet.Repo.transaction()
     |> case do
-      {:ok, conn} ->
+      {:ok, %{conn: conn}} ->
         conn
         |> put_flash(:info, "Welcome!")
         |> redirect(to: Routes.page_path(conn, :index))
 
-      {:error, changeset} ->
+      {:error, _op, changeset, _changes} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -38,7 +38,10 @@ defmodule MemoetWeb.RegistrationController do
         })
 
         case Pow.Plug.create_user(conn, user_params) do
-          {:ok, _user, conn} ->
+          {:ok, user, conn} ->
+            conn = conn
+                   |> put_session(:current_user_id, user.id)
+                   |> configure_session(renew: true)
             {:ok, conn}
 
           {:error, changeset, _conn} ->

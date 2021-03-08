@@ -31,7 +31,7 @@ config :memoet, :pow,
   user: Memoet.Users.User,
   repo: Memoet.Repo,
   web_module: MemoetWeb,
-  extensions: [PowResetPassword, PowEmailConfirmation],
+  extensions: [PowResetPassword],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
 
 # Import environment specific config. This must remain at the bottom

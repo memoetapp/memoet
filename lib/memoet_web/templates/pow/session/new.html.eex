@@ -21,4 +21,4 @@
 <% end %>
 
 
-<span><%= link "Register", to: Routes.pow_registration_path(@conn, :new) %></span>
+<span><%= link "Register", to: Routes.signup_path(@conn, :new) %></span>
