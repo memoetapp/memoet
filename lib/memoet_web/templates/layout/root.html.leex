@@ -10,13 +10,6 @@
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <header>
-      <section>
-        <a href="https://memoet.com">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Memoet Logo"/>
-        </a>
-      </section>
-    </header>
     <%= @inner_content %>
   </body>
 </html>
