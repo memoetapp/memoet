@@ -1,0 +1,21 @@
+<h1>My decks</h1>
+
+<section>
+  <ul>
+    <%= for deck <- @decks do %>
+      <li>
+        <a href="<%= Routes.deck_path @conn, :show, deck %>">
+          <%= deck.name %>
+        </a> created <%= Timex.format!(deck.inserted_at, "{relative}", :relative) %>
+      </li>
+    <% end %>
+
+    <%= if @decks == [] do %>
+      <li>No decks is created yet.</li>
+    <% end %>
+  </ul>
+</section>
+
+<section class="text-center">
+  <%= link "New deck", to: Routes.deck_path(@conn, :new), class: "btn-primary" %>
+</section>

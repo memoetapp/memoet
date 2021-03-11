@@ -42,10 +42,16 @@ defmodule MemoetWeb.Router do
     pow_extension_routes()
   end
 
-  scope "/", MemoetWeb do
+  scope "/decks", MemoetWeb do
     pipe_through [:browser, :protected]
 
-    live "/", PageLive, :index
+    resources("/", DeckController)
+  end
+
+  scope "/", MemoetWeb do
+    pipe_through [:browser]
+
+    get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.

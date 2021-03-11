@@ -1,0 +1,9 @@
+<h1><%= @deck.name %></h1>
+
+<section>
+  Deck notes here!
+</section>
+
+<section class="text-center">
+  <%= link "My decks", to: Routes.deck_path(@conn, :index), class: "btn-primary" %>
+</section>

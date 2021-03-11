@@ -10,7 +10,7 @@ defmodule Memoet.Repo.Migrations.CreateNotes do
       add(:title, :string, null: false)
       add(:content, :text, null: false)
 
-      add(:trash, :boolean, null: false)
+      add(:trash, :boolean, null: false, default: false)
 
       add(
         :user_id,

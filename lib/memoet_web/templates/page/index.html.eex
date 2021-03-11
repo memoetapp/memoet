@@ -1,0 +1,7 @@
+<h1>Hello there!</h1>
+
+<p>Welcome to Memoet</p>
+
+<section>
+  <%= link "Register", to: Routes.signup_path(@conn, :new), class: "btn-primary" %>
+</section>

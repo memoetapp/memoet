@@ -47,9 +47,14 @@ defmodule Memoet.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
+      {:timex, "~> 3.6"},
       # Auth
       {:pow, "~> 1.0.22"},
-      {:pow_postgres_store, "~> 1.0.0-rc2"}
+      {:pow_postgres_store, "~> 1.0.0-rc2"},
+      # Cron
+      {:oban, "~> 2.5"},
+      # Lint
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 

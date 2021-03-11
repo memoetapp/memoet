@@ -1,0 +1,21 @@
+<h1>Edit "<%= @deck.name %>"</h1>
+
+<section>
+  <%= form_for @conn, Routes.deck_path(@conn, :update, @deck.id), [method: :put], fn f -> %>
+    <label>
+      Deck name: <%= text_input f, :name, value: @deck.name, required: true %>
+    </label>
+
+    <label>
+      Is this a public deck? <%= select f, :type, [true, false], value: @deck.public, required: true %>
+    </label>
+
+    <div class="text-center">
+      <%= submit "Update" %>
+    </div>
+  <% end %>
+</section>
+
+<section>
+  <%= link "View deck", to: Routes.deck_path(@conn, :show, @deck.id) %>
+</section>

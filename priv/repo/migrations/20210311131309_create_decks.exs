@@ -8,6 +8,8 @@ defmodule Memoet.Repo.Migrations.CreateDecks do
       add :name, :string, null: false
       add :public, :boolean, null: false, default: false
 
+      add :trash, :boolean, null: false, default: false
+
       add :user_id, references(
         :users,
         on_delete: :delete_all,

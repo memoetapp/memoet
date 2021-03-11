@@ -1,0 +1,22 @@
+<h1>Create new deck</h1>
+
+<section>
+  <%= form_for @conn, Routes.deck_path(@conn, :create), fn f -> %>
+    <label>
+      Deck name: <%= text_input f, :name, required: true %>
+    </label>
+
+    <label>
+      Is this a public deck? <%= select f, :public, [true, false], required: true %>
+    </label>
+
+    <div class="text-center">
+      <%= submit "Create", class: "btn-primary" %>
+    </div>
+  <% end %>
+</section>
+
+<section>
+  <%= link "My decks", to: Routes.deck_path(@conn, :index) %>
+</section>
+
