@@ -32,7 +32,11 @@ config :memoet, :pow,
   repo: Memoet.Repo,
   web_module: MemoetWeb,
   extensions: [PowResetPassword],
-  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  cache_store_backend: Pow.Postgres.Store
+
+config :pow, Pow.Postgres.Store,
+  repo: Memoet.Repo
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -14,9 +14,10 @@ defmodule Memoet.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Memoet.PubSub},
       # Start the Endpoint (http/https)
-      MemoetWeb.Endpoint
+      MemoetWeb.Endpoint,
       # Start a worker by calling: Memoet.Worker.start_link(arg)
       # {Memoet.Worker, arg}
+      {Pow.Postgres.Store.AutoDeleteExpired, [interval: :timer.hours(1)]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
