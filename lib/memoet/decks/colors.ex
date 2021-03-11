@@ -11,7 +11,7 @@ defmodule Memoet.Decks.Colors do
   def gray, do: @gray
   def red, do: @red
   def yellow, do: @yellow
-  def green, do: @gree
+  def green, do: @green
   def blue, do: @blue
   def indigo, do: @indigo
   def purple, do: @purple

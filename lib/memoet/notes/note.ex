@@ -9,6 +9,7 @@ defmodule Memoet.Notes.Note do
   alias Memoet.Notes.{Option, Types}
   alias Memoet.Users.User
   alias Memoet.Cards.Card
+  alias Memoet.Decks.Deck
 
   @title_limit 250
   @content_limit 2_500
@@ -20,12 +21,12 @@ defmodule Memoet.Notes.Note do
     field(:content, :string)
     field(:hint, :string)
 
-    field(:type, :string)
+    field(:type, :string, null: false, default: Types.multiple_choice())
     embeds_many(:options, Option, on_replace: :delete)
 
     has_many(:cards, Card)
     belongs_to(:user, User, foreign_key: :user_id, references: :id, type: :binary_id)
-    belongs_to(:user, Deck, foreign_key: :deck_id, references: :id, type: :binary_id)
+    belongs_to(:deck, Deck, foreign_key: :deck_id, references: :id, type: :binary_id)
 
     timestamps()
   end
@@ -44,8 +45,8 @@ defmodule Memoet.Notes.Note do
     |> validate_length(:title, max: @title_limit)
     |> validate_length(:content, max: @content_limit)
     |> validate_inclusion(:type, [
-      Type.multiple_choice(),
-      Type.type_answer(),
+      Types.multiple_choice(),
+      Types.type_answer(),
     ])
     |> validate_required([:title, :content, :type, :user_id, :deck_id])
   end
