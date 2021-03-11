@@ -1,0 +1,29 @@
+<main role="main">
+  <%= if get_flash(@conn, :info) do %>
+    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+  <% end %>
+  <%= if get_flash(@conn, :error) do %>
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+  <% end %>
+
+  <nav class="absolute top-0 flex items-center w-full bg-white border-b border-gray-300 shadow-sm">
+    <div class="container flex items-center justify-between max-w-3xl px-2 py-4 mx-auto">
+      <a
+        class="font-bold text-indigo-600 hover:text-indigo-700"
+        href="/"
+      >
+        Memoet
+      </a>
+      <a href="/me" class="text-gray-500 cursor-pointer hover:text-indigo-700">
+        <span class="mr-1 text-sm">user@memoet.com</span>
+        <span class="inline-block px-2 py-1 text-xs font-semibold text-white uppercase bg-indigo-500 rounded shadow-xs">
+          free
+        </span>
+      </a>
+    </div>
+  </nav>
+
+  <section class="max-w-3xl px-2 mx-auto mt-16">
+    <%= @inner_content %>
+  </section>
+</main>

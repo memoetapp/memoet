@@ -1,22 +1,27 @@
-<h1>Create new deck</h1>
+<h1 class="pt-2 pb-1 text-lg font-bold border-b">Create new deck</h1>
 
 <section>
-  <%= form_for @conn, Routes.deck_path(@conn, :create), fn f -> %>
-    <label>
-      Deck name: <%= text_input f, :name, required: true %>
-    </label>
+  <%= form_for @conn, Routes.deck_path(@conn, :create), [class: "mt-8 space-y-6"], fn f -> %>
+    <div>
+      Deck name: <%= text_input f, :name, required: true, class: "form-input" %>
+    </div>
 
-    <label>
-      Is this a public deck? <%= select f, :public, [true, false], required: true %>
-    </label>
+    <div class="flex items-center justify-start space-x-4">
+      <span class="flex items-center justify-center space-x-1">
+        <%= radio_button f, :public, true, required: true %>
+        <%= label f, :public, "Public" %>
+      </span>
+
+      <span class="flex items-center justify-center space-x-1">
+        <%= radio_button f, :public, false, required: true %>
+        <%= label f, :public, "Private" %>
+      </span>
+    </div>
 
     <div class="text-center">
       <%= submit "Create", class: "btn-primary" %>
+
+      <%= link "Cancel", to: Routes.deck_path(@conn, :index), class: "btn-secondary" %>
     </div>
   <% end %>
 </section>
-
-<section>
-  <%= link "My decks", to: Routes.deck_path(@conn, :index) %>
-</section>
-

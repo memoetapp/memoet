@@ -1,12 +1,29 @@
-<h1>My decks</h1>
-
 <section>
+  <button class="py-6">
+    <%= link "New deck", to: Routes.deck_path(@conn, :new), class: "btn-primary" %>
+  </button>
+
   <ul>
     <%= for deck <- @decks do %>
       <li>
-        <a href="<%= Routes.deck_path @conn, :show, deck %>">
-          <%= deck.name %>
-        </a> created <%= Timex.format!(deck.inserted_at, "{relative}", :relative) %>
+        <a
+          class="block px-6 py-3 my-4 border border-gray-300 rounded-lg shadow cursor-pointer hover:shadow-lg transition-all"
+          href="<%= Routes.deck_path @conn, :show, deck %>"
+        >
+          <div class="flex items-center justify-between">
+            <h2 class="overflow-hidden text-xl font-semibold truncate">
+              <%= deck.name %>
+            </h2>
+            <span class="text-sm opacity-70">
+              <%= if deck.public, do: "Public", else: "Private" %>
+            </span>
+          </div>
+
+          <div class="w-full my-1 text-xs truncate opacity-70">
+            created <%= Timex.format!(deck.inserted_at, "{relative}", :relative) %>,
+            updated <%= Timex.format!(deck.updated_at, "{relative}", :relative) %>.
+          </div>
+        </a>
       </li>
     <% end %>
 
@@ -14,8 +31,4 @@
       <li>No decks is created yet.</li>
     <% end %>
   </ul>
-</section>
-
-<section class="text-center">
-  <%= link "New deck", to: Routes.deck_path(@conn, :new), class: "btn-primary" %>
 </section>
