@@ -45,7 +45,9 @@ defmodule MemoetWeb.Router do
   scope "/decks", MemoetWeb do
     pipe_through [:browser, :protected]
 
-    resources("/", DeckController)
+    resources("/", DeckController) do
+      resources("/notes", NoteController)
+    end
   end
 
   scope "/", MemoetWeb do

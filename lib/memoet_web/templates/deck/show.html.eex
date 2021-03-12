@@ -6,3 +6,8 @@
 <section>
   3 notes in this deck.
 </section>
+
+
+<section class="py-6 text-center">
+  <a class="btn-primary" href="<%= Routes.deck_note_path @conn, :new, @deck %>">Add note</a>
+</section>

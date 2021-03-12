@@ -10,6 +10,11 @@ defmodule Memoet.Repo.Migrations.CreateNotes do
       add(:title, :string, null: false)
       add(:content, :text, null: false)
 
+      add(:type, :string, null: false)
+      add(:options, {:array, :map}, null: false, default: [])
+
+      add(:hint, :text)
+
       add(:trash, :boolean, null: false, default: false)
 
       add(

@@ -1,12 +1,12 @@
 <header class="header__wrapper">
-  <h1 class="header__title">Create new deck</h1>
-  <%= link "Cancel", to: Routes.deck_path(@conn, :index), class: "header__subtitle" %>
+  <h1 class="header__title">Create new note</h1>
+  <%= link "Cancel", to: Routes.deck_path(@conn, :show, @deck), class: "header__subtitle" %>
 </header>
 
 <section>
-  <%= form_for @conn, Routes.deck_path(@conn, :create), [class: "mt-8 space-y-6"], fn f -> %>
+  <%= form_for @conn, Routes.deck_note_path(@conn, :create, @deck), [class: "mt-8 space-y-6"], fn f -> %>
     <div>
-      Deck name: <%= text_input f, :name, required: true, class: "form-input" %>
+      Note name: <%= text_input f, :name, required: true, class: "form-input" %>
     </div>
 
     <div class="flex items-center justify-start space-x-4">
