@@ -1,5 +1,8 @@
-<h1><%= @deck.name %></h1>
+<header class="header__wrapper">
+  <h1 class="header__title"><%= @deck.name %></h1>
+  <a class="header__subtitle text-link" href="<%= Routes.deck_path @conn, :edit, @deck %>">Edit</a>
+</header>
 
 <section>
-  Deck notes here!
+  3 notes in this deck.
 </section>

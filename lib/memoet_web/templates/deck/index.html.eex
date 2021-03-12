@@ -1,16 +1,16 @@
-<section>
-  <button class="py-6">
-    <%= link "New deck", to: Routes.deck_path(@conn, :new), class: "btn-primary" %>
-  </button>
+<header class="header__wrapper">
+  <h1 class="header__title">My decks</h1>
+</header>
 
+<section>
   <ul>
     <%= for deck <- @decks do %>
       <li>
         <a
-          class="block px-6 py-3 my-4 border border-gray-300 rounded-lg shadow cursor-pointer hover:shadow-lg transition-all"
+          class="block px-6 py-3 my-4 border border-gray-300 rounded-lg shadow cursor-pointer hover:shadow-lg transition-all text-link"
           href="<%= Routes.deck_path @conn, :show, deck %>"
         >
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between space-x-2">
             <h2 class="overflow-hidden text-xl font-semibold truncate">
               <%= deck.name %>
             </h2>
@@ -31,4 +31,10 @@
       <li>No decks is created yet.</li>
     <% end %>
   </ul>
+</section>
+
+<section class="text-center">
+  <button class="py-6">
+    <%= link "New deck", to: Routes.deck_path(@conn, :new), class: "btn-primary" %>
+  </button>
 </section>

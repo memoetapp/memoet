@@ -1,37 +1,14 @@
+// Style for custom elements
 @layer components {
-  .btn-primary {
-    @apply py-2 px-4 border border-transparent rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white transition-all;
+  .header__wrapper {
+    @apply flex items-center space-x-2 justify-between mb-8 border-b;
   }
 
-  .btn-secondary {
-    @apply py-2 px-4 border-2 border-indigo-600 rounded-md bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-indigo-500 transition-all;
+  .header__title {
+    @apply text-lg font-bold;
   }
 
-  .form-input {
-    @apply appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm;
-  }
-
-  .invalid-feedback {
-    @apply text-red-500;
-  }
-
-  .text-link {
-    @apply flex items-center justify-center cursor-pointer hover:text-blue-600;
-  }
-
-  .alert {
-    @apply text-white px-6 py-4 border-0;
-  }
-
-  .alert-info {
-    @apply bg-blue-400;
-  }
-
-  .alert-danger {
-    @apply bg-red-400;
-  }
-
-  iframe {
-    @apply hidden;
+  .header__subtitle {
+    @apply opacity-70;
   }
 }

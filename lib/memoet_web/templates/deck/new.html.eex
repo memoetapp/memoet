@@ -1,4 +1,7 @@
-<h1 class="pt-2 pb-1 text-lg font-bold border-b">Create new deck</h1>
+<header class="header__wrapper">
+  <h1 class="header__title">Create new deck</h1>
+  <%= link "Cancel", to: Routes.deck_path(@conn, :index), class: "header__subtitle" %>
+</header>
 
 <section>
   <%= form_for @conn, Routes.deck_path(@conn, :create), [class: "mt-8 space-y-6"], fn f -> %>
@@ -20,8 +23,6 @@
 
     <div class="text-center">
       <%= submit "Create", class: "btn-primary" %>
-
-      <%= link "Cancel", to: Routes.deck_path(@conn, :index), class: "btn-secondary" %>
     </div>
   <% end %>
 </section>

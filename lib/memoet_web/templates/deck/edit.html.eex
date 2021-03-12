@@ -1,21 +1,28 @@
-<h1>Edit "<%= @deck.name %>"</h1>
+<header class="header__wrapper">
+  <h1 class="header__title">Update deck</h1>
+  <a class="header__subtitle text-link" href="<%= Routes.deck_path @conn, :show, @deck %>">Cancel</a>
+</header>
 
 <section>
-  <%= form_for @conn, Routes.deck_path(@conn, :update, @deck.id), [method: :put], fn f -> %>
-    <label>
-      Deck name: <%= text_input f, :name, value: @deck.name, required: true %>
-    </label>
+  <%= form_for @conn, Routes.deck_path(@conn, :update, @deck.id), [method: :put, class: "mt-8 space-y-6"], fn f -> %>
+    <div>
+      Deck name: <%= text_input f, :name, value: @deck.name, required: true, class: "form-input" %>
+    </div>
 
-    <label>
-      Is this a public deck? <%= select f, :type, [true, false], value: @deck.public, required: true %>
-    </label>
+    <div class="flex items-center justify-start space-x-4">
+      <span class="flex items-center justify-center space-x-1">
+        <%= radio_button f, :public, true, checked: @deck.public == true, required: true %>
+        <%= label f, :public, "Public" %>
+      </span>
+
+      <span class="flex items-center justify-center space-x-1">
+        <%= radio_button f, :public, false, checked: @deck.public == false, required: true %>
+        <%= label f, :public, "Private" %>
+      </span>
+    </div>
 
     <div class="text-center">
-      <%= submit "Update" %>
+      <%= submit "Update", class: "btn-primary" %>
     </div>
   <% end %>
-</section>
-
-<section>
-  <%= link "View deck", to: Routes.deck_path(@conn, :show, @deck.id) %>
 </section>
