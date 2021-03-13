@@ -1,14 +1,19 @@
 <header class="header__wrapper">
   <h1 class="header__title"><%= @note.title %></h1>
-  <%= link "Edit", to: Routes.deck_note_path(@conn, :edit, @deck, @note), class: "header__subtitle" %>
+  <%= if @deck.user_id == Pow.Plug.current_user(@conn).id do %>
+    <%= link "Edit", to: Routes.deck_note_path(@conn, :edit, @deck, @note), class: "text-xs btn-outline" %>
+  <% end %>
 </header>
 
-<section class="flex flex-col space-y-5">
+<section class="flex flex-col space-y-8">
     <article class="max-w-full p-3 border prose rounded-md">
       <%= raw Earmark.as_html!(@note.content) %>
     </article>
 
-    <div class="flex flex-col items-start justify-center w-full p-3 border bg-yellow-50 space-y-3 rounded-md">
+    <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-yellow-50 space-y-3 rounded-md">
+      <p class="w-full pb-2 font-bold border-b">
+        <%= if @note.type == "multiple_choice", do: "Multiple choice", else: "Type answer" %>
+      </p>
       <%= for o <- @note.options do %>
         <div class="flex items-center">
           <input type="checkbox" <%= if o.correct, do: "checked" %> class="p-2 mr-2 form-checkbox" disabled />
@@ -18,12 +23,15 @@
     </div>
 
     <%= if @note.hint do %>
-      <div class="max-w-full p-3 border bg-green-50 prose rounded-md">
+      <div class="max-w-full p-3 text-sm border bg-green-50 prose rounded-md">
+        <p class="w-full pb-2 font-bold border-b">
+          Hint
+        </p>
         <%= raw Earmark.as_html!(@note.hint) %>
       </div>
     <% end %>
 </section>
 
 <section class="py-6 text-center">
-  <a class="btn-outline" href="<%= Routes.deck_path @conn, :show, @deck %>">Back to deck</a>
+  <a class="btn-outline" href="<%= Routes.deck_path @conn, :show, @deck %>">Back</a>
 </section>

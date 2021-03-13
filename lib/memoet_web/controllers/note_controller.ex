@@ -5,6 +5,8 @@ defmodule MemoetWeb.NoteController do
   alias Memoet.Notes.{Note, Option}
   alias Memoet.Decks
 
+  @options_limit 5
+
   plug :put_layout, "deck.html"
 
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
@@ -33,9 +35,14 @@ defmodule MemoetWeb.NoteController do
   @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show(conn, %{"id" => id, "deck_id" => deck_id}) do
     user = Pow.Plug.current_user(conn)
-    note = Notes.get_note!(id, user.id)
     deck = Decks.get_deck!(deck_id)
-    render(conn, "show.html", note: note, deck: deck)
+    note = Notes.get_note!(id)
+
+    if note.user_id != user.id and not deck.public do
+      redirect(conn, "/decks")
+    else
+      render(conn, "show.html", note: note, deck: deck)
+    end
   end
 
   @spec new(Plug.Conn.t(), map) :: Plug.Conn.t()
@@ -46,6 +53,7 @@ defmodule MemoetWeb.NoteController do
     embedded_changeset = [
       Option.changeset(%Option{}, %{"content" => "Remember", "correct" => true}),
       Option.changeset(%Option{}, %{"content" => "Forget", "correct" => false}),
+      Option.changeset(%Option{}, %{}),
       Option.changeset(%Option{}, %{}),
       Option.changeset(%Option{}, %{}),
     ]
@@ -60,7 +68,15 @@ defmodule MemoetWeb.NoteController do
     note = Notes.get_note!(id, user.id)
     deck = Decks.get_deck!(deck_id, user.id)
 
-    changeset = Note.changeset(note, %{})
+    empty_options = @options_limit - length(note.options)
+
+    options = if empty_options > 0 do
+      note.options ++ for _ <- 1..empty_options, do: Option.changeset(%Option{}, %{})
+    else
+      note.options
+    end
+
+    changeset = Note.changeset(%Note{note | options: options}, %{})
 
     render(conn, "edit.html", note: note, deck: deck, changeset: changeset)
   end

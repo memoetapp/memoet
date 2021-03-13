@@ -1,15 +1,21 @@
 defmodule Memoet.Decks do
+  @moduledoc """
+  Decks service
+  """
 
   import Ecto.Query
 
   alias Memoet.Repo
   alias Memoet.Decks.Deck
 
-  @spec list_decks(binary(), map) :: [Deck.t()]
-  def list_decks(user_id, _params) do
+  @decks_limit 100
+
+  @spec list_decks(map) :: [Deck.t()]
+  def list_decks(params \\ %{}) do
     Deck
-    |> where(user_id: ^user_id)
+    |> where(^filter_where(params))
     |> order_by(desc: :inserted_at)
+    |> limit(@decks_limit)
     |> Repo.all()
   end
 
@@ -37,5 +43,20 @@ defmodule Memoet.Decks do
     deck
     |> Deck.changeset(attrs)
     |> Repo.update()
+  end
+
+  @spec filter_where(map) :: Ecto.Query.DynamicExpr.t()
+  defp filter_where(attrs) do
+    Enum.reduce(attrs, dynamic(true), fn
+      {"user_id", value}, dynamic ->
+        dynamic([d], ^dynamic and d.user_id == ^value)
+
+      {"public", value}, dynamic ->
+        dynamic([d], ^dynamic and d.public == ^value)
+
+      {_, _}, dynamic ->
+        # Not a where parameter
+        dynamic
+    end)
   end
 end

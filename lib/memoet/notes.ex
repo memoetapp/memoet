@@ -1,4 +1,7 @@
 defmodule Memoet.Notes do
+  @moduledoc """
+  Note service
+  """
 
   import Ecto.Query
 
@@ -9,7 +12,7 @@ defmodule Memoet.Notes do
   def list_notes(deck_id, _params) do
     Note
     |> where(deck_id: ^deck_id)
-    |> order_by(desc: :inserted_at)
+    |> order_by(asc: :inserted_at)
     |> Repo.all()
   end
 
@@ -19,10 +22,17 @@ defmodule Memoet.Notes do
     |> Repo.get_by!(id: id, user_id: user_id)
   end
 
+  @spec get_note!(binary()) :: Note.t()
+  def get_note!(id) do
+    Note
+    |> Repo.get_by!(id: id)
+  end
+
   @spec create_note(map()) :: {:ok, Note.t()} | {:error, Ecto.Changeset.t()}
   def create_note(attrs \\ %{}) do
     %Note{}
     |> Note.changeset(attrs)
+    |> Note.clean_options()
     |> Repo.insert()
   end
 
@@ -30,6 +40,7 @@ defmodule Memoet.Notes do
   def update_note(%Note{} = note, attrs) do
     note
     |> Note.changeset(attrs)
+    |> Note.clean_options()
     |> Repo.update()
   end
 end

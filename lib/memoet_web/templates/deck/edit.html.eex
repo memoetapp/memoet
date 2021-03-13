@@ -1,6 +1,5 @@
 <header class="header__wrapper">
   <h1 class="header__title">Update deck</h1>
-  <a class="header__subtitle text-link" href="<%= Routes.deck_path @conn, :show, @deck %>">Cancel</a>
 </header>
 
 <section>
@@ -21,8 +20,9 @@
       </span>
     </div>
 
-    <div class="text-center">
+    <div class="text-center space-x-2">
       <%= submit "Update", class: "btn-primary" %>
+      <a class="btn-outline" href="<%= Routes.deck_path @conn, :show, @deck %>">Cancel</a>
     </div>
   <% end %>
 </section>
