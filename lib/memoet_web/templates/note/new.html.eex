@@ -1,6 +1,5 @@
 <header class="header__wrapper">
   <h1 class="header__title">Create new note</h1>
-  <%= link "Cancel", to: Routes.deck_path(@conn, :show, @deck), class: "header__subtitle" %>
 </header>
 
 <section>
@@ -47,6 +46,7 @@
 
     <div class="text-center">
       <%= submit "Create", class: "btn-primary" %>
+      <%= link "Cancel", to: Routes.deck_path(@conn, :show, @deck), class: "btn-outline" %>
     </div>
   <% end %>
 </section>

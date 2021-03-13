@@ -3,35 +3,27 @@
   <%= link "Edit", to: Routes.deck_note_path(@conn, :edit, @deck, @note), class: "header__subtitle" %>
 </header>
 
-<section>
-    <div class="mb-6">
+<section class="flex flex-col space-y-5">
+    <article class="max-w-full p-3 border prose rounded-md">
       <%= @note.content %>
-    </div>
+    </article>
 
-    <div class="flex flex-col items-start justify-center space-y-2">
-      <%= for {o, i} <- Enum.with_index(@note.options) do %>
-        <div class="flex items-center justify-between space-x-2">
-          <span class="right-0 inline-block px-3 py-1 text-center border rounded-full shadow-sm">
-            <%= i + 1 %>
-          </span>
-          <span class="flex-grow">
-            <%= o.content %>
-          </span>
-          (<%= o.correct %>)
+    <div class="flex flex-col items-start justify-center w-full p-3 border bg-yellow-50 space-y-3 rounded-md">
+      <%= for o <- @note.options do %>
+        <div class="flex items-center">
+          <input type="checkbox" <%= if o.correct, do: "checked" %> class="p-2 mr-2 form-checkbox" disabled />
+          <p><%= o.content %></p>
         </div>
       <% end %>
     </div>
 
     <%= if @note.hint do %>
-      <div>
-        Hint:
-        <div>
-          <%= @note.hint %>
-        </div>
+      <div class="max-w-full p-3 border bg-green-50 prose rounded-md">
+        <%= @note.hint %>
       </div>
     <% end %>
 </section>
 
 <section class="py-6 text-center">
-  <a class="btn-primary" href="<%= Routes.deck_path @conn, :show, @deck %>">Back to deck</a>
+  <a class="btn-outline" href="<%= Routes.deck_path @conn, :show, @deck %>">Back to deck</a>
 </section>

@@ -1,6 +1,6 @@
 <header class="header__wrapper">
   <h1 class="header__title">Edit note</h1>
-  <%= link "Cancel", to: Routes.deck_path(@conn, :show, @deck), class: "header__subtitle" %>
+  <%= link "Cancel", to: Routes.deck_note_path(@conn, :show, @deck, @note), class: "header__subtitle" %>
 </header>
 
 <section>

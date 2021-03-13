@@ -45,7 +45,7 @@
   }
 
   .text-link {
-    @apply flex items-center justify-center cursor-pointer hover:text-blue-600;
+    @apply flex items-center justify-center cursor-pointer hover:text-indigo-600 transition-all;
   }
 
   iframe {

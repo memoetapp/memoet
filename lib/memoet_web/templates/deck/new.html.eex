@@ -1,6 +1,5 @@
 <header class="header__wrapper">
   <h1 class="header__title">Create new deck</h1>
-  <%= link "Cancel", to: Routes.deck_path(@conn, :index), class: "header__subtitle" %>
 </header>
 
 <section>
@@ -24,8 +23,9 @@
       <%= error_tag f, :public %>
     </div>
 
-    <div class="text-center">
+    <div class="text-center space-x-2">
       <%= submit "Create", class: "btn-primary" %>
+      <%= link "Cancel", to: Routes.deck_path(@conn, :index), class: "btn-outline" %>
     </div>
   <% end %>
 </section>
