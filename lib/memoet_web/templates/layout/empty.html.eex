@@ -1,3 +1,0 @@
-<main role="main">
-  <%= @inner_content %>
-</main>

@@ -10,7 +10,6 @@ defmodule Memoet.Notes.Option do
   @image_limit 1_999
 
   embedded_schema do
-    field(:order, :float)
     field(:content, :string)
     field(:correct, :boolean)
 
@@ -20,9 +19,9 @@ defmodule Memoet.Notes.Option do
 
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:order, :content, :correct, :image])
+    |> cast(attrs, [:content, :correct, :image])
     |> validate_length(:content, max: @content_limit)
     |> validate_length(:image, max: @image_limit)
-    |> validate_required([:order, :content])
+    |> validate_required([:content])
   end
 end

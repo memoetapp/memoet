@@ -19,10 +19,11 @@ defmodule Memoet.Notes.Note do
   schema "notes" do
     field(:title, :string)
     field(:content, :string)
-    field(:hint, :string)
 
     field(:type, :string, null: false, default: Types.multiple_choice())
     embeds_many(:options, Option, on_replace: :delete)
+
+    field(:hint, :string)
 
     has_many(:cards, Card)
     belongs_to(:user, User, foreign_key: :user_id, references: :id, type: :binary_id)

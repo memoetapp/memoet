@@ -2,16 +2,18 @@ defmodule MemoetWeb.NoteController do
   use MemoetWeb, :controller
 
   alias Memoet.Notes
-  alias Memoet.Notes.Note
+  alias Memoet.Notes.{Note, Option}
   alias Memoet.Utils.StringUtil
   alias Memoet.Decks
+
+  plug :put_layout, "deck.html"
 
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
   def index(conn, %{"deck_id" => deck_id} = _params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(deck_id, user.id)
     notes = Notes.list_notes(deck.id, %{})
-    render(conn, "index.html", notes: notes)
+    render(conn, "index.html", notes: notes, deck: deck)
   end
 
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
@@ -47,7 +49,15 @@ defmodule MemoetWeb.NoteController do
   def new(conn, %{"deck_id" => deck_id} = _params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(deck_id, user.id)
-    render(conn, "new.html", deck: deck)
+
+    embedded_changeset = [
+      Option.changeset(%Option{}, %{}),
+      Option.changeset(%Option{}, %{}),
+      Option.changeset(%Option{}, %{}),
+    ]
+    changeset = Note.changeset(%Note{options: embedded_changeset}, %{})
+
+    render(conn, "new.html", deck: deck, changeset: changeset)
   end
 
   @spec edit(Plug.Conn.t(), map) :: Plug.Conn.t()

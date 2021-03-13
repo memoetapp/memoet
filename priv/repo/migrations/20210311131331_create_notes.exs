@@ -5,8 +5,6 @@ defmodule Memoet.Repo.Migrations.CreateNotes do
     create table(:notes, primary_key: false) do
       add(:id, :binary_id, primary_key: true)
 
-      add(:order, :float, null: false)
-
       add(:title, :string, null: false)
       add(:content, :text, null: false)
 
@@ -14,8 +12,6 @@ defmodule Memoet.Repo.Migrations.CreateNotes do
       add(:options, {:array, :map}, null: false, default: [])
 
       add(:hint, :text)
-
-      add(:trash, :boolean, null: false, default: false)
 
       add(
         :user_id,

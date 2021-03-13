@@ -1,4 +1,7 @@
 defmodule Memoet.Utils.StringUtil do
+  @moduledoc """
+  String utilities
+  """
 
   @spec random_string(integer) :: String.t()
   def random_string(length) do
@@ -20,7 +23,7 @@ defmodule Memoet.Utils.StringUtil do
     end)
     |> Enum.reduce("", fn {k, v}, acc ->
       joined_errors = Enum.join(v, ", ")
-      "#{acc}#{k}: #{joined_errors}\n"
+      "#{acc}#{k}: #{joined_errors}; "
     end)
   end
 end

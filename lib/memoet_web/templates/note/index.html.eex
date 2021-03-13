@@ -8,7 +8,7 @@
       <li>
         <a
           class="block px-6 py-3 my-4 border border-gray-300 rounded-lg shadow cursor-pointer hover:shadow-lg transition-all text-link"
-          href="<%= Routes.note_path @conn, :show, note %>"
+          href="<%= Routes.deck_note_path @conn, :show, note %>"
         >
           <div class="flex items-center justify-between space-x-2">
             <h2 class="overflow-hidden text-xl font-semibold truncate">
@@ -35,6 +35,6 @@
 
 <section class="text-center">
   <button class="py-6">
-    <%= link "New note", to: Routes.note_path(@conn, :new), class: "btn-primary" %>
+    <%= link "New note", to: Routes.deck_note_path(@conn, :new, @deck), class: "btn-primary" %>
   </button>
 </section>

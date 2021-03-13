@@ -4,21 +4,36 @@
 </header>
 
 <section>
-  <%= form_for @conn, Routes.deck_note_path(@conn, :create, @deck), [class: "mt-8 space-y-6"], fn f -> %>
+  <%= form_for @changeset, Routes.deck_note_path(@conn, :create, @deck), [class: "mt-8 space-y-6"], fn f -> %>
     <div>
-      Note name: <%= text_input f, :name, required: true, class: "form-input" %>
+      Title:
+      <%= text_input f, :title, required: true, class: "form-control form-block" %>
     </div>
 
-    <div class="flex items-center justify-start space-x-4">
-      <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, true, checked: true, required: true %>
-        <%= label f, :public, "Public" %>
-      </span>
+    <div>
+      Content (markdown supported):
+      <%= textarea f, :content, required: true, class: "form-control form-block", rows: 10 %>
+    </div>
 
-      <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, false, required: true %>
-        <%= label f, :public, "Private" %>
-      </span>
+    <div>
+      <%= select f, :type, [
+        "Multiple choice": "multiple_choice",
+        "Type answer": "type_answer"
+        ], required: true, class: "form-control w-full" %>
+    </div>
+
+    <%= inputs_for f, :options, fn o -> %>
+      <div class="flex items-center justify-between space-x-2">
+        <span class="flex-0">
+          <%= o.index + 1 %>.
+        </span>
+        <%= text_input o, :content, class: "form-control flex-grow" %>
+        <%= checkbox o, :correct, class: "form-checkbox p-4" %>
+      </div>
+    <% end %>
+
+    <div>
+      Hint: <%= textarea f, :content, class: "form-control form-block", rows: 5 %>
     </div>
 
     <div class="text-center">

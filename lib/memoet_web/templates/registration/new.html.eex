@@ -16,17 +16,17 @@
       <div class="space-y-3">
         <div>
           <%= label f, :email %>
-          <%= email_input f, :email, class: "form-input" %>
+          <%= email_input f, :email, class: "form-control form-block" %>
           <%= error_tag f, :email %>
         </div>
         <div>
           <%= label f, :password %>
-          <%= password_input f, :password, class: "form-input" %>
+          <%= password_input f, :password, class: "form-control form-block" %>
           <%= error_tag f, :password %>
         </div>
         <div>
           <%= label f, :password_confirmation %>
-          <%= password_input f, :password_confirmation, class: "form-input" %>
+          <%= password_input f, :password_confirmation, class: "form-control form-block" %>
           <%= error_tag f, :password_confirmation %>
         </div>
       </div>
