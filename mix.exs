@@ -48,6 +48,8 @@ defmodule Memoet.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:timex, "~> 3.6"},
+      # Markdown
+      {:earmark, "~> 1.4"},
       # Auth
       {:pow, "~> 1.0.22"},
       {:pow_postgres_store, "~> 1.0.0-rc2"},

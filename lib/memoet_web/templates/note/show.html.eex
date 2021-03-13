@@ -5,7 +5,7 @@
 
 <section class="flex flex-col space-y-5">
     <article class="max-w-full p-3 border prose rounded-md">
-      <%= @note.content %>
+      <%= raw Earmark.as_html!(@note.content) %>
     </article>
 
     <div class="flex flex-col items-start justify-center w-full p-3 border bg-yellow-50 space-y-3 rounded-md">
@@ -19,7 +19,7 @@
 
     <%= if @note.hint do %>
       <div class="max-w-full p-3 border bg-green-50 prose rounded-md">
-        <%= @note.hint %>
+        <%= raw Earmark.as_html!(@note.hint) %>
       </div>
     <% end %>
 </section>
