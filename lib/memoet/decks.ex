@@ -13,6 +13,12 @@ defmodule Memoet.Decks do
     |> Repo.all()
   end
 
+  @spec get_deck!(binary()) :: Deck.t()
+  def get_deck!(id) do
+    Deck
+    |> Repo.get_by!(id: id)
+  end
+
   @spec get_deck!(binary(), binary()) :: Deck.t()
   def get_deck!(id, user_id) do
     Deck

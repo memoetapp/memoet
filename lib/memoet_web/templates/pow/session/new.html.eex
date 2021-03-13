@@ -26,7 +26,6 @@
         </div>
       </div>
 
-
       <div>
         <%= submit "Sign in", class: "btn-primary w-full" %>
       </div>

@@ -1,19 +1,19 @@
 <header class="header__wrapper">
-  <h1 class="header__title">Create new note</h1>
+  <h1 class="header__title">Edit note</h1>
   <%= link "Cancel", to: Routes.deck_path(@conn, :show, @deck), class: "header__subtitle" %>
 </header>
 
 <section>
-  <%= form_for @changeset, Routes.deck_note_path(@conn, :create, @deck), [class: "mt-8 space-y-8"], fn f -> %>
+  <%= form_for @changeset, Routes.deck_note_path(@conn, :update, @deck, @note), [class: "mt-8 space-y-8"], fn f -> %>
     <section>
       Title:
-      <%= text_input f, :title, required: true, class: "form-control form-block", placeholder: "Interesting title..." %>
+      <%= text_input f, :title, required: true, class: "form-control form-block", value: @note.title %>
       <%= error_tag f, :title %>
     </section>
 
     <section>
       Content:
-      <%= textarea f, :content, required: true, class: "form-control form-block", rows: 10, placeholder: "Awesome content..." %>
+      <%= textarea f, :content, required: true, class: "form-control form-block", rows: 10, value: @note.content %>
       <%= error_tag f, :content %>
     </section>
 
@@ -24,7 +24,7 @@
           <%= select f, :type, [
             "Multiple choice": "multiple_choice",
             "Type answer": "type_answer"
-            ], required: true, class: "form-control w-full" %>
+            ], required: true, class: "form-control w-full", value: @note.type %>
         </div>
 
         <div class="space-y-3">
@@ -40,13 +40,13 @@
         </div>
 
         <div>
-          Hint: <%= textarea f, :hint, class: "form-control form-block", rows: 5, placeholder: "Easy peasy..." %>
+          Hint: <%= textarea f, :hint, class: "form-control form-block", rows: 5, value: @note.hint %>
         </div>
       </div>
     </section>
 
     <div class="text-center">
-      <%= submit "Create", class: "btn-primary" %>
+      <%= submit "Update", class: "btn-primary" %>
     </div>
   <% end %>
 </section>

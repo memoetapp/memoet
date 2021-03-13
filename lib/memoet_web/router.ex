@@ -46,7 +46,7 @@ defmodule MemoetWeb.Router do
     pipe_through [:browser, :protected]
 
     resources("/", DeckController) do
-      resources("/notes", NoteController)
+      resources("/notes", NoteController, except: [:index])
     end
   end
 

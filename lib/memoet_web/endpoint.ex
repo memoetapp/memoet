@@ -51,5 +51,6 @@ defmodule MemoetWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug Pow.Plug.Session, otp_app: :memoet
+  plug PowPersistentSession.Plug.Cookie
   plug MemoetWeb.Router
 end

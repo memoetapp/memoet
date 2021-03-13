@@ -3,25 +3,17 @@ defmodule MemoetWeb.NoteController do
 
   alias Memoet.Notes
   alias Memoet.Notes.{Note, Option}
-  alias Memoet.Utils.StringUtil
   alias Memoet.Decks
 
   plug :put_layout, "deck.html"
 
-  @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def index(conn, %{"deck_id" => deck_id} = _params) do
-    user = Pow.Plug.current_user(conn)
-    deck = Decks.get_deck!(deck_id, user.id)
-    notes = Notes.list_notes(deck.id, %{})
-    render(conn, "index.html", notes: notes, deck: deck)
-  end
-
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def create(conn, %{"deck_id" => deck_id} = note_params) do
+  def create(conn, %{"deck_id" => deck_id, "note" => note_params} = _params) do
     user = Pow.Plug.current_user(conn)
     params =
       note_params
       |> Map.merge(%{
+        "deck_id" => deck_id,
         "user_id" => user.id
       })
 
@@ -32,17 +24,18 @@ defmodule MemoetWeb.NoteController do
         |> redirect(to: "/decks/" <> deck_id <> "/notes/" <> note.id)
 
       {:error, changeset} ->
+        deck = Decks.get_deck!(deck_id, user.id)
         conn
-        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
-        |> redirect(to: "/decks/" <> deck_id <> "/notes")
+        |> render("new.html", changeset: changeset, deck: deck)
     end
   end
 
   @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id, "deck_id" => deck_id}) do
     user = Pow.Plug.current_user(conn)
     note = Notes.get_note!(id, user.id)
-    render(conn, "show.html", note: note)
+    deck = Decks.get_deck!(deck_id)
+    render(conn, "show.html", note: note, deck: deck)
   end
 
   @spec new(Plug.Conn.t(), map) :: Plug.Conn.t()
@@ -51,7 +44,8 @@ defmodule MemoetWeb.NoteController do
     deck = Decks.get_deck!(deck_id, user.id)
 
     embedded_changeset = [
-      Option.changeset(%Option{}, %{}),
+      Option.changeset(%Option{}, %{"content" => "Remember", "correct" => true}),
+      Option.changeset(%Option{}, %{"content" => "Forget", "correct" => false}),
       Option.changeset(%Option{}, %{}),
       Option.changeset(%Option{}, %{}),
     ]
@@ -61,14 +55,18 @@ defmodule MemoetWeb.NoteController do
   end
 
   @spec edit(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def edit(conn, %{"id" => id}) do
+  def edit(conn, %{"deck_id" => deck_id, "id" => id}) do
     user = Pow.Plug.current_user(conn)
     note = Notes.get_note!(id, user.id)
-    render(conn, "edit.html", note: note)
+    deck = Decks.get_deck!(deck_id, user.id)
+
+    changeset = Note.changeset(note, %{})
+
+    render(conn, "edit.html", note: note, deck: deck, changeset: changeset)
   end
 
   @spec update(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def update(conn, %{"deck_id" => deck_id, "id" => id} = note_params) do
+  def update(conn, %{"deck_id" => deck_id, "id" => id, "note" => note_params} = _params) do
     user = Pow.Plug.current_user(conn)
     note = Notes.get_note!(id, user.id)
 
@@ -79,9 +77,9 @@ defmodule MemoetWeb.NoteController do
         |> redirect(to: "/decks/" <> deck_id <> "/notes/" <> note.id)
 
       {:error, changeset} ->
+        deck = Decks.get_deck!(deck_id, user.id)
         conn
-        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
-        |> redirect(to: "/decks/" <> deck_id <> "/notes/" <> note.id)
+        |> render("edit.html", changeset: changeset, deck: deck)
     end
   end
 end

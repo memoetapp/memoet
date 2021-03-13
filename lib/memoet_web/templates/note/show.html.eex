@@ -1,0 +1,37 @@
+<header class="header__wrapper">
+  <h1 class="header__title"><%= @note.title %></h1>
+  <%= link "Edit", to: Routes.deck_note_path(@conn, :edit, @deck, @note), class: "header__subtitle" %>
+</header>
+
+<section>
+    <div class="mb-6">
+      <%= @note.content %>
+    </div>
+
+    <div class="flex flex-col items-start justify-center space-y-2">
+      <%= for {o, i} <- Enum.with_index(@note.options) do %>
+        <div class="flex items-center justify-between space-x-2">
+          <span class="right-0 inline-block px-3 py-1 text-center border rounded-full shadow-sm">
+            <%= i + 1 %>
+          </span>
+          <span class="flex-grow">
+            <%= o.content %>
+          </span>
+          (<%= o.correct %>)
+        </div>
+      <% end %>
+    </div>
+
+    <%= if @note.hint do %>
+      <div>
+        Hint:
+        <div>
+          <%= @note.hint %>
+        </div>
+      </div>
+    <% end %>
+</section>
+
+<section class="py-6 text-center">
+  <a class="btn-primary" href="<%= Routes.deck_path @conn, :show, @deck %>">Back to deck</a>
+</section>

@@ -22,6 +22,5 @@ defmodule Memoet.Notes.Option do
     |> cast(attrs, [:content, :correct, :image])
     |> validate_length(:content, max: @content_limit)
     |> validate_length(:image, max: @image_limit)
-    |> validate_required([:content])
   end
 end

@@ -7,6 +7,7 @@
   <%= form_for @conn, Routes.deck_path(@conn, :create), [class: "mt-8 space-y-6"], fn f -> %>
     <div>
       Deck name: <%= text_input f, :name, required: true, class: "form-control form-block" %>
+      <%= error_tag f, :title %>
     </div>
 
     <div class="flex items-center justify-start space-x-4">
@@ -19,6 +20,8 @@
         <%= radio_button f, :public, false, required: true %>
         <%= label f, :public, "Private" %>
       </span>
+
+      <%= error_tag f, :public %>
     </div>
 
     <div class="text-center">

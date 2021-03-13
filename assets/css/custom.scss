@@ -1,11 +1,11 @@
 // Style for custom elements
 @layer components {
   .header__wrapper {
-    @apply flex items-center space-x-2 justify-between mb-8 border-b;
+    @apply flex items-center space-x-2 justify-between mb-8 py-2 border-b;
   }
 
   .header__title {
-    @apply text-lg font-bold;
+    @apply flex items-center text-lg;
   }
 
   .header__subtitle {

@@ -3,7 +3,7 @@ defmodule MemoetWeb.DeckController do
 
   alias Memoet.Decks
   alias Memoet.Decks.Deck
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Notes
 
   plug :put_layout, "deck.html"
 
@@ -31,8 +31,7 @@ defmodule MemoetWeb.DeckController do
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
-        |> redirect(to: "/decks")
+        |> render("new.html", changeset: changeset)
     end
   end
 
@@ -40,7 +39,8 @@ defmodule MemoetWeb.DeckController do
   def show(conn, %{"id" => id}) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
-    render(conn, "show.html", deck: deck)
+    notes = Notes.list_notes(deck.id, %{})
+    render(conn, "show.html", deck: deck, notes: notes)
   end
 
   @spec new(Plug.Conn.t(), map) :: Plug.Conn.t()
@@ -68,8 +68,7 @@ defmodule MemoetWeb.DeckController do
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
-        |> redirect(to: "/decks/" <> deck.id)
+        |> render("edit.html", changeset: changeset)
     end
   end
 end

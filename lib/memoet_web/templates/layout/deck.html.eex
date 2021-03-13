@@ -2,7 +2,7 @@
   <%= render("_flash.html", assigns) %>
   <%= render("_nav.html", assigns) %>
 
-  <section class="max-w-3xl px-2 mx-auto mt-6">
+  <section class="max-w-3xl px-2 mx-auto mt-8 mb-10">
     <%= @inner_content %>
   </section>
 </main>
