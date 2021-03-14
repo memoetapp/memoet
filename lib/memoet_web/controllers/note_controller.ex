@@ -3,6 +3,7 @@ defmodule MemoetWeb.NoteController do
 
   alias Memoet.Notes
   alias Memoet.Notes.{Note, Option}
+  alias Memoet.Cards
   alias Memoet.Decks
 
   @options_limit 5
@@ -19,17 +20,32 @@ defmodule MemoetWeb.NoteController do
         "user_id" => user.id
       })
 
-    case Notes.create_note(params) do
-      {:ok, %Note{} = note} ->
+    conn
+    |> note_with_card_transaction(params)
+    |> Memoet.Repo.transaction()
+    |> case do
+      {:ok, %{note: note}} ->
         conn
         |> put_flash(:info, "Create note \"" <> note.title <> "\" success!")
         |> redirect(to: "/decks/" <> deck_id <> "/notes/" <> note.id)
 
-      {:error, changeset} ->
+      {:error, _op, changeset, _changes} ->
         deck = Decks.get_deck!(deck_id, user.id)
         conn
         |> render("new.html", changeset: changeset, deck: deck)
     end
+  end
+
+  @spec note_with_card_transaction(Conn.t(), map()) :: Ecto.Multi.t()
+  def note_with_card_transaction(_conn, note_params) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.run(:note, fn _repo, %{} ->
+      Notes.create_note(note_params)
+    end)
+    |> Ecto.Multi.run(:card, fn _repo, %{note: note} ->
+      card_params = note_params |> Map.merge(%{"note_id" => note.id})
+      Cards.create_card(card_params)
+    end)
   end
 
   @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()

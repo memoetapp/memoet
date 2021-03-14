@@ -1,0 +1,17 @@
+[package]
+name = "sm2"
+version = "0.1.0"
+authors = []
+edition = "2018"
+
+[lib]
+name = "sm2"
+path = "src/lib.rs"
+crate-type = ["dylib"]
+
+[dependencies]
+rustler = "0.22.0-rc.0"
+chrono = { version = "0.4"}
+rand = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+serde_repr = "0.1"
