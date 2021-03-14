@@ -4,6 +4,7 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Decks
   alias Memoet.Decks.Deck
   alias Memoet.Notes
+  alias Memoet.Notes.Types
   alias Memoet.Cards
 
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()

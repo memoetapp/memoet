@@ -24,16 +24,18 @@
       </li>
     <% end %>
 
-    <%= if @notes == [] do %>
+    <%= if length(@notes) == 0 do %>
       <li class="text-center">No notes is created for this deck yet.</li>
     <% end %>
   </ul>
 </section>
 
 <section class="py-6 text-center space-x-2">
-  <a href="<%= Routes.review_card_path(@conn, :due, @deck) %>" class="btn-primary">
-    Review
-  </a>
+  <%= if length(@notes) > 0 do %>
+    <a href="<%= Routes.review_card_path(@conn, :due, @deck) %>" class="btn-primary">
+      Review
+    </a>
+  <% end %>
   <%= if @deck.user_id == Pow.Plug.current_user(@conn).id do %>
     <a class="btn-outline" href="<%= Routes.deck_note_path @conn, :new, @deck %>">Add note</a>
   <% end %>

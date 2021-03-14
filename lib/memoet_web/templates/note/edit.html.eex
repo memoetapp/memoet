@@ -2,7 +2,7 @@
   <h1 class="header__title">Edit note</h1>
 </header>
 
-<section>
+<section x-data="{ type: '<%= @note.type %>' }">
   <%= form_for @changeset, Routes.deck_note_path(@conn, :update, @deck, @note), [class: "mt-8 space-y-8"], fn f -> %>
     <section>
       Title
@@ -23,7 +23,7 @@
           <%= select f, :type, [
             "Multiple choice": "multiple_choice",
             "Type answer": "type_answer"
-            ], required: true, class: "form-control w-full", value: @note.type %>
+            ], required: true, class: "form-control w-full", value: @note.type, "x-model": "type" %>
         </div>
 
         <div class="space-y-3">
@@ -33,7 +33,7 @@
                 <%= o.index + 1 %>
               </span>
               <%= text_input o, :content, class: "form-control flex-grow" %>
-              <%= checkbox o, :correct, class: "form-checkbox p-4" %>
+              <%= checkbox o, :correct, class: "form-checkbox p-4", "x-show": "type == 'multiple_choice'" %>
             </div>
           <% end %>
         </div>

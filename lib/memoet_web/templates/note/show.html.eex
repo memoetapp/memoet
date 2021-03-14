@@ -10,20 +10,26 @@
       <%= raw Earmark.as_html!(@note.content) %>
     </article>
 
-    <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-yellow-50 space-y-3 rounded-md">
+    <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 space-y-3 rounded-md">
       <p class="w-full pb-2 font-bold border-b">
         <%= if @note.type == "multiple_choice", do: "Multiple choice", else: "Type answer" %>
       </p>
-      <%= for o <- @note.options do %>
-        <div class="flex items-center">
-          <input type="checkbox" <%= if o.correct, do: "checked" %> class="p-2 mr-2 form-checkbox" disabled />
-          <p><%= o.content %></p>
-        </div>
-      <% end %>
+      <ul class="space-y-2">
+        <%= for o <- @note.options do %>
+            <%= if @note.type == "multiple_choice" do %>
+              <li class="flex items-center">
+                <input type="checkbox" <%= if o.correct, do: "checked" %> class="p-2 mr-2 form-checkbox" disabled />
+                <p><%= o.content %></p>
+              </li>
+            <% else %>
+              <li class="list-disc list-inside">"<%= o.content %>"</li>
+            <% end %>
+        <% end %>
+      </ul>
     </div>
 
     <%= if @note.hint do %>
-      <div class="max-w-full p-3 text-sm border bg-green-50 prose rounded-md">
+      <div class="max-w-full p-3 text-sm border bg-blue-50 prose rounded-md">
         <p class="w-full pb-2 font-bold border-b">
           Hint
         </p>
