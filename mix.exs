@@ -62,6 +62,7 @@ defmodule Memoet.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:timex, "~> 3.6"},
       {:poison, "~> 4.0"},
+      {:paginator, "~> 1.0.3"},
       # Markdown
       {:earmark, "~> 1.4"},
       # Sm2

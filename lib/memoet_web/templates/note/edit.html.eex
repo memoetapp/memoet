@@ -1,5 +1,10 @@
 <header class="header__wrapper">
-  <h1 class="header__title">Edit note</h1>
+  <h1 class="header__title">
+    <a class="text-link" href="<%= Routes.deck_note_path(@conn, :show, @deck, @note) %>">
+      <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    </a>
+    Edit note
+  </h1>
 </header>
 
 <section x-data="{ type: '<%= @note.type %>' }">
@@ -46,8 +51,7 @@
     </section>
 
     <div class="text-center">
-      <%= submit "Update", class: "btn-primary" %>
-      <%= link "Cancel", to: Routes.deck_note_path(@conn, :show, @deck, @note), class: "btn-outline" %>
+      <%= submit "Save", class: "btn-primary" %>
     </div>
   <% end %>
 </section>

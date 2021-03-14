@@ -43,6 +43,8 @@ defmodule MemoetWeb.Router do
       resources("/notes", NoteController, except: [:index])
     end
 
+    get("/:id/clone", DeckController, :clone, as: :deck)
+
     get("/:id/review", DeckController, :due, as: :review_card)
     put("/:id/review", DeckController, :review, as: :review_card)
   end
@@ -59,6 +61,9 @@ defmodule MemoetWeb.Router do
 
     pow_routes()
     pow_extension_routes()
+
+    get "/community/:id", MemoetWeb.DeckController, :show, as: :community_deck
+    get "/community", MemoetWeb.DeckController, :public, as: :community_deck
     get "/", MemoetWeb.PageController, :index
   end
 

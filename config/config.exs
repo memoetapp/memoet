@@ -33,6 +33,7 @@ config :memoet, :pow,
   web_module: MemoetWeb,
   extensions: [PowResetPassword],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  session_ttl_renewal: :timer.hours(24 * 7),
   cache_store_backend: Pow.Postgres.Store
 
 config :pow, Pow.Postgres.Store, repo: Memoet.Repo

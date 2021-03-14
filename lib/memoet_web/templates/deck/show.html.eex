@@ -1,11 +1,21 @@
 <header class="header__wrapper">
   <h1 class="header__title">
+    <%= if Pow.Plug.current_user(@conn) != nil and @deck.user_id == Pow.Plug.current_user(@conn).id do %>
+      <a class="text-link" href="<%= Routes.deck_path @conn, :index %>">
+        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      </a>
+    <% else %>
+      <a class="text-link" href="<%= Routes.community_deck_path @conn, :public %>">
+        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      </a>
+    <% end %>
+
     <%= @deck.name %>
   </h1>
-  <%= if @deck.user_id == Pow.Plug.current_user(@conn).id do %>
-    <a class="text-xs btn-outline" href="<%= Routes.deck_path @conn, :edit, @deck %>">Edit</a>
-  <% else %>
-    <a class="text-xs btn-outline">Fork</a>
+  <%= if Pow.Plug.current_user(@conn) != nil and @deck.user_id == Pow.Plug.current_user(@conn).id do %>
+    <a class="text-link" href="<%= Routes.deck_path @conn, :edit, @deck %>">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+    </a>
   <% end %>
 </header>
 
@@ -30,14 +40,15 @@
   </ul>
 </section>
 
-<section class="py-6 text-center space-x-2">
-  <%= if length(@notes) > 0 do %>
-    <a href="<%= Routes.review_card_path(@conn, :due, @deck) %>" class="btn-primary">
-      Review
-    </a>
-  <% end %>
-  <%= if @deck.user_id == Pow.Plug.current_user(@conn).id do %>
+<section class="py-10 text-center space-x-2">
+  <%= if Pow.Plug.current_user(@conn) != nil and @deck.user_id == Pow.Plug.current_user(@conn).id do %>
+    <%= if length(@notes) > 0 do %>
+      <a href="<%= Routes.review_card_path(@conn, :due, @deck) %>" class="btn-primary">
+        Review
+      </a>
+    <% end %>
     <a class="btn-outline" href="<%= Routes.deck_note_path @conn, :new, @deck %>">Add note</a>
+  <% else %>
+    <a class="btn-primary" href="<%= Routes.deck_path @conn, :clone, @deck %>">Clone</a>
   <% end %>
-  <a class="btn-outline" href="<%= Routes.deck_path @conn, :index %>">Back</a>
 </section>

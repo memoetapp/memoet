@@ -8,15 +8,12 @@ defmodule Memoet.Decks do
   alias Memoet.Repo
   alias Memoet.Decks.Deck
 
-  @decks_limit 100
-
-  @spec list_decks(map) :: [Deck.t()]
+  @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
     Deck
     |> where(^filter_where(params))
     |> order_by(desc: :inserted_at)
-    |> limit(@decks_limit)
-    |> Repo.all()
+    |> Repo.paginate(cursor_fields: [:inserted_at], limit: 100)
   end
 
   @spec get_deck!(binary()) :: Deck.t()
