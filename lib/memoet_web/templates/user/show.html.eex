@@ -1,0 +1,25 @@
+<header class="header__wrapper">
+  <h1 class="header__title">
+    <a class="text-link" href="/">
+      <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    </a>
+    My account
+  </h1>
+</header>
+
+<ul class="space-y-4">
+  <li class="list-disc list-inside">
+    Email address:
+    <span class="font-bold"><%= @user.email %></span>
+  </li>
+
+  <li class="list-disc list-inside">
+    Member since:
+    <span class="font-bold"><%= Timex.format!(@user.inserted_at, "{relative}", :relative) %></span>
+  </li>
+</ul>
+
+<p class="flex items-center justify-start py-10 text-sm opacity-70">
+  <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+  <%= link "Log out", to: Routes.pow_session_path(@conn, :delete), method: "DELETE", class: "text-link" %>
+</p>

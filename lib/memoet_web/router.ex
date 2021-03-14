@@ -52,6 +52,8 @@ defmodule MemoetWeb.Router do
   scope "/user", MemoetWeb do
     pipe_through [:browser, :protected]
 
+    get("/account", UserController, :show, as: :account)
+
     get("/config/srs", SrsConfigController, :edit, as: :srs_config)
     put("/config/srs", SrsConfigController, :update, as: :srs_config)
   end
