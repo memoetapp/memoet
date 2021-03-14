@@ -32,7 +32,7 @@ defmodule Memoet.Decks.Deck do
       :name,
       :public,
       :source_id,
-      :user_id,
+      :user_id
     ])
     |> validate_length(:name, max: @name_limit)
     |> validate_required([:name, :public, :user_id])

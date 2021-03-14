@@ -15,8 +15,9 @@ defmodule Memoet.Application do
       {Phoenix.PubSub, name: Memoet.PubSub},
       # Start the Endpoint (http/https)
       MemoetWeb.Endpoint,
-      # Start a worker by calling: Memoet.Worker.start_link(arg)
-      # {Memoet.Worker, arg}
+      # Cache
+      Memoet.EtsCache,
+      # Pow delete expired token
       {Pow.Postgres.Store.AutoDeleteExpired, [interval: :timer.hours(1)]}
     ]
 

@@ -16,7 +16,6 @@ defmodule Memoet.Notes.Option do
     field(:image, :string)
   end
 
-
   def changeset(item, attrs) do
     item
     |> cast(attrs, [:content, :correct, :image])

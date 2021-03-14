@@ -1,9 +1,13 @@
 defmodule Memoet.Cards.Card do
+  @moduledoc """
+  Card repo
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Memoet.Users.User
   alias Memoet.Cards.{CardTypes, CardQueues}
   alias Memoet.Notes.Note
+  alias Memoet.Decks.Deck
 
   @srs_fields [
     :card_type,
@@ -15,7 +19,7 @@ defmodule Memoet.Cards.Card do
     :lapses,
     :remaining_steps
   ]
-  @required_fields [:user_id, :note_id]
+  @required_fields [:user_id, :note_id, :deck_id]
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -32,6 +36,7 @@ defmodule Memoet.Cards.Card do
 
     belongs_to(:user, User, foreign_key: :user_id, references: :id, type: :binary_id)
     belongs_to(:note, Note, foreign_key: :note_id, references: :id, type: :binary_id)
+    belongs_to(:deck, Deck, foreign_key: :deck_id, references: :id, type: :binary_id)
 
     timestamps()
   end

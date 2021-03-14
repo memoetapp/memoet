@@ -36,6 +36,16 @@ defmodule Memoet.Repo.Migrations.CreateCards do
         null: false
       )
 
+      add(
+        :deck_id,
+        references(:decks,
+          column: :id,
+          on_delete: :delete_all,
+          type: :binary_id
+        ),
+        null: false
+      )
+
       timestamps()
     end
 
@@ -44,5 +54,6 @@ defmodule Memoet.Repo.Migrations.CreateCards do
     create(index(:cards, [:due]))
     create(index(:cards, [:user_id]))
     create(index(:cards, [:note_id]))
+    create(index(:cards, [:deck_id]))
   end
 end

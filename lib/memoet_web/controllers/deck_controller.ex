@@ -4,6 +4,7 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Decks
   alias Memoet.Decks.Deck
   alias Memoet.Notes
+  alias Memoet.Cards
 
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
   def index(conn, _params) do
@@ -16,6 +17,7 @@ defmodule MemoetWeb.DeckController do
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
   def create(conn, deck_params) do
     user = Pow.Plug.current_user(conn)
+
     params =
       deck_params
       |> Map.merge(%{
@@ -40,7 +42,7 @@ defmodule MemoetWeb.DeckController do
     deck = Decks.get_deck!(id)
 
     if deck.user_id != user.id and not deck.public do
-      redirect(conn, "/decks")
+      redirect(conn, to: "/decks")
     else
       notes = Notes.list_notes(deck.id, %{})
       render(conn, "show.html", deck: deck, notes: notes)
@@ -74,5 +76,33 @@ defmodule MemoetWeb.DeckController do
         conn
         |> render("edit.html", changeset: changeset)
     end
+  end
+
+  @spec due(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def due(conn, %{"id" => deck_id} = _params) do
+    user = Pow.Plug.current_user(conn)
+    deck = Decks.get_deck!(deck_id, user.id)
+    due_cards = Cards.due_cards(user.id, %{deck_id: deck_id})
+
+    case due_cards do
+      [] ->
+        conn
+        |> render("review.html", card: nil, deck: deck)
+
+      [card | _] ->
+        conn
+        |> render("review.html", card: card, deck: deck)
+    end
+  end
+
+  @spec review(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def review(conn, %{"id" => _deck_id, "card_id" => card_id, "answer" => choice} = _params) do
+    user = Pow.Plug.current_user(conn)
+    card = Cards.get_card!(card_id, user.id)
+
+    Cards.answer_card(card, choice)
+
+    conn
+    |> redirect(to: Routes.review_card_path(conn, :due, %Deck{id: card.deck_id}))
   end
 end

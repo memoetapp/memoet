@@ -40,21 +40,23 @@ defmodule Memoet.Notes.Note do
       :type,
       :hint,
       :user_id,
-      :deck_id,
+      :deck_id
     ])
     |> cast_embed(:options)
     |> validate_length(:title, max: @title_limit)
     |> validate_length(:content, max: @content_limit)
     |> validate_inclusion(:type, [
       Types.multiple_choice(),
-      Types.type_answer(),
+      Types.type_answer()
     ])
     |> validate_required([:title, :content, :type, :user_id, :deck_id])
   end
 
   def clean_options(changeset) do
-    options = get_field(changeset, :options)
-              |> Enum.filter(fn option -> option.content != nil end)
+    options =
+      get_field(changeset, :options)
+      |> Enum.filter(fn option -> option.content != nil end)
+
     put_change(changeset, :options, options)
   end
 end

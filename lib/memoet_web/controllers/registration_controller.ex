@@ -32,21 +32,24 @@ defmodule MemoetWeb.RegistrationController do
       Accounts.create_account(%{name: "My account"})
     end)
     |> Ecto.Multi.run(:conn, fn _repo, %{account: account} ->
-        user_params = Enum.into(params, %{
+      user_params =
+        Enum.into(params, %{
           "account_id" => account.id,
-          "role" => Roles.admin(),
+          "role" => Roles.admin()
         })
 
-        case Pow.Plug.create_user(conn, user_params) do
-          {:ok, user, conn} ->
-            conn = conn
-                   |> put_session(:current_user_id, user.id)
-                   |> configure_session(renew: true)
-            {:ok, conn}
+      case Pow.Plug.create_user(conn, user_params) do
+        {:ok, user, conn} ->
+          conn =
+            conn
+            |> put_session(:current_user_id, user.id)
+            |> configure_session(renew: true)
 
-          {:error, changeset, _conn} ->
-            {:error, changeset}
-        end
-      end)
+          {:ok, conn}
+
+        {:error, changeset, _conn} ->
+          {:error, changeset}
+      end
+    end)
   end
 end

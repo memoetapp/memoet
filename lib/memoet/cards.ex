@@ -10,21 +10,14 @@ defmodule Memoet.Cards do
   alias Memoet.Users
   alias Memoet.Utils.TimestampUtil
 
-  @limit 100
+  @limit 1
 
-  @spec due_cards(binary(), map) :: [Card.t()]
   def due_cards(user_id, params) do
     srs_config = Users.get_srs_config(user_id)
 
-    limit = srs_config.maximum_per_session
     collapse_time = srs_config.learn_ahead_time * 60
 
-    today =
-      case params do
-        %{today: today} -> today
-        _ -> TimestampUtil.today()
-      end
-
+    today = get_today(params)
     now = TimestampUtil.now() + collapse_time
 
     from(c in Card,
@@ -34,10 +27,29 @@ defmodule Memoet.Cards do
           (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
           (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today)
     )
+    |> filter_by_deck(params)
     |> where(user_id: ^user_id)
-    |> limit(^limit)
+    |> limit(@limit)
     |> Repo.all()
     |> Repo.preload([:note])
+  end
+
+  defp filter_by_deck(query, params) do
+    case params do
+      %{deck_id: deck_id} ->
+        query
+        |> where(deck_id: ^deck_id)
+
+      _ ->
+        query
+    end
+  end
+
+  defp get_today(params) do
+    case params do
+      %{today: today} -> today
+      _ -> TimestampUtil.today()
+    end
   end
 
   @spec list_cards(binary(), map) :: [Card.t()]
@@ -46,8 +58,8 @@ defmodule Memoet.Cards do
     |> where(^filter_where(params))
     |> where(user_id: ^user_id)
     |> limit(@limit)
-    |> Repo.preload([:note])
     |> Repo.all()
+    |> Repo.preload([:note])
   end
 
   @spec stats(binary(), map) :: map()

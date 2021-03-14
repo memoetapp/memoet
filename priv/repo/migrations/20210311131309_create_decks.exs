@@ -10,17 +10,21 @@ defmodule Memoet.Repo.Migrations.CreateDecks do
 
       add :trash, :boolean, null: false, default: false
 
-      add :user_id, references(
-        :users,
-        on_delete: :delete_all,
-        type: :binary_id
-      ), null: false
+      add :user_id,
+          references(
+            :users,
+            on_delete: :delete_all,
+            type: :binary_id
+          ),
+          null: false
 
-      add :source_id, references(
-        :decks,
-        on_delete: :nilify_all,
-        type: :binary_id
-      ), null: true
+      add :source_id,
+          references(
+            :decks,
+            on_delete: :nilify_all,
+            type: :binary_id
+          ),
+          null: true
 
       timestamps()
     end

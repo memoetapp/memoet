@@ -6,6 +6,7 @@ defmodule Memoet.Users.User do
 
   use Ecto.Schema
   use Pow.Ecto.Schema
+
   use Pow.Extension.Ecto.Schema,
     extensions: [PowResetPassword, PowEmailConfirmation]
 

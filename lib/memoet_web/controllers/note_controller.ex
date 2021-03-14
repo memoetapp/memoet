@@ -11,6 +11,7 @@ defmodule MemoetWeb.NoteController do
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
   def create(conn, %{"deck_id" => deck_id, "note" => note_params} = _params) do
     user = Pow.Plug.current_user(conn)
+
     params =
       note_params
       |> Map.merge(%{
@@ -24,11 +25,12 @@ defmodule MemoetWeb.NoteController do
     |> case do
       {:ok, %{note: note}} ->
         conn
-        |> put_flash(:info, "Create note \"" <> note.title <> "\" success!")
+        |> put_flash(:info, "Create note success!")
         |> redirect(to: "/decks/" <> deck_id <> "/notes/" <> note.id)
 
       {:error, _op, changeset, _changes} ->
         deck = Decks.get_deck!(deck_id, user.id)
+
         conn
         |> render("new.html", changeset: changeset, deck: deck)
     end
@@ -41,7 +43,10 @@ defmodule MemoetWeb.NoteController do
       Notes.create_note(note_params)
     end)
     |> Ecto.Multi.run(:card, fn _repo, %{note: note} ->
-      card_params = note_params |> Map.merge(%{"note_id" => note.id})
+      card_params =
+        note_params
+        |> Map.merge(%{"note_id" => note.id})
+
       Cards.create_card(card_params)
     end)
   end
@@ -53,7 +58,7 @@ defmodule MemoetWeb.NoteController do
     note = Notes.get_note!(id)
 
     if note.user_id != user.id and not deck.public do
-      redirect(conn, "/decks")
+      redirect(conn, to: "/decks")
     else
       render(conn, "show.html", note: note, deck: deck)
     end
@@ -69,8 +74,9 @@ defmodule MemoetWeb.NoteController do
       Option.changeset(%Option{}, %{"content" => "Forget", "correct" => false}),
       Option.changeset(%Option{}, %{}),
       Option.changeset(%Option{}, %{}),
-      Option.changeset(%Option{}, %{}),
+      Option.changeset(%Option{}, %{})
     ]
+
     changeset = Note.changeset(%Note{options: embedded_changeset}, %{})
 
     render(conn, "new.html", deck: deck, changeset: changeset)
@@ -84,14 +90,14 @@ defmodule MemoetWeb.NoteController do
 
     empty_options = @options_limit - length(note.options)
 
-    options = if empty_options > 0 do
-      note.options ++ for _ <- 1..empty_options, do: Option.changeset(%Option{}, %{})
-    else
-      note.options
-    end
+    options =
+      if empty_options > 0 do
+        note.options ++ for _ <- 1..empty_options, do: Option.changeset(%Option{}, %{})
+      else
+        note.options
+      end
 
     changeset = Note.changeset(%Note{note | options: options}, %{})
-
     render(conn, "edit.html", note: note, deck: deck, changeset: changeset)
   end
 
@@ -108,6 +114,7 @@ defmodule MemoetWeb.NoteController do
 
       {:error, changeset} ->
         deck = Decks.get_deck!(deck_id, user.id)
+
         conn
         |> render("edit.html", changeset: changeset, deck: deck)
     end

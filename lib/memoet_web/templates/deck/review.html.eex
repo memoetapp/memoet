@@ -1,0 +1,51 @@
+<header class="header__wrapper">
+  <h1 class="header__title">Review</h1>
+  <a class="header__subtitle" href="<%= Routes.deck_path @conn, :show, @deck %>">Back</a>
+</header>
+
+<section x-data="{ hint: false, choice: 1 }">
+  <%= form_for @conn, Routes.review_card_path(@conn, :review, @deck), [method: "PUT", class: "mt-8 space-y-8"], fn f -> %>
+    <%= if @card do %>
+      <section class="flex flex-col space-y-8">
+          <article class="max-w-full prose">
+            <h1><%= @card.note.title %></h1>
+            <%= raw Earmark.as_html!(@card.note.content) %>
+          </article>
+
+          <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-yellow-50 rounded-md space-y-3">
+            <%= if @card.note.type == "multiple_choice" do %>
+              <%= for o <- @card.note.options do %>
+                <div class="flex items-center">
+                  <input type="checkbox" class="p-2 mr-2 form-checkbox">
+                  <p><%= o.content %></p>
+                </div>
+              <% end %>
+            <% else %>
+            <% end %>
+          </div>
+
+          <input type="hidden" name="answer" :value="choice" />
+          <input type="hidden" name="card_id" value="<%= @card.id %>" />
+
+          <%= if @card.note.hint do %>
+            <div class="max-w-full p-3 text-sm border bg-green-50 prose rounded-md" x-show="hint">
+              <%= raw Earmark.as_html!(@card.note.hint) %>
+            </div>
+          <% end %>
+      </section>
+    <% else %>
+      <p class="py-6 text-center">
+        There is no more notes to review (for now).
+      </p>
+    <% end %>
+
+    <section class="py-6 text-center">
+      <%= if @card != nil and @card.note.hint do %>
+        <%= submit "Answer", class: "btn-primary" %>
+        <a class="btn-outline" @click="hint = !hint">Toggle hint</a>
+      <% else %>
+        <a class="btn-outline" href="<%= Routes.deck_note_path @conn, :new, @deck %>">Add note</a>
+      <% end %>
+    </section>
+  <% end %>
+</section>

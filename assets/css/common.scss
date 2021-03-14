@@ -1,11 +1,11 @@
 // App wide common styles
 @layer components {
   .btn-primary {
-    @apply py-1 px-3 border border-transparent rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white transition-all;
+    @apply cursor-pointer py-1 px-3 border border-transparent rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white transition-all;
   }
 
   .btn-outline {
-    @apply py-1 px-3 border border-indigo-600 rounded-md bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-indigo-500 transition-all;
+    @apply cursor-pointer py-1 px-3 border border-indigo-600 rounded-md bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-indigo-500 transition-all;
   }
 
   .form-control {

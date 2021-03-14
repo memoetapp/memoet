@@ -4,7 +4,7 @@ defmodule Memoet.SRS.Sm2 do
   """
 
   use Rustler, otp_app: :memoet, crate: "sm2"
-  alias Memoet.SRS.{Config, Scheduler, Card}
+  alias Memoet.SRS.{Config, Scheduler, Card, Choices}
 
   # When your NIF is loaded, it will override this function.
   @spec new(Config.t()) :: Scheduler.t()
@@ -13,7 +13,7 @@ defmodule Memoet.SRS.Sm2 do
   def next_interval(_card, _scheduler, _choice), do: error()
   def next_interval_string(_card, _scheduler, _choice), do: error()
 
-  @spec answer_card(Card.t(), Scheduler.t(), nil) :: Card.t()
+  @spec answer_card(Card.t(), Scheduler.t(), Choices.t()) :: Card.t()
   def answer_card(_card, _scheduler, _choice), do: error()
 
   @spec bury_card(Card.t(), Scheduler.t()) :: Card.t()

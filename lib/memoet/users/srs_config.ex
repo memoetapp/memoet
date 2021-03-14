@@ -71,7 +71,9 @@ defmodule Memoet.Users.SrsConfig do
           "learn_steps" => text_to_array(learn_steps),
           "relearn_steps" => text_to_array(relearn_steps)
         })
-      _ -> params
+
+      _ ->
+        params
     end
   end
 
