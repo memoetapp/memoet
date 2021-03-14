@@ -66,6 +66,16 @@ defmodule MemoetWeb.NoteController do
     render(conn, "new.html", deck: deck, changeset: changeset)
   end
 
+  @spec delete(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def delete(conn, %{"deck_id" => deck_id, "id" => id}) do
+    user = Pow.Plug.current_user(conn)
+    Notes.delete_note!(id, user.id)
+
+    conn
+    |> put_flash(:info, "Delete success!")
+    |> redirect(to: "/decks/" <> deck_id)
+  end
+
   @spec edit(Plug.Conn.t(), map) :: Plug.Conn.t()
   def edit(conn, %{"deck_id" => deck_id, "id" => id}) do
     user = Pow.Plug.current_user(conn)

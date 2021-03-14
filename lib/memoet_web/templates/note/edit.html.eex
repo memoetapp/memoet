@@ -50,8 +50,9 @@
       </div>
     </section>
 
-    <div class="text-center">
+    <div class="text-center space-x-2">
       <%= submit "Save", class: "btn-primary" %>
+      <%= link "Delete", to: Routes.deck_note_path(@conn, :delete, @deck, @note), method: "DELETE", class: "btn-danger" %>
     </div>
   <% end %>
 </section>

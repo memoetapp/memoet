@@ -22,6 +22,13 @@ defmodule Memoet.Decks do
     |> Repo.get_by!(id: id)
   end
 
+  @spec delete_deck!(binary(), binary()) :: Deck.t()
+  def delete_deck!(id, user_id) do
+    Deck
+    |> Repo.get_by!(id: id, user_id: user_id)
+    |> Repo.delete!()
+  end
+
   @spec get_deck!(binary(), binary()) :: Deck.t()
   def get_deck!(id, user_id) do
     Deck

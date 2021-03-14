@@ -86,6 +86,9 @@
   </ul>
 </section>
 
-<section class="py-6 text-center">
+<section class="py-6 text-center space-x-2">
+  <%= if Pow.Plug.current_user(@conn) == nil do %>
+    <%= link "Sign up", to: Routes.signup_path(@conn, :new), class: "btn-primary" %>
+  <% end %>
   <%= link "View more", to: Routes.community_deck_path(@conn, :public), class: "btn-outline" %>
 </section>

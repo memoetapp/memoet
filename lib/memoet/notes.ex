@@ -59,4 +59,11 @@ defmodule Memoet.Notes do
       Cards.create_card(card_params)
     end)
   end
+
+  @spec delete_note!(binary(), binary()) :: Deck.t()
+  def delete_note!(id, user_id) do
+    Note
+    |> Repo.get_by!(id: id, user_id: user_id)
+    |> Repo.delete!()
+  end
 end

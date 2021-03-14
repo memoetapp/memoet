@@ -67,6 +67,16 @@ defmodule MemoetWeb.DeckController do
     render(conn, "edit.html", deck: deck)
   end
 
+  @spec delete(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def delete(conn, %{"id" => id}) do
+    user = Pow.Plug.current_user(conn)
+    Decks.delete_deck!(id, user.id)
+
+    conn
+    |> put_flash(:info, "Delete success!")
+    |> redirect(to: "/decks")
+  end
+
   @spec clone(Plug.Conn.t(), map) :: Plug.Conn.t()
   def clone(conn, %{"id" => id}) do
     user = Pow.Plug.current_user(conn)
