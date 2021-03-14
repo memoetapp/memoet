@@ -5,10 +5,16 @@
 <section>
   <%= form_for @changeset, Routes.srs_config_path(@conn, :update), [method: "PUT", class: "mt-8 space-y-8"], fn f -> %>
 
-    <section class="p-4 pb-6 border rounded-md space-y-6">
+    <section class="p-4 pb-6 border rounded-md space-y-5">
       <p class="w-full pb-2 font-bold border-b">
         Learn
       </p>
+
+      <section>
+        Learn ahead time (minutes)
+        <%= text_input f, :learn_ahead_time, required: true, class: "form-control form-block", value: @srs_config.learn_ahead_time %>
+        <%= error_tag f, :learn_ahead_time %>
+      </section>
 
       <section>
         Learn steps (in minutes)
@@ -35,7 +41,7 @@
       </section>
     </section>
 
-    <section class="p-4 pb-6 border rounded-md space-y-6">
+    <section class="p-4 pb-6 border rounded-md space-y-5">
       <p class="w-full pb-2 font-bold border-b">
         Review
       </p>
@@ -77,7 +83,7 @@
       </section>
     </section>
 
-    <section class="p-4 pb-6 border rounded-md space-y-6">
+    <section class="p-4 pb-6 border rounded-md space-y-5">
       <p class="w-full pb-2 font-bold border-b">
         Relearn
       </p>
@@ -95,7 +101,7 @@
       </section>
     </section>
 
-    <div class="text-center">
+    <div class="py-6 text-center space-x-2">
       <%= submit "Save", class: "btn-primary" %>
       <%= link "Cancel", to: Routes.deck_path(@conn, :index), class: "btn-outline" %>
     </div>

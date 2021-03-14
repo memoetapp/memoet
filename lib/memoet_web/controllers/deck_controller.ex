@@ -7,16 +7,20 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Cards
 
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def index(conn, _params) do
+  def index(conn, params) do
     user = Pow.Plug.current_user(conn)
-    %{entries: decks} = Decks.list_decks(%{"user_id" => user.id})
-    %{entries: public_decks} = Decks.list_decks(%{"public" => true})
-    render(conn, "index.html", decks: decks, public_decks: public_decks)
+    params = params
+             |> Map.merge(%{"user_id" => user.id, "limit" => 100})
+
+    %{entries: decks, metadata: metadata} = Decks.list_decks(params)
+    render(conn, "index.html", decks: decks, metadata: metadata)
   end
 
   @spec public(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def public(conn, _params) do
-    %{entries: public_decks, metadata: metadata} = Decks.list_decks(%{"public" => true})
+  def public(conn, params) do
+    params = params
+             |> Map.merge(%{"public" => true, "limit" => 100})
+    %{entries: public_decks, metadata: metadata} = Decks.list_decks(params)
     render(conn, "public.html", public_decks: public_decks, metadata: metadata)
   end
 

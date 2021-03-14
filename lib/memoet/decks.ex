@@ -10,10 +10,28 @@ defmodule Memoet.Decks do
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
+    cursor_before = if Map.has_key?(params, "before") and params["before"] != "" do
+      params["before"]
+    else
+      nil
+    end
+
+    cursor_after = if Map.has_key?(params, "after") and params["after"] != "" do
+      params["after"]
+    else
+      nil
+    end
+
     Deck
     |> where(^filter_where(params))
     |> order_by(desc: :inserted_at)
-    |> Repo.paginate(cursor_fields: [:inserted_at], limit: 100)
+    |> Repo.paginate(
+      before: cursor_before,
+      after: cursor_after,
+      include_total_count: true,
+      cursor_fields: [{:inserted_at, :desc}],
+      limit: params["limit"]
+    )
   end
 
   @spec get_deck!(binary()) :: Deck.t()

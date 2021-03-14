@@ -50,7 +50,7 @@
       </div>
     </section>
 
-    <div class="text-center">
+    <div class="py-6 text-center space-x-2">
       <%= submit "Create", class: "btn-primary" %>
       <%= link "Cancel", to: Routes.deck_path(@conn, :show, @deck), class: "btn-outline" %>
     </div>

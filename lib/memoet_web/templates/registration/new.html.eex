@@ -29,6 +29,7 @@
           <%= password_input f, :password_confirmation, class: "form-control form-block" %>
           <%= error_tag f, :password_confirmation %>
         </div>
+        <%= hidden_input f, :persistent_session, value: true %>
       </div>
 
       <%= submit "Register", class: "btn-primary w-full" %>

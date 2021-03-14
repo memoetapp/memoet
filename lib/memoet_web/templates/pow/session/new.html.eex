@@ -24,6 +24,7 @@
           <%= password_input f, :password, class: "form-control form-block" %>
           <%= error_tag f, :password %>
         </div>
+        <%= hidden_input f, :persistent_session, value: true %>
       </div>
 
       <div>

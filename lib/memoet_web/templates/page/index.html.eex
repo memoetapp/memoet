@@ -41,8 +41,9 @@
     </ul>
   </section>
 
-  <section class="py-6 text-center">
-    <%= link "View all", to: Routes.deck_path(@conn, :index), class: "btn-outline" %>
+  <section class="py-6 text-center space-x-2">
+    <%= link "New deck", to: Routes.deck_path(@conn, :new), class: "btn-primary" %>
+    <%= link "View more", to: Routes.deck_path(@conn, :index), class: "btn-outline" %>
   </section>
 <% end %>
 

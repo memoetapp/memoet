@@ -9,11 +9,14 @@ defmodule Memoet.Notes do
   alias Memoet.Notes.Note
   alias Memoet.Cards
 
+  @limit 1_000
+
   @spec list_notes(binary(), map) :: [Note.t()]
   def list_notes(deck_id, _params \\ %{}) do
     Note
     |> where(deck_id: ^deck_id)
     |> order_by(asc: :inserted_at)
+    |> limit(@limit)
     |> Repo.all()
   end
 
