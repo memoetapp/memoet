@@ -8,8 +8,6 @@ defmodule MemoetWeb.NoteController do
 
   @options_limit 5
 
-  plug :put_layout, "deck.html"
-
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
   def create(conn, %{"deck_id" => deck_id, "note" => note_params} = _params) do
     user = Pow.Plug.current_user(conn)

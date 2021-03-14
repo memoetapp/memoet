@@ -1,4 +1,15 @@
 <main role="main">
   <%= render("_flash.html", assigns) %>
-  <%= @inner_content %>
+
+  <%= if Pow.Plug.current_user(@conn) do %>
+    <%= render("_header.html", assigns) %>
+  <% end %>
+
+  <section class="max-w-3xl px-4 mx-auto">
+    <%= @inner_content %>
+  </section>
+
+  <%= if Pow.Plug.current_user(@conn) do %>
+    <%= render("_footer.html", assigns) %>
+  <% end %>
 </main>

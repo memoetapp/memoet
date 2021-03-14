@@ -1,4 +1,7 @@
 defmodule Memoet.Users.User do
+  @moduledoc """
+  User repo
+  """
   import Ecto.Changeset
 
   use Ecto.Schema

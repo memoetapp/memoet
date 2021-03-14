@@ -6,7 +6,6 @@ defmodule Memoet.Repo.Migrations.CreateSrsConfig do
       add(:id, :binary_id, primary_key: true)
 
       add(:learn_ahead_time, :integer, null: false)
-      add(:show_next_due, :boolean, null: false)
 
       add(:learn_steps, {:array, :float}, default: [], null: false)
       add(:relearn_steps, {:array, :float}, default: [], null: false)

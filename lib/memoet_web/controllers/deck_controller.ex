@@ -5,8 +5,6 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Decks.Deck
   alias Memoet.Notes
 
-  plug :put_layout, "deck.html"
-
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
   def index(conn, _params) do
     user = Pow.Plug.current_user(conn)

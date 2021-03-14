@@ -52,7 +52,6 @@ defmodule Memoet.Notes.Note do
     |> validate_required([:title, :content, :type, :user_id, :deck_id])
   end
 
-
   def clean_options(changeset) do
     options = get_field(changeset, :options)
               |> Enum.filter(fn option -> option.content != nil end)

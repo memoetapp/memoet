@@ -35,13 +35,6 @@ defmodule MemoetWeb.Router do
     post "/signup", RegistrationController, :create, as: :signup
   end
 
-  scope "/" do
-    pipe_through :browser
-
-    pow_routes()
-    pow_extension_routes()
-  end
-
   scope "/decks", MemoetWeb do
     pipe_through [:browser, :protected]
 
@@ -50,10 +43,19 @@ defmodule MemoetWeb.Router do
     end
   end
 
-  scope "/", MemoetWeb do
+  scope "/user", MemoetWeb do
+    pipe_through [:browser, :protected]
+
+    get("/config/srs", SrsConfigController, :edit, as: :srs_config)
+    put("/config/srs", SrsConfigController, :update, as: :srs_config)
+  end
+
+  scope "/" do
     pipe_through [:browser]
 
-    get "/", PageController, :index
+    pow_routes()
+    pow_extension_routes()
+    get "/", MemoetWeb.PageController, :index
   end
 
   # Other scopes may use custom stacks.

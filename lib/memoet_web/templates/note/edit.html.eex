@@ -5,19 +5,19 @@
 <section>
   <%= form_for @changeset, Routes.deck_note_path(@conn, :update, @deck, @note), [class: "mt-8 space-y-8"], fn f -> %>
     <section>
-      Title:
+      Title
       <%= text_input f, :title, required: true, class: "form-control form-block", value: @note.title %>
       <%= error_tag f, :title %>
     </section>
 
     <section>
-      Content:
+      Content
       <%= textarea f, :content, required: true, class: "form-control form-block", rows: 10, value: @note.content %>
       <%= error_tag f, :content %>
     </section>
 
     <section>
-      Quiz:
+      Quiz
       <div class="p-4 border rounded-md space-y-8">
         <div>
           <%= select f, :type, [
@@ -39,7 +39,8 @@
         </div>
 
         <div>
-          Hint: <%= textarea f, :hint, class: "form-control form-block", rows: 5, value: @note.hint %>
+          Hint
+          <%= textarea f, :hint, class: "form-control form-block", rows: 5, value: @note.hint %>
         </div>
       </div>
     </section>

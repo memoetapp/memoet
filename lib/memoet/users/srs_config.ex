@@ -9,7 +9,6 @@ defmodule Memoet.Users.SrsConfig do
 
   @srs_fields [
     :learn_ahead_time,
-    :show_next_due,
     :learn_steps,
     :relearn_steps,
     :initial_ease,
@@ -29,7 +28,6 @@ defmodule Memoet.Users.SrsConfig do
   @foreign_key_type :binary_id
   schema "srs_config" do
     field(:learn_ahead_time, :integer, default: 20)
-    field(:show_next_due, :boolean, default: true)
 
     field(:learn_steps, {:array, :float}, default: [1.0, 10.0])
     field(:relearn_steps, {:array, :float}, default: [10.0])
@@ -55,8 +53,33 @@ defmodule Memoet.Users.SrsConfig do
   end
 
   def changeset(srs_config, attrs) do
+    attrs = cast_text_to_array(attrs)
+
     srs_config
     |> cast(attrs, @srs_fields ++ @required_fields)
     |> validate_required(@required_fields)
+  end
+
+  def cast_text_to_array(params) do
+    case params do
+      %{
+        "learn_steps" => learn_steps,
+        "relearn_steps" => relearn_steps
+      } ->
+        params
+        |> Map.merge(%{
+          "learn_steps" => text_to_array(learn_steps),
+          "relearn_steps" => text_to_array(relearn_steps)
+        })
+      _ -> params
+    end
+  end
+
+  defp text_to_array(field) do
+    if is_binary(field) do
+      String.split(field, " ")
+    else
+      field
+    end
   end
 end
