@@ -31,7 +31,7 @@ config :memoet, :pow,
   user: Memoet.Users.User,
   repo: Memoet.Repo,
   web_module: MemoetWeb,
-  extensions: [PowResetPassword],
+  extensions: [PowResetPassword, PowPersistentSession],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
   cache_store_backend: Pow.Postgres.Store
 
