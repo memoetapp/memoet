@@ -16,7 +16,7 @@ defmodule Memoet.Application do
       # Start the Endpoint (http/https)
       MemoetWeb.Endpoint,
       # Cache
-      Memoet.EtsCache,
+      {Cachex, name: :memoet_cachex},
       # Pow delete expired token
       {Pow.Postgres.Store.AutoDeleteExpired, [interval: :timer.hours(1)]}
     ]

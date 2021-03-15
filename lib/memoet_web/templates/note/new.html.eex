@@ -16,6 +16,12 @@
     </section>
 
     <section>
+      Image
+      <%= text_input f, :image, class: "form-control form-block", placeholder: "Optional cover image..." %>
+      <%= error_tag f, :image %>
+    </section>
+
+    <section>
       Content
       <%= textarea f, :content, required: true, class: "form-control form-block", rows: 10, placeholder: "Awesome content..." %>
       <%= error_tag f, :content %>

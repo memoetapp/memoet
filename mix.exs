@@ -33,7 +33,7 @@ defmodule Memoet.MixProject do
   def application do
     [
       mod: {Memoet.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :cachex]
     ]
   end
 
@@ -63,6 +63,7 @@ defmodule Memoet.MixProject do
       {:timex, "~> 3.6"},
       {:poison, "~> 4.0"},
       {:paginator, "~> 1.0.3"},
+      {:cachex, "~> 3.3"},
       # Markdown
       {:earmark, "~> 1.4"},
       # Sm2

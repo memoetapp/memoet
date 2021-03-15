@@ -10,6 +10,7 @@ defmodule Memoet.Notes.Note do
   alias Memoet.Users.User
   alias Memoet.Cards.Card
   alias Memoet.Decks.Deck
+  alias Memoet.Utils.StringUtil
 
   @title_limit 250
   @content_limit 2_500
@@ -18,6 +19,7 @@ defmodule Memoet.Notes.Note do
   @foreign_key_type :binary_id
   schema "notes" do
     field(:title, :string)
+    field(:image, :string)
     field(:content, :string)
 
     field(:type, :string, null: false, default: Types.multiple_choice())
@@ -36,6 +38,7 @@ defmodule Memoet.Notes.Note do
     note_or_changeset
     |> cast(attrs, [
       :title,
+      :image,
       :content,
       :type,
       :hint,
@@ -55,7 +58,7 @@ defmodule Memoet.Notes.Note do
   def clean_options(changeset) do
     options =
       get_field(changeset, :options)
-      |> Enum.filter(fn option -> option.content != nil end)
+      |> Enum.filter(fn option -> not StringUtil.blank?(option.content) end)
 
     put_change(changeset, :options, options)
   end

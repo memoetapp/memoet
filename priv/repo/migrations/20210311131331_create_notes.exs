@@ -6,6 +6,7 @@ defmodule Memoet.Repo.Migrations.CreateNotes do
       add(:id, :binary_id, primary_key: true)
 
       add(:title, :string, null: false)
+      add(:image, :text, null: true)
       add(:content, :text, null: false)
 
       add(:type, :string, null: false)

@@ -13,6 +13,10 @@
 </header>
 
 <section class="flex flex-col space-y-8">
+    <%= if @note.image do %>
+      <img src="<%= @note.image %>" alt="<%= @note.title %> image" />
+    <% end %>
+
     <article class="max-w-full p-3 border prose rounded-md">
       <%= raw Earmark.as_html!(@note.content) %>
     </article>

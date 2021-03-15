@@ -14,6 +14,28 @@ defmodule Memoet.Users do
     |> Repo.one()
   end
 
+  @spec find_user_by_id(binary()) :: User.t() | nil
+  def find_user_by_id(id) do
+    User
+    |> where(id: ^id)
+    |> Repo.one()
+  end
+
+  @spec find_user_by_token(binary()) :: User.t() | nil
+  def find_user_by_token(token) do
+    User
+    |> where(api_token: ^token)
+    |> Repo.one()
+  end
+
+  @spec refresh_api_token(User.t()) ::
+          {:ok, SrsConfig.t()} | {:error, Ecto.Changeset.t()}
+  def refresh_api_token(user) do
+    user
+    |> User.api_token_changeset(%{api_token: Pow.UUID.generate()})
+    |> Repo.update()
+  end
+
   # SRS config
   @spec get_srs_config(integer()) :: SrsConfig.t() | nil
   def get_srs_config(user_id) do

@@ -9,14 +9,22 @@ defmodule MemoetWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_live_flash
+    plug :fetch_flash
     plug :put_root_layout, {MemoetWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
+    # FIXME: Better way to handle API endpoint, now it receive json and return html (!?)
+    # We use this plug for now to avoid error when sending json requests
+    plug :fetch_flash
+    plug(MemoetWeb.APIAuthPlug, otp_app: :memoet)
+  end
+
+  pipeline :api_protected do
+    plug(Pow.Plug.RequireAuthenticated, error_handler: MemoetWeb.APIAuthErrorHandler)
   end
 
   pipeline :protected do
@@ -53,9 +61,19 @@ defmodule MemoetWeb.Router do
     pipe_through [:browser, :protected]
 
     get("/account", UserController, :show, as: :account)
+    post("/token", UserController, :refresh_api_token, as: :account)
 
     get("/config/srs", SrsConfigController, :edit, as: :srs_config)
     put("/config/srs", SrsConfigController, :update, as: :srs_config)
+  end
+
+  # TODO: Make this endpoint way more better!
+  scope "/api", MemoetWeb do
+    pipe_through([:api, :api_protected])
+
+    resources("/decks", DeckController) do
+      resources("/notes", NoteController, except: [:index])
+    end
   end
 
   scope "/" do

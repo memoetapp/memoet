@@ -7,12 +7,18 @@
   </h1>
 </header>
 
-<section x-data="{ type: '<%= @note.type %>' }">
+<section x-data="{ type: '<%= @note.type %>', confirmDelete: false }">
   <%= form_for @changeset, Routes.deck_note_path(@conn, :update, @deck, @note), [class: "mt-8 space-y-8"], fn f -> %>
     <section>
       Title
       <%= text_input f, :title, required: true, class: "form-control form-block", value: @note.title %>
       <%= error_tag f, :title %>
+    </section>
+
+    <section>
+      Image
+      <%= text_input f, :image, class: "form-control form-block", value: @note.image %>
+      <%= error_tag f, :image %>
     </section>
 
     <section>
@@ -52,7 +58,14 @@
 
     <div class="text-center space-x-2">
       <%= submit "Save", class: "btn-primary" %>
-      <%= link "Delete", to: Routes.deck_note_path(@conn, :delete, @deck, @note), method: "DELETE", class: "btn-danger" %>
+      <button type="button" class="btn-warning" @click="confirmDelete = confirm('If you want to delete this note, click Confirm delete to delete it permantly')" x-show="!confirmDelete">Delete</button>
+
+      <%= link "Confirm delete",
+          to: Routes.deck_note_path(@conn, :delete, @deck, @note),
+          method: "DELETE",
+          class: "btn-danger",
+          "x-show": "confirmDelete"
+      %>
     </div>
   <% end %>
 </section>

@@ -13,8 +13,13 @@
       <section class="flex flex-col space-y-8">
           <input type="hidden" name="card_id" value="<%= @card.id %>">
 
+          <h1 class="text-lg font-bold"><%= @card.note.title %></h1>
+
+          <%= if @note.image do %>
+            <img src="<%= @note.image %>" alt="<%= @note.title %> image" />
+          <% end %>
+
           <article class="max-w-full prose">
-            <h1><%= @card.note.title %></h1>
             <%= raw Earmark.as_html!(@card.note.content) %>
           </article>
 

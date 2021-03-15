@@ -2,8 +2,6 @@ defmodule Memoet.SRS do
   @moduledoc """
   SRS service
   """
-  alias Memoet.EtsCache
-
   alias Memoet.SRS.Sm2
   alias Memoet.SRS.{Scheduler, Config}
   alias Memoet.Users.SrsConfig
@@ -12,14 +10,20 @@ defmodule Memoet.SRS do
   @spec get_scheduler(String.t()) :: Scheduler.t()
   def get_scheduler(user_id) do
     cache_key = get_cache_key(user_id)
-    EtsCache.read_or_cache_default(cache_key, fn -> get_scheduler_from_db(user_id) end)
+    {_, cache_value } = Cachex.fetch(
+      :memoet_cachex,
+      cache_key,
+      fn(_key) -> {:commit, get_scheduler_from_db(user_id)} end
+    )
+    cache_value
   end
 
   @spec set_scheduler(String.t(), SrsConfig.t()) :: :ok
   def set_scheduler(user_id, srs_config) do
     config = struct(Config, Map.from_struct(srs_config))
     scheduler = Sm2.new(config)
-    EtsCache.cache(get_cache_key(user_id), scheduler)
+    Cachex.put(:memoet_cachex, get_cache_key(user_id), scheduler)
+    :ok
   end
 
   @spec get_cache_key(String.t()) :: String.t()
