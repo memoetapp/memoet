@@ -57,6 +57,10 @@
     @apply flex items-center justify-center cursor-pointer hover:text-indigo-600 transition-all;
   }
 
+  [x-cloak] {
+    display: none !important;
+  }
+
   iframe {
     @apply hidden;
   }

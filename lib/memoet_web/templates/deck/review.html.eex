@@ -21,7 +21,7 @@
             <%= raw Earmark.as_html!(@card.note.content) %>
           </article>
 
-          <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 rounded-md space-y-3">
+          <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 rounded-md space-y-3" x-cloak>
             <%= if @card.note.type == "multiple_choice" do %>
               <%= for {o, i} <- Enum.with_index(@card.note.options) do %>
                 <div class="flex items-center">
@@ -67,7 +67,7 @@
           <% end %>
       </section>
 
-      <section class="py-6 text-center">
+      <section class="py-6 text-center" x-cloak>
         <input type="hidden" name="card_id" value="<%= @card.id %>">
         <div x-show="check" class="flex items-center justify-between space-x-3">
           <button type="submit" name="answer" value="1" class="flex-1 btn-danger">Forgot</button>
