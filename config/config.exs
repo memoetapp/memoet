@@ -26,6 +26,22 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Read .env
+try do
+  File.stream!("./.env")
+  |> Stream.map(&String.trim_trailing/1)
+  |> Enum.each(fn line ->
+    line
+    |> String.replace("export ", "")
+    |> String.split("=", parts: 2)
+    |> Enum.reduce(fn value, key ->
+      System.put_env(key, value)
+    end)
+  end)
+rescue
+  _ -> IO.puts("no .env file found!")
+end
+
 # Auth
 config :memoet, :pow,
   user: Memoet.Users.User,
