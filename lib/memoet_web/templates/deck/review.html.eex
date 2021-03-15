@@ -11,12 +11,10 @@
   <section x-data="{ hint: false, check: false, answer: '', options: <%= Poison.encode!(@card.note.options) %> }">
     <%= form_for @conn, Routes.review_card_path(@conn, :review, @deck), [method: "PUT", class: "mt-8 space-y-8"], fn _f -> %>
       <section class="flex flex-col space-y-8">
-          <input type="hidden" name="card_id" value="<%= @card.id %>">
-
           <h1 class="text-lg font-bold"><%= @card.note.title %></h1>
 
-          <%= if @note.image do %>
-            <img src="<%= @note.image %>" alt="<%= @note.title %> image" />
+          <%= if @card.note.image do %>
+            <img src="<%= @card.note.image %>" alt="<%= @card.note.title %> image" />
           <% end %>
 
           <article class="max-w-full prose">
@@ -70,10 +68,11 @@
       </section>
 
       <section class="py-6 text-center">
+        <input type="hidden" name="card_id" value="<%= @card.id %>">
         <div x-show="check" class="flex items-center justify-between space-x-3">
           <button type="submit" name="answer" value="1" class="flex-1 btn-danger">Forgot</button>
           <button type="submit" name="answer" value="2" class="flex-1 btn-warning">Hard</button>
-          <button type="submit" name="answer" value="3" class="flex-1 btn-primary">OK</button>
+          <button type="submit" name="answer" value="3" class="flex-1 btn-primary">Good</button>
           <button type="submit" name="answer" value="4" class="flex-1 btn-success">Easy</button>
         </div>
 

@@ -17,7 +17,7 @@
       <img src="<%= @note.image %>" alt="<%= @note.title %> image" />
     <% end %>
 
-    <article class="max-w-full p-3 border prose rounded-md">
+    <article class="max-w-full p-3 prose">
       <%= raw Earmark.as_html!(@note.content) %>
     </article>
 
