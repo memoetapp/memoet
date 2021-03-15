@@ -30,7 +30,7 @@ defmodule Memoet.Decks do
       after: cursor_after,
       include_total_count: true,
       cursor_fields: [{:inserted_at, :desc}],
-      limit: params["limit"]
+      limit: 50
     )
   end
 

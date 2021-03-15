@@ -1,6 +1,7 @@
 defmodule MemoetWeb.DeckController do
   use MemoetWeb, :controller
 
+  alias Memoet.Repo
   alias Memoet.Decks
   alias Memoet.Decks.Deck
   alias Memoet.Notes
@@ -10,7 +11,7 @@ defmodule MemoetWeb.DeckController do
   def index(conn, params) do
     user = Pow.Plug.current_user(conn)
     params = params
-             |> Map.merge(%{"user_id" => user.id, "limit" => 100})
+             |> Map.merge(%{"user_id" => user.id})
 
     %{entries: decks, metadata: metadata} = Decks.list_decks(params)
     render(conn, "index.html", decks: decks, metadata: metadata)
@@ -19,7 +20,7 @@ defmodule MemoetWeb.DeckController do
   @spec public(Plug.Conn.t(), map) :: Plug.Conn.t()
   def public(conn, params) do
     params = params
-             |> Map.merge(%{"public" => true, "limit" => 100})
+             |> Map.merge(%{"public" => true})
     %{entries: public_decks, metadata: metadata} = Decks.list_decks(params)
     render(conn, "public.html", public_decks: public_decks, metadata: metadata)
   end
@@ -47,15 +48,15 @@ defmodule MemoetWeb.DeckController do
   end
 
   @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id} = params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id)
 
     if (user == nil or deck.user_id != user.id) and not deck.public do
       redirect(conn, to: "/decks")
     else
-      notes = Notes.list_notes(deck.id, %{})
-      render(conn, "show.html", deck: deck, notes: notes)
+      %{entries: notes, metadata: metadata} = Notes.list_notes(params)
+      render(conn, "show.html", deck: deck, notes: notes, metadata: metadata)
     end
   end
 
@@ -98,17 +99,21 @@ defmodule MemoetWeb.DeckController do
                })
       case Decks.create_deck(params) do
         {:ok, %Deck{} = new_deck} ->
-          for note <- Notes.list_notes(deck.id) do
-            params = from_struct(note)
-                     |> Map.merge(%{
-                       "options" => Enum.map(note.options, fn o -> from_struct(o) end),
-                       "deck_id" => new_deck.id,
-                       "user_id" => user.id,
-                     })
+          Repo.transaction(fn ->
+            Notes.stream_notes(deck.id)
+            |> Stream.map(fn note ->
+                params = from_struct(note)
+                         |> Map.merge(%{
+                           "options" => Enum.map(note.options, fn o -> from_struct(o) end),
+                           "deck_id" => new_deck.id,
+                           "user_id" => user.id,
+                         })
 
-            Notes.create_note_with_card_transaction(params)
-            |> Memoet.Repo.transaction()
-          end
+                Notes.create_note_with_card_transaction(params)
+                |> Memoet.Repo.transaction()
+            end)
+            |> Stream.run()
+          end, timeout: :infinity)
 
           conn
           |> put_flash(:info, "Clone deck success!")

@@ -9,15 +9,38 @@ defmodule Memoet.Notes do
   alias Memoet.Notes.Note
   alias Memoet.Cards
 
-  @limit 1_000
+  @spec list_notes(map) :: map()
+  def list_notes(params) do
+    cursor_before = if Map.has_key?(params, "before") and params["before"] != "" do
+      params["before"]
+    else
+      nil
+    end
 
-  @spec list_notes(binary(), map) :: [Note.t()]
-  def list_notes(deck_id, _params \\ %{}) do
+    cursor_after = if Map.has_key?(params, "after") and params["after"] != "" do
+      params["after"]
+    else
+      nil
+    end
+
+    Note
+    |> where(deck_id: ^params["id"])
+    |> order_by(asc: :inserted_at)
+    |> Repo.paginate(
+      before: cursor_before,
+      after: cursor_after,
+      include_total_count: true,
+      cursor_fields: [{:inserted_at, :asc}],
+      limit: 50
+    )
+  end
+
+  @spec stream_notes(binary(), map) :: any()
+  def stream_notes(deck_id, _params \\ %{}) do
     Note
     |> where(deck_id: ^deck_id)
     |> order_by(asc: :inserted_at)
-    |> limit(@limit)
-    |> Repo.all()
+    |> Repo.stream()
   end
 
   @spec get_note!(binary(), binary()) :: Note.t()
