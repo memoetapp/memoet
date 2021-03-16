@@ -49,4 +49,7 @@ MIX_ENV=prod mix ecto.migrate
 # Start!
 # Interactive mode
 # PORT=80 MIX_ENV=prod mix phx.server --no-compile
-PORT=80 MIX_ENV=prod elixir --erl "-detached" -S mix phx.server --no-compile
+PORT=80 MIX_ENV=prod elixir --erl "-detached" --sname server -S mix phx.server --no-compile
+
+# Connect to running process
+iex --sname console --remsh server

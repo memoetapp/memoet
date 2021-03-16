@@ -67,3 +67,8 @@
     <% end %>
   </ul>
 </section>
+
+
+<section class="py-10 text-center space-x-2">
+  <%= link "New deck", to: Routes.deck_path(@conn, :new), class: "btn-primary" %>
+</section>
