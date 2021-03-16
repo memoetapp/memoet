@@ -64,6 +64,8 @@ defmodule Memoet.MixProject do
       {:poison, "~> 4.0"},
       {:paginator, "~> 1.0.3"},
       {:cachex, "~> 3.3"},
+      # ssl
+      {:site_encrypt, "~> 0.4"},
       # Markdown
       {:earmark, "~> 1.4"},
       # Sm2

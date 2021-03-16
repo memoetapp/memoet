@@ -11,7 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :memoet, MemoetWeb.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "http", host: "memoet.herokuapp.com", port: 80],
+  url: [scheme: "http", host: "memoet.com", port: 80],
   # force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 

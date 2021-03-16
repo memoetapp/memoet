@@ -14,7 +14,7 @@ defmodule Memoet.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Memoet.PubSub},
       # Start the Endpoint (http/https)
-      MemoetWeb.Endpoint,
+      {SiteEncrypt.Phoenix, MemoetWeb.Endpoint},
       # Cache
       {Cachex, name: :memoet_cachex},
       # Pow delete expired token
