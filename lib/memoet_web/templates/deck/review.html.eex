@@ -21,14 +21,14 @@
             <%= raw Earmark.as_html!(@card.note.content) %>
           </article>
 
-          <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 rounded-md space-y-3" x-cloak>
+          <div class="flex flex-col items-start justify-center w-full p-4 text-sm border bg-indigo-50 rounded-md space-y-6" x-cloak>
             <%= if @card.note.type == "multiple_choice" do %>
               <%= for {o, i} <- Enum.with_index(@card.note.options) do %>
-                <div class="flex items-center">
+                <label class="flex items-start">
                   <input
                     type="checkbox"
                     x-model="options[<%= i %>].answer"
-                    class="p-2 mr-2 form-checkbox"
+                    class="mr-2 mt-0.5 form-checkbox"
                     :class="{
                       'border-green-600 text-green-600': check && (options[<%= i %>].answer || false) == options[<%= i %>].correct,
                       'border-red-600 text-red-600': check && (options[<%= i %>].answer || false) != options[<%= i %>].correct,
@@ -42,7 +42,7 @@
                   >
                     <%= o.content %>
                   </p>
-                </div>
+                </label>
               <% end %>
             <% else %>
               <input
@@ -78,7 +78,7 @@
 
         <a class="btn-primary" @click="check = true" x-show="!check">Check answer</a>
         <%= if @card.note.hint do %>
-          <a class="btn-outline" @click="hint = true" x-show="!check">Show hint</a>
+          <a class="btn-outline" @click="hint = true" x-show="!check && !hint">Show hint</a>
         <% end %>
       </section>
     <% end %>
