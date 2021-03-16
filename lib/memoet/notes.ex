@@ -31,7 +31,7 @@ defmodule Memoet.Notes do
       after: cursor_after,
       include_total_count: true,
       cursor_fields: [{:inserted_at, :asc}],
-      limit: 50
+      limit: 10
     )
   end
 

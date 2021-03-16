@@ -3,7 +3,11 @@
     <a class="text-link" href="<%= Routes.deck_path @conn, :show, @deck %>">
       <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
     </a>
-    Review
+    <%= if @card do %>
+      <%= @card.note.title %>
+    <% else %>
+      Review
+    <% end %>
   </h1>
 </header>
 
@@ -11,8 +15,6 @@
   <section x-data="{ hint: false, check: false, answer: '', options: <%= Poison.encode!(@card.note.options) %> }">
     <%= form_for @conn, Routes.review_card_path(@conn, :review, @deck), [method: "PUT", class: "mt-8 space-y-8"], fn _f -> %>
       <section class="flex flex-col space-y-8">
-          <h1 class="text-lg font-bold"><%= @card.note.title %></h1>
-
           <%= if @card.note.image do %>
             <img src="<%= @card.note.image %>" alt="<%= @card.note.title %> image" />
           <% end %>

@@ -26,8 +26,9 @@
               </h2>
             </a>
 
-            <p class="text-xs truncate opacity-50">
-              Created <%= Timex.format!(deck.inserted_at, "{relative}", :relative) %>
+            <p class="text-xs whitespace-normal opacity-50">
+              Created <%= Timex.format!(deck.inserted_at, "{relative}", :relative) %>,
+              updated <%= Timex.format!(deck.updated_at, "{relative}", :relative) %>.
             </p>
           </div>
 

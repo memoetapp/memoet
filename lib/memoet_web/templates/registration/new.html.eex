@@ -1,4 +1,4 @@
-<div class="flex items-center justify-center min-h-screen py-12">
+<div class="flex items-center justify-center py-12">
   <div class="w-full max-w-md space-y-8">
     <div>
       <img src="<%= Routes.static_path(@conn, "/images/logo.svg") %>" alt="Memoet Logo" class="w-auto h-8 mx-auto"/>
@@ -34,11 +34,10 @@
 
       <%= submit "Register", class: "btn-primary w-full" %>
 
-      <div class="flex items-center justify-center">
-        <%= link "Sign in", to: Routes.pow_session_path(@conn, :new), class: " text-indigo-600 hover:text-indigo-500" %>
+      <div class="text-center">
+        Already have an account?
+        <%= link "Log in!", to: Routes.pow_session_path(@conn, :new), class: " text-indigo-600 hover:text-indigo-500" %>
       </div>
-
-      <div class="h-20" />
     <% end %>
   </div>
 </div>

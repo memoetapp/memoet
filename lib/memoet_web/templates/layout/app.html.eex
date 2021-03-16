@@ -1,11 +1,11 @@
 <main role="main">
   <%= render("_flash.html", assigns) %>
 
-  <%= if Pow.Plug.current_user(@conn) do %>
+  <%= if assigns[:width_full] == nil do %>
     <%= render("_header.html", assigns) %>
   <% end %>
 
-  <section class="max-w-3xl px-4 mx-auto">
+  <section class="<%= if assigns[:width_full], do: "w-full", else: "max-w-3xl px-4 mx-auto" %>">
     <%= @inner_content %>
   </section>
 

@@ -22,15 +22,21 @@ defmodule Memoet.Decks do
       nil
     end
 
+    limit = if Map.has_key?(params, "limit") do
+      params["limit"]
+    else
+      10
+    end
+
     Deck
     |> where(^filter_where(params))
-    |> order_by(desc: :inserted_at)
+    |> order_by(desc: :updated_at)
     |> Repo.paginate(
       before: cursor_before,
       after: cursor_after,
       include_total_count: true,
-      cursor_fields: [{:inserted_at, :desc}],
-      limit: 50
+      cursor_fields: [{:updated_at, :desc}],
+      limit: limit
     )
   end
 
