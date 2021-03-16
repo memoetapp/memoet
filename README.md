@@ -16,12 +16,12 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Deployment
 
-- Ubuntu 18.04: [Guide](scripts/ubuntu.sh).
+- Ubuntu 18.04: [Guide](scripts/ubuntu.sh)
 
-- Heroku: [Deprecated guide](scripts/heroku.sh).
+- Heroku: [Deprecated guide](scripts/heroku.sh)
 
 
 ## Hosted version
 
 
-[Memoet.com](https://memoet.com).
+[Memoet.com](https://memoet.com)
