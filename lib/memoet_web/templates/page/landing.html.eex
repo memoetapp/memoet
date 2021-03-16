@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<section class="flex flex-col items-center justify-center text-center h-96 space-y-10 bg-gray-50">
+<section class="flex flex-col items-center justify-center p-4 text-center h-96 space-y-10 bg-gray-50">
   <span class="max-w-2xl text-3xl">
     Play your quizzes and recall them repeatly until you would never forget
   </span>

@@ -14,17 +14,19 @@
       <%= text_input f, :name, value: @deck.name, required: true, class: "form-control form-block" %>
     </div>
 
-    <div class="flex items-center justify-start space-x-4">
-      <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, true, checked: @deck.public == true, required: true %>
-        <%= label f, :public, "Public" %>
-      </span>
+    <%= if false do %>
+      <div class="flex items-center justify-start space-x-4">
+        <span class="flex items-center justify-center space-x-1">
+          <%= radio_button f, :public, true, checked: @deck.public == true, required: true %>
+          <%= label f, :public, "Public" %>
+        </span>
 
-      <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, false, checked: @deck.public == false, required: true %>
-        <%= label f, :public, "Private" %>
-      </span>
-    </div>
+        <span class="flex items-center justify-center space-x-1">
+          <%= radio_button f, :public, false, checked: @deck.public == false, required: true %>
+          <%= label f, :public, "Private" %>
+        </span>
+      </div>
+    <% end %>
 
     <div class="text-center space-x-2">
       <%= submit "Save", class: "btn-primary" %>

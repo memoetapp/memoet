@@ -9,16 +9,18 @@
       <%= error_tag f, :title %>
     </div>
 
-    <div class="flex items-center justify-start space-x-4">
-      <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, true, checked: true, required: true %>
-        <%= label f, :public, "Public" %>
-      </span>
+    <%= if false do %>
+      <div class="flex items-center justify-start space-x-4">
+        <span class="flex items-center justify-center space-x-1">
+          <%= radio_button f, :public, false, checked: true, required: true %>
+          <%= label f, :public, "Private" %>
+        </span>
 
-      <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, false, required: true %>
-        <%= label f, :public, "Private" %>
-      </span>
+        <span class="flex items-center justify-center space-x-1">
+          <%= radio_button f, :public, true, required: true %>
+          <%= label f, :public, "Public" %>
+        </span>
+      <% end %>
 
       <%= error_tag f, :public %>
     </div>
