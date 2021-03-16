@@ -55,7 +55,7 @@
   </section>
   <section class="flex flex-col items-center justify-center flex-grow max-w-lg py-4 mx-auto text-center">
     <h3 class="text-2xl">Practice your quiz anywhere</h3>
-    <p>No installation. No software update. Play it instantly.</p>
+    <p>No installation. No software updates. Play it instantly.</p>
   </section>
 </section>
 
@@ -64,7 +64,7 @@
       <section class="flex flex-col items-center justify-center flex-grow max-w-lg py-4 mx-auto text-center">
         <h3 class="text-2xl">Never forget a thing</h3>
         <p>
-          We use SuperMemo2 which is an Space Repetition algorithm to help
+          We use SuperMemo2 which is an Spaced Repetition algorithm to help
           you remember your quiz. Forever.
         </p>
       </section>
