@@ -61,7 +61,7 @@
           </div>
 
           <%= if @card.note.hint do %>
-            <div class="max-w-full p-3 text-sm border bg-blue-50 prose rounded-md" x-show="hint">
+            <div class="max-w-full p-3 text-sm border bg-blue-50 prose rounded-md" x-show="hint || check" x-cloak>
               <%= raw Earmark.as_html!(@card.note.hint) %>
             </div>
           <% end %>
@@ -70,7 +70,7 @@
       <section class="py-6 text-center" x-cloak>
         <input type="hidden" name="card_id" value="<%= @card.id %>">
         <div x-show="check" class="flex items-center justify-between space-x-3">
-          <button type="submit" name="answer" value="1" class="flex-1 btn-danger">Forgot</button>
+          <button type="submit" name="answer" value="1" class="flex-1 btn-danger">Again</button>
           <button type="submit" name="answer" value="2" class="flex-1 btn-warning">Hard</button>
           <button type="submit" name="answer" value="3" class="flex-1 btn-primary">Good</button>
           <button type="submit" name="answer" value="4" class="flex-1 btn-success">Easy</button>
