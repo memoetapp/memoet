@@ -78,7 +78,7 @@
 
         <a class="btn-primary" @click="check = true" x-show="!check">Check answer</a>
         <%= if @card.note.hint do %>
-          <a class="btn-outline" @click="hint = true" x-show="!check">Show hint</a>
+          <a class="btn-outline" @click="hint = true" x-show="!check && !hint">Show hint</a>
         <% end %>
       </section>
     <% end %>

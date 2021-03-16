@@ -25,7 +25,8 @@ defmodule Memoet.Cards do
         c.card_queue == ^CardQueues.new() or
           (c.card_queue == ^CardQueues.learn() and c.due < ^now) or
           (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
-          (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today)
+          (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
+      order_by: fragment("RANDOM()")
     )
     |> filter_by_deck(params)
     |> where(user_id: ^user_id)
