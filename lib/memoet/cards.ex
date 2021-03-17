@@ -7,29 +7,42 @@ defmodule Memoet.Cards do
   alias Memoet.Repo
   alias Memoet.Cards.{Card, CardQueues}
   alias Memoet.SRS
-  alias Memoet.Users
   alias Memoet.Utils.TimestampUtil
 
   @limit 1
 
   def due_cards(user_id, params) do
-    srs_config = Users.get_srs_config(user_id)
-
-    collapse_time = srs_config.learn_ahead_time * 60
-
     today = get_today(params)
-    now = TimestampUtil.now() + collapse_time
+    now = TimestampUtil.now()
 
-    from(c in Card,
+    review_cards_query = from(c in Card,
       where:
-        c.card_queue == ^CardQueues.new() or
-          (c.card_queue == ^CardQueues.learn() and c.due < ^now) or
-          (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
-          (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
+        c.user_id == ^user_id and
+        (c.card_queue == ^CardQueues.learn() and c.due < ^now) or
+        (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
+        (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
       order_by: fragment("RANDOM()")
     )
+
+    new_cards_query = from(c in Card,
+      where:
+        c.user_id == ^user_id and
+        c.card_queue == ^CardQueues.new(),
+      order_by: fragment("RANDOM()")
+    )
+
+    cards = get_random_cards(review_cards_query, params)
+    if length(cards) > 0 do
+      cards
+    else
+      get_random_cards(new_cards_query, params)
+    end
+
+  end
+
+  defp get_random_cards(query, params) do
+    query
     |> filter_by_deck(params)
-    |> where(user_id: ^user_id)
     |> limit(@limit)
     |> Repo.all()
     |> Repo.preload([:note])

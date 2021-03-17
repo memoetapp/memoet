@@ -7,6 +7,8 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Notes
   alias Memoet.Cards
 
+  @public_limit 10
+
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
   def index(conn, params) do
     user = Pow.Plug.current_user(conn)
@@ -66,10 +68,25 @@ defmodule MemoetWeb.DeckController do
   end
 
   @spec edit(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def edit(conn, %{"id" => id}) do
+  def edit(conn, %{"id" => id} = params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
-    render(conn, "edit.html", deck: deck)
+
+    filter_notes = params
+                   |> Map.merge(%{"limit" => 0})
+    %{metadata: metadata} = Notes.list_notes(filter_notes)
+
+    # Allow user to set public / private when it is already public
+    # or having more than @public_limit notes
+    can_be_public = deck.public or metadata.total_count > @public_limit
+
+    render(
+      conn,
+      "edit.html",
+      deck: deck,
+      can_be_public: can_be_public,
+      public_limit: @public_limit
+    )
   end
 
   @spec delete(Plug.Conn.t(), map) :: Plug.Conn.t()

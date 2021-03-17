@@ -8,7 +8,8 @@ defmodule Memoet.Users.SrsConfig do
   alias Memoet.Users.User
 
   @srs_fields [
-    :learn_ahead_time,
+    # TODO: Support learn ahead feature
+    # :learn_ahead_time,
     :learn_steps,
     :relearn_steps,
     :initial_ease,

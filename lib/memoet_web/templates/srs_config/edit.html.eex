@@ -11,12 +11,6 @@
       </p>
 
       <section>
-        Learn ahead time (minutes)
-        <%= text_input f, :learn_ahead_time, required: true, class: "form-control form-block", value: @srs_config.learn_ahead_time %>
-        <%= error_tag f, :learn_ahead_time %>
-      </section>
-
-      <section>
         Learn steps (in minutes)
         <%= text_input f, :learn_steps, required: true, class: "form-control form-block", value: Enum.join(@srs_config.learn_steps, " ") %>
         <%= error_tag f, :learn_steps %>

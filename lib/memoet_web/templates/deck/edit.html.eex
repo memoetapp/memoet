@@ -14,7 +14,7 @@
       <%= text_input f, :name, value: @deck.name, required: true, class: "form-control form-block" %>
     </div>
 
-    <%= if false do %>
+    <%= if @can_be_public do %>
       <div class="flex items-center justify-start space-x-4">
         <span class="flex items-center justify-center space-x-1">
           <%= radio_button f, :public, true, checked: @deck.public == true, required: true %>
@@ -26,6 +26,8 @@
           <%= label f, :public, "Private" %>
         </span>
       </div>
+    <% else %>
+      <p>This deck needs at least <%= @public_limit %> notes to be public</p>
     <% end %>
 
     <div class="text-center space-x-2">
