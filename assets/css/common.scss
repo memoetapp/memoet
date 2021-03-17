@@ -17,6 +17,10 @@
     @apply cursor-pointer py-1 px-3 border border-indigo-600 rounded-md bg-transparent hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-indigo-500 transition-all;
   }
 
+  .btn-disabled {
+    @apply cursor-not-allowed bg-gray-200;
+  }
+
   .form-control {
     @apply appearance-none rounded-none relative px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm;
   }
