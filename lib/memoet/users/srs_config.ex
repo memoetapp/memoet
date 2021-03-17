@@ -21,13 +21,15 @@ defmodule Memoet.Users.SrsConfig do
     :minimum_review_interval,
     :graduating_interval_good,
     :graduating_interval_easy,
-    :leech_threshold
+    # TODO: Support leech feature
+    # :leech_threshold
   ]
   @required_fields [:user_id]
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "srs_config" do
+    # Not supported for now
     field(:learn_ahead_time, :integer, default: 20)
 
     field(:learn_steps, {:array, :float}, default: [1.0, 10.0])
@@ -46,7 +48,8 @@ defmodule Memoet.Users.SrsConfig do
     field(:graduating_interval_good, :integer, default: 1)
     field(:graduating_interval_easy, :integer, default: 4)
 
-    field(:leech_threshold, :integer, default: 8)
+    # Should be 7 or 8 times, we set 1_000_000 here to not support it for now
+    field(:leech_threshold, :integer, default: 1_000_000)
 
     belongs_to(:user, User, foreign_key: :user_id, references: :id, type: :binary_id)
 

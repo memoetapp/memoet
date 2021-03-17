@@ -20,3 +20,4 @@ config :memoet, MemoetWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+config :memoet, Oban, queues: false, plugins: false

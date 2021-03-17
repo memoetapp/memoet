@@ -46,6 +46,14 @@ defmodule Memoet.Decks do
     |> Repo.get_by!(id: id)
   end
 
+  def calculate_deck_stats(id) do
+    # This function will calculate decks statistics, but doing nothing for now
+    Deck
+    |> Repo.get_by!(id: id)
+    |> Deck.stats_changeset(%{updated_at: Timex.now()})
+    |> Repo.update()
+  end
+
   @spec delete_deck!(binary(), binary()) :: Deck.t()
   def delete_deck!(id, user_id) do
     Deck

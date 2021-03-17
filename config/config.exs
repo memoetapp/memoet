@@ -42,6 +42,14 @@ rescue
   _ -> IO.puts("no .env file found!")
 end
 
+# Job
+config :memoet, Oban,
+  repo: Memoet.Repo,
+  plugins: [
+    Oban.Plugins.Pruner,
+  ],
+  queues: [default: 10, pro: 50]
+
 # Auth
 config :memoet, :pow,
   user: Memoet.Users.User,

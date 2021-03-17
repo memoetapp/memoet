@@ -26,8 +26,8 @@ defmodule Memoet.Decks.Deck do
     timestamps()
   end
 
-  def changeset(note_or_changeset, attrs) do
-    note_or_changeset
+  def changeset(deck_or_changeset, attrs) do
+    deck_or_changeset
     |> cast(attrs, [
       :name,
       :public,
@@ -36,5 +36,10 @@ defmodule Memoet.Decks.Deck do
     ])
     |> validate_length(:name, max: @name_limit)
     |> validate_required([:name, :public, :user_id])
+  end
+
+  def stats_changeset(deck, attrs) do
+    deck
+    |> cast(attrs, [:updated_at])
   end
 end

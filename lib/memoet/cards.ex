@@ -37,7 +37,6 @@ defmodule Memoet.Cards do
     else
       get_random_cards(new_cards_query, params)
     end
-
   end
 
   defp get_random_cards(query, params) do
@@ -214,6 +213,10 @@ defmodule Memoet.Cards do
     card
     |> Card.srs_changeset(ecto_card)
     |> Repo.update()
+
+    %{deck_id: card.deck_id}
+    |> Memoet.Tasks.DeckStatsJob.new()
+    |> Oban.insert()
   end
 
   @spec filter_where(map) :: Ecto.Query.DynamicExpr.t()

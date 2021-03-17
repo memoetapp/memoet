@@ -3,7 +3,6 @@ defmodule MemoetWeb.NoteController do
 
   alias Memoet.Notes
   alias Memoet.Notes.{Note, Option}
-  alias Memoet.Cards
   alias Memoet.Decks
 
   @options_limit 5
