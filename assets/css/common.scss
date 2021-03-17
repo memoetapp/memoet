@@ -1,5 +1,8 @@
 // App wide common styles
 @layer components {
+  .btn-icon {
+    @apply flex items-center justify-center;
+  }
   .btn-primary {
     @apply cursor-pointer py-1 px-3 border border-transparent rounded-md bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-white transition-all;
   }
