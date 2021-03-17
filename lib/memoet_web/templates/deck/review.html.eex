@@ -12,7 +12,7 @@
 </header>
 
 <%= if @card do %>
-  <section x-data="{ hint: false, check: false, answer: '', options: <%= Poison.encode!(@card.note.options) %> }">
+  <section x-data="{ hint: false, choice: -1, check: false, answer: '', options: <%= Poison.encode!(@card.note.options) %> }">
     <%= form_for @conn, Routes.review_card_path(@conn, :review, @deck), [method: "PUT", class: "mt-8 space-y-8"], fn _f -> %>
       <section class="flex flex-col space-y-8">
           <%= if @card.note.image do %>
@@ -72,10 +72,22 @@
       <section class="py-6 text-center" x-cloak>
         <input type="hidden" name="card_id" value="<%= @card.id %>">
         <div x-show="check" class="flex items-center justify-between space-x-3">
-          <button type="submit" name="answer" value="1" class="flex-1 btn-danger">Again</button>
-          <button type="submit" name="answer" value="2" class="flex-1 btn-warning">Hard</button>
-          <button type="submit" name="answer" value="3" class="flex-1 btn-primary">Good</button>
-          <button type="submit" name="answer" value="4" class="flex-1 btn-success">Easy</button>
+          <button type="submit" name="answer" value="1" class="flex-1 btn-icon btn-danger" @click="choice = 1">
+            <svg class="w-5 h-5 mr-2 -ml-1 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" x-show="choice == 1"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            Again
+          </button>
+          <button type="submit" name="answer" value="2" class="flex-1 btn-icon btn-warning" @click="choice= 2">
+            <svg class="w-5 h-5 mr-2 -ml-1 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" x-show="choice == 2"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            Hard
+          </button>
+          <button type="submit" name="answer" value="3" class="flex-1 btn-icon btn-primary" @click="choice = 3">
+            <svg class="w-5 h-5 mr-2 -ml-1 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" x-show="choice == 3"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            Good
+          </button>
+          <button type="submit" name="answer" value="4" class="flex-1 btn-icon btn-success" @click="choice = 4">
+            <svg class="w-5 h-5 mr-2 -ml-1 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" x-show="choice == 4"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            Easy
+          </button>
         </div>
 
         <a class="btn-primary" @click="check = true" x-show="!check">Check answer</a>
