@@ -87,12 +87,6 @@
         <%= text_input f, :relearn_steps, required: true, class: "form-control form-block", value: Enum.join(@srs_config.relearn_steps, " ") %>
         <%= error_tag f, :relearn_steps %>
       </section>
-
-      <section>
-        Leech threshold (times)
-        <%= text_input f, :leech_threshold, required: true, class: "form-control form-block", value: @srs_config.leech_threshold %>
-        <%= error_tag f, :leech_threshold %>
-      </section>
     </section>
 
     <div class="py-6 text-center space-x-2">

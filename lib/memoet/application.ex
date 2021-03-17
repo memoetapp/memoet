@@ -17,6 +17,8 @@ defmodule Memoet.Application do
       {SiteEncrypt.Phoenix, MemoetWeb.Endpoint},
       # Cache
       {Cachex, name: :memoet_cachex},
+      # Job
+      {Oban, oban_config()},
       # Pow delete expired token
       {Pow.Postgres.Store.AutoDeleteExpired, [interval: :timer.hours(1)]}
     ]
@@ -32,5 +34,9 @@ defmodule Memoet.Application do
   def config_change(changed, _new, removed) do
     MemoetWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp oban_config do
+    Application.get_env(:memoet, Oban)
   end
 end
