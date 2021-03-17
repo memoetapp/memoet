@@ -34,8 +34,16 @@
       <p class="text-sm opacity-70">* This deck needs at least <%= @public_limit %> notes to be public</p>
     <% end %>
 
-    <div class="text-center space-x-2">
+    <div class="text-center space-x-2" x-data="{ confirmDelete: false }">
       <%= submit "Save", class: "btn-primary" %>
+      <button type="button" class="btn-warning" @click="confirmDelete = confirm('This will delete all the deck\'s notes, click Confirm delete to delete it permantly')" x-show="!confirmDelete">Delete</button>
+
+      <%= link "Confirm delete",
+          to: Routes.deck_path(@conn, :delete, @deck),
+          method: "DELETE",
+          class: "btn-danger",
+          "x-show": "confirmDelete"
+      %>
     </div>
   <% end %>
 </section>
