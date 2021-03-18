@@ -20,7 +20,7 @@ defmodule Memoet.Users.SrsConfig do
     :maximum_review_interval,
     :minimum_review_interval,
     :graduating_interval_good,
-    :graduating_interval_easy,
+    :graduating_interval_easy
     # TODO: Support leech feature
     # :leech_threshold
   ]

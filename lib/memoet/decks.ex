@@ -10,23 +10,26 @@ defmodule Memoet.Decks do
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
-    cursor_before = if Map.has_key?(params, "before") and params["before"] != "" do
-      params["before"]
-    else
-      nil
-    end
+    cursor_before =
+      if Map.has_key?(params, "before") and params["before"] != "" do
+        params["before"]
+      else
+        nil
+      end
 
-    cursor_after = if Map.has_key?(params, "after") and params["after"] != "" do
-      params["after"]
-    else
-      nil
-    end
+    cursor_after =
+      if Map.has_key?(params, "after") and params["after"] != "" do
+        params["after"]
+      else
+        nil
+      end
 
-    limit = if Map.has_key?(params, "limit") do
-      params["limit"]
-    else
-      10
-    end
+    limit =
+      if Map.has_key?(params, "limit") do
+        params["limit"]
+      else
+        10
+      end
 
     Deck
     |> where(^filter_where(params))

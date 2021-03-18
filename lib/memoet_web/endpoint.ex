@@ -77,9 +77,12 @@ defmodule MemoetWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug Pow.Plug.Session, otp_app: :memoet,
-    session_ttl_renewal: :timer.hours(24*7),
-    credentials_cache_store: {Pow.Store.CredentialsCache, ttl: :timer.hours(24*7)}
+
+  plug Pow.Plug.Session,
+    otp_app: :memoet,
+    session_ttl_renewal: :timer.hours(24 * 7),
+    credentials_cache_store: {Pow.Store.CredentialsCache, ttl: :timer.hours(24 * 7)}
+
   plug PowPersistentSession.Plug.Cookie
   plug MemoetWeb.Router
 end

@@ -12,8 +12,10 @@ defmodule MemoetWeb.DeckController do
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
   def index(conn, params) do
     user = Pow.Plug.current_user(conn)
-    params = params
-             |> Map.merge(%{"user_id" => user.id})
+
+    params =
+      params
+      |> Map.merge(%{"user_id" => user.id})
 
     %{entries: decks, metadata: metadata} = Decks.list_decks(params)
     render(conn, "index.html", decks: decks, metadata: metadata)
@@ -21,8 +23,10 @@ defmodule MemoetWeb.DeckController do
 
   @spec public(Plug.Conn.t(), map) :: Plug.Conn.t()
   def public(conn, params) do
-    params = params
-             |> Map.merge(%{"public" => true})
+    params =
+      params
+      |> Map.merge(%{"public" => true})
+
     %{entries: public_decks, metadata: metadata} = Decks.list_decks(params)
     render(conn, "public.html", public_decks: public_decks, metadata: metadata)
   end
@@ -72,8 +76,10 @@ defmodule MemoetWeb.DeckController do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
 
-    filter_notes = params
-                   |> Map.merge(%{"limit" => 0})
+    filter_notes =
+      params
+      |> Map.merge(%{"limit" => 0})
+
     %{metadata: metadata} = Notes.list_notes(filter_notes)
 
     # Allow user to set public / private when it is already public
@@ -109,28 +115,34 @@ defmodule MemoetWeb.DeckController do
       |> put_flash(:error, "Clone deck failed!")
       |> redirect(to: "/decks")
     else
-      params = from_struct(deck)
-               |> Map.merge(%{
-                 "user_id" => user.id,
-                 "source_id" => deck.id,
-               })
+      params =
+        from_struct(deck)
+        |> Map.merge(%{
+          "user_id" => user.id,
+          "source_id" => deck.id
+        })
+
       case Decks.create_deck(params) do
         {:ok, %Deck{} = new_deck} ->
-          Repo.transaction(fn ->
-            Notes.stream_notes(deck.id)
-            |> Stream.map(fn note ->
-                params = from_struct(note)
-                         |> Map.merge(%{
-                           "options" => Enum.map(note.options, fn o -> from_struct(o) end),
-                           "deck_id" => new_deck.id,
-                           "user_id" => user.id,
-                         })
+          Repo.transaction(
+            fn ->
+              Notes.stream_notes(deck.id)
+              |> Stream.map(fn note ->
+                params =
+                  from_struct(note)
+                  |> Map.merge(%{
+                    "options" => Enum.map(note.options, fn o -> from_struct(o) end),
+                    "deck_id" => new_deck.id,
+                    "user_id" => user.id
+                  })
 
                 Notes.create_note_with_card_transaction(params)
                 |> Memoet.Repo.transaction()
-            end)
-            |> Stream.run()
-          end, timeout: :infinity)
+              end)
+              |> Stream.run()
+            end,
+            timeout: :infinity
+          )
 
           conn
           |> put_flash(:info, "Clone deck success!")

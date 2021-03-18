@@ -15,23 +15,26 @@ defmodule Memoet.Cards do
     today = get_today(params)
     now = TimestampUtil.now()
 
-    review_cards_query = from(c in Card,
-      where:
-        c.user_id == ^user_id and
-        (c.card_queue == ^CardQueues.learn() and c.due < ^now) or
-        (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
-        (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
-      order_by: fragment("RANDOM()")
-    )
+    review_cards_query =
+      from(c in Card,
+        where:
+          (c.user_id == ^user_id and
+             (c.card_queue == ^CardQueues.learn() and c.due < ^now)) or
+            (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
+            (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
+        order_by: fragment("RANDOM()")
+      )
 
-    new_cards_query = from(c in Card,
-      where:
-        c.user_id == ^user_id and
-        c.card_queue == ^CardQueues.new(),
-      order_by: fragment("RANDOM()")
-    )
+    new_cards_query =
+      from(c in Card,
+        where:
+          c.user_id == ^user_id and
+            c.card_queue == ^CardQueues.new(),
+        order_by: fragment("RANDOM()")
+      )
 
     cards = get_random_cards(review_cards_query, params)
+
     if length(cards) > 0 do
       cards
     else
@@ -222,12 +225,12 @@ defmodule Memoet.Cards do
   def next_intervals(%Card{} = card) do
     scheduler = SRS.get_scheduler(card.user_id)
 
-    srs_card =
-      SRS.Card.from_ecto_card(card)
+    srs_card = SRS.Card.from_ecto_card(card)
 
     [Choices.again(), Choices.hard(), Choices.ok(), Choices.easy()]
     |> Enum.map(fn choice ->
-     {choice, SRS.Sm2.next_interval_string(srs_card, scheduler, Memoet.Cards.Choices.to_atom(choice))}
+      {choice,
+       SRS.Sm2.next_interval_string(srs_card, scheduler, Memoet.Cards.Choices.to_atom(choice))}
     end)
     |> Map.new()
   end

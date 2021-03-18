@@ -19,4 +19,3 @@ defmodule Memoet.Tasks.DeckStatsJob do
     :ok
   end
 end
-

@@ -8,8 +8,10 @@ defmodule MemoetWeb.APIAuthPlug do
 
   @impl true
   def fetch(conn, _config) do
-    user = fetch_auth_token(conn)
-           |> get_user_from_token()
+    user =
+      fetch_auth_token(conn)
+      |> get_user_from_token()
+
     {conn, user}
   end
 
@@ -31,11 +33,12 @@ defmodule MemoetWeb.APIAuthPlug do
   end
 
   defp get_user_from_token(token) do
-    {_, user} = Cachex.fetch(
-      :memoet_cachex,
-      get_token_cache(token),
-      fn(_key) -> {:commit, Users.find_user_by_token(token)} end
-    )
+    {_, user} =
+      Cachex.fetch(
+        :memoet_cachex,
+        get_token_cache(token),
+        fn _key -> {:commit, Users.find_user_by_token(token)} end
+      )
 
     user
   end

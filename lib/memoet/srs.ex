@@ -10,11 +10,14 @@ defmodule Memoet.SRS do
   @spec get_scheduler(String.t()) :: Scheduler.t()
   def get_scheduler(user_id) do
     cache_key = get_cache_key(user_id)
-    {_, cache_value } = Cachex.fetch(
-      :memoet_cachex,
-      cache_key,
-      fn(_key) -> {:commit, get_scheduler_from_db(user_id)} end
-    )
+
+    {_, cache_value} =
+      Cachex.fetch(
+        :memoet_cachex,
+        cache_key,
+        fn _key -> {:commit, get_scheduler_from_db(user_id)} end
+      )
+
     cache_value
   end
 

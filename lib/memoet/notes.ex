@@ -11,17 +11,19 @@ defmodule Memoet.Notes do
 
   @spec list_notes(map) :: map()
   def list_notes(params) do
-    cursor_before = if Map.has_key?(params, "before") and params["before"] != "" do
-      params["before"]
-    else
-      nil
-    end
+    cursor_before =
+      if Map.has_key?(params, "before") and params["before"] != "" do
+        params["before"]
+      else
+        nil
+      end
 
-    cursor_after = if Map.has_key?(params, "after") and params["after"] != "" do
-      params["after"]
-    else
-      nil
-    end
+    cursor_after =
+      if Map.has_key?(params, "after") and params["after"] != "" do
+        params["after"]
+      else
+        nil
+      end
 
     Note
     |> where(deck_id: ^params["id"])

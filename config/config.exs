@@ -46,7 +46,7 @@ end
 config :memoet, Oban,
   repo: Memoet.Repo,
   plugins: [
-    Oban.Plugins.Pruner,
+    Oban.Plugins.Pruner
   ],
   queues: [default: 10, pro: 50]
 
