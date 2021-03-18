@@ -77,22 +77,12 @@
       <section class="py-6 text-center" x-cloak>
         <input type="hidden" name="card_id" value="<%= @card.id %>">
         <div x-show="check" class="flex items-center justify-between space-x-3">
-          <button type="submit" name="answer" value="1" class="flex-1 btn-icon btn-danger" @click="choice = 1">
-            <svg class="w-4 h-4 mr-2 -ml-1" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff" x-show="choice == 1"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"> <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
-            Again (<%= @intervals[1] %>)
-          </button>
-          <button type="submit" name="answer" value="2" class="flex-1 btn-icon btn-warning" @click="choice= 2">
-            <svg class="w-4 h-4 mr-2 -ml-1" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff" x-show="choice == 2"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"> <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
-            Hard (<%= @intervals[2] %>)
-          </button>
-          <button type="submit" name="answer" value="3" class="flex-1 btn-icon btn-primary" @click="choice = 3">
-            <svg class="w-4 h-4 mr-2 -ml-1" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff" x-show="choice == 3"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"> <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
-            Good (<%= @intervals[3] %>)
-          </button>
-          <button type="submit" name="answer" value="4" class="flex-1 btn-icon btn-success" @click="choice = 4">
-            <svg class="w-4 h-4 mr-2 -ml-1" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff" x-show="choice == 4"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"> <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
-            Easy (<%= @intervals[4] %>)
-          </button>
+          <%= for {label, choice} <- [{"Again", 1}, {"Hard", 2}, {"Good", 3}, {"Easy", 4}] do %>
+            <button type="submit" name="answer" value="<%= choice %>" class="flex-1 btn-icon btn-danger" @click="choice = 1">
+              <%= label %> <span x-show="choice != <%= choice %>" class="ml-2">(<%= @intervals[choice] %>)</span>
+              <svg class="w-4 h-4 ml-2" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff" x-show="choice == 1"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"> <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
+            </button>
+          <% end %>
         </div>
 
         <a class="btn-primary" @click="check = true" x-show="!check">Check answer</a>
