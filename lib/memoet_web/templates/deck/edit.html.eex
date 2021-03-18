@@ -42,7 +42,8 @@
           to: Routes.deck_path(@conn, :delete, @deck),
           method: "DELETE",
           class: "btn-danger",
-          "x-show": "confirmDelete"
+          "x-show": "confirmDelete",
+          "x-cloak": true
       %>
     </div>
   <% end %>

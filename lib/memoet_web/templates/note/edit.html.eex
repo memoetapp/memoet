@@ -64,7 +64,8 @@
           to: Routes.deck_note_path(@conn, :delete, @deck, @note),
           method: "DELETE",
           class: "btn-danger",
-          "x-show": "confirmDelete"
+          "x-show": "confirmDelete",
+          "x-cloak": true
       %>
     </div>
   <% end %>

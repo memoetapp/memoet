@@ -180,7 +180,7 @@ defmodule MemoetWeb.DeckController do
 
       [card | _] ->
         conn
-        |> render("review.html", card: card, deck: deck)
+        |> render("review.html", card: card, deck: deck, intervals: Cards.next_intervals(card))
     end
   end
 

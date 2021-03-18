@@ -5,7 +5,7 @@ defmodule Memoet.Cards do
   import Ecto.Query
 
   alias Memoet.Repo
-  alias Memoet.Cards.{Card, CardQueues}
+  alias Memoet.Cards.{Card, CardQueues, Choices}
   alias Memoet.SRS
   alias Memoet.Utils.TimestampUtil
 
@@ -201,7 +201,6 @@ defmodule Memoet.Cards do
   @spec answer_card(Card.t(), integer()) :: {:ok, Card.t()} | {:error, Ecto.Changeset.t()}
   def answer_card(%Card{} = card, choice) do
     choice = Memoet.Cards.Choices.to_atom(choice)
-
     scheduler = SRS.get_scheduler(card.user_id)
 
     srs_card =
@@ -217,6 +216,20 @@ defmodule Memoet.Cards do
     %{deck_id: card.deck_id}
     |> Memoet.Tasks.DeckStatsJob.new()
     |> Oban.insert()
+  end
+
+  @spec next_intervals(Card.t()) :: map()
+  def next_intervals(%Card{} = card) do
+    scheduler = SRS.get_scheduler(card.user_id)
+
+    srs_card =
+      SRS.Card.from_ecto_card(card)
+
+    [Choices.again(), Choices.hard(), Choices.ok(), Choices.easy()]
+    |> Enum.map(fn choice ->
+     {choice, SRS.Sm2.next_interval_string(srs_card, scheduler, Memoet.Cards.Choices.to_atom(choice))}
+    end)
+    |> Map.new()
   end
 
   @spec filter_where(map) :: Ecto.Query.DynamicExpr.t()
