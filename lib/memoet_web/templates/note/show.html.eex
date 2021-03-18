@@ -29,7 +29,7 @@
         <%= for o <- @note.options do %>
             <%= if @note.type == "multiple_choice" do %>
               <li class="flex items-center">
-                <input type="checkbox" <%= if o.correct, do: "checked" %> class="p-2 mr-2 form-checkbox" disabled />
+                <input type="checkbox" <%= if o.correct, do: "checked" %> class="p-2 mr-2 form-checkbox" disabled>
                 <p><%= o.content %></p>
               </li>
             <% else %>

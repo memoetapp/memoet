@@ -1,4 +1,4 @@
-<nav class="w-full border-b border-gray-300 shadow-sm">
+<nav class="w-full text-sm border-b border-gray-300 shadow-sm opacity-80">
   <div class="container flex flex-wrap items-center justify-between max-w-3xl px-4 py-2 mx-auto" x-data="{ open: false }">
     <div class="relative flex justify-between w-full md:w-auto md:static md:block md:justify-start">
       <button
@@ -16,17 +16,29 @@
     </div>
 
     <div
-      class="flex flex-col items-start justify-start flex-grow text-sm md:items-center md:flex-row md:justify-between md:flex md:bg-transparent md:my-0 md:space-y-0"
+      class="flex flex-col items-start justify-start flex-grow md:items-center md:flex-row md:justify-between md:flex md:bg-transparent md:my-0 md:space-y-0"
       :class="{ 'block rounded my-2 space-y-3': open, 'hidden': !open }"
       @click.away="open = false"
     >
-      <nav class="flex">
+      <nav class="flex items-center mr-8">
         <a href="/" class="text-link">
           <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
           Home
         </a>
       </nav>
-      <nav class="flex flex-col items-start justify-start md:flex-row md:space-x-4 md:items-center md:space-y-0 space-y-3" x-cloak>
+      <nav class="flex flex-col items-start justify-start flex-1 md:flex-row md:space-x-4 md:items-center md:space-y-0 space-y-3" x-cloak>
+        <span class="relative flex items-center flex-1">
+          <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          <form action="<%= Routes.search_path(@conn, :search) %>">
+            <input
+              type="text"
+              class="w-full p-0 text-sm border-none opacity-50 focus:opacity-80 focus:outline-none focus:ring-0"
+              name="q"
+              placeholder="Type to search..."
+            />
+          </form>
+        </span>
+
         <%= if Pow.Plug.current_user(@conn) do %>
           <a href="<%= Routes.account_path @conn, :show %>" class="text-link">
             <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>

@@ -44,6 +44,12 @@ defmodule MemoetWeb.Router do
     post "/signup", RegistrationController, :create, as: :signup
   end
 
+  scope "/", MemoetWeb do
+    pipe_through [:browser, :protected]
+
+    get("/search", DeckController, :search, as: :search)
+  end
+
   scope "/decks", MemoetWeb do
     pipe_through [:browser, :protected]
 

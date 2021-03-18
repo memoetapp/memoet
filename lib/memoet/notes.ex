@@ -8,25 +8,26 @@ defmodule Memoet.Notes do
   alias Memoet.Repo
   alias Memoet.Notes.Note
   alias Memoet.Cards
+  alias Memoet.Utils.StringUtil
 
   @spec list_notes(map) :: map()
   def list_notes(params) do
     cursor_before =
-      if Map.has_key?(params, "before") and params["before"] != "" do
+      if Map.has_key?(params, "before") and !StringUtil.blank?(params["before"]) do
         params["before"]
       else
         nil
       end
 
     cursor_after =
-      if Map.has_key?(params, "after") and params["after"] != "" do
+      if Map.has_key?(params, "after") and !StringUtil.blank?(params["after"]) do
         params["after"]
       else
         nil
       end
 
     Note
-    |> where(deck_id: ^params["id"])
+    |> where(^filter_where(params))
     |> order_by(asc: :inserted_at)
     |> Repo.paginate(
       before: cursor_before,
@@ -93,5 +94,24 @@ defmodule Memoet.Notes do
     Note
     |> Repo.get_by!(id: id, user_id: user_id)
     |> Repo.delete!()
+  end
+
+  @spec filter_where(map) :: Ecto.Query.DynamicExpr.t()
+  defp filter_where(attrs) do
+    Enum.reduce(attrs, dynamic(true), fn
+      {"user_id", value}, dynamic ->
+        dynamic([n], ^dynamic and n.user_id == ^value)
+
+      {"deck_id", value}, dynamic ->
+        dynamic([n], ^dynamic and n.deck_id == ^value)
+
+      {"q", value}, dynamic ->
+        q = "%" <> value <> "%"
+        dynamic([n], ^dynamic and ilike(n.title, ^q))
+
+      {_, _}, dynamic ->
+        # Not a where parameter
+        dynamic
+    end)
   end
 end

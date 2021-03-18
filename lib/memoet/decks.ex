@@ -93,6 +93,10 @@ defmodule Memoet.Decks do
       {"public", value}, dynamic ->
         dynamic([d], ^dynamic and d.public == ^value)
 
+      {"q", value}, dynamic ->
+        q = "%" <> value <> "%"
+        dynamic([d], ^dynamic and ilike(d.title, ^q))
+
       {_, _}, dynamic ->
         # Not a where parameter
         dynamic
