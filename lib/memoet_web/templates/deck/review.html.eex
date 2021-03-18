@@ -84,7 +84,7 @@
               type="submit"
               name="answer"
               value="<%= choice %>"
-              class="relative flex text-sm flex-1 flex-col space-y-0 <%= btn %>"
+              class="relative text-sm flex-1 flex-col space-y-0 btn-icon <%= btn %>"
               @click="choice = <%= choice %>"
               :class="{ 'cursor-not-allowed': choice == <%= choice %> }"
             >

@@ -69,8 +69,11 @@ defmodule MemoetWeb.DeckController do
   @spec search(Plug.Conn.t(), map) :: Plug.Conn.t()
   def search(conn, params) do
     user = Pow.Plug.current_user(conn)
-    params = params
-             |> Map.merge(%{user_id: user.id})
+
+    params =
+      params
+      |> Map.merge(%{user_id: user.id})
+
     %{entries: notes, metadata: metadata} = Notes.list_notes(params)
     render(conn, "search.html", notes: notes, metadata: metadata)
   end
