@@ -77,12 +77,22 @@
       <section class="py-6 text-center" x-cloak>
         <input type="hidden" name="card_id" value="<%= @card.id %>">
         <div x-show="check" class="flex items-center justify-between space-x-3">
-          <%= for {label, choice, color} <- [
-            {"Again", 1, "danger"}, {"Hard", 2, "warning"}, {"Good", 3, "primary"}, {"Easy", 4, "success"}
+          <%= for {label, choice, btn} <- [
+            {"Again", 1, "btn-danger"}, {"Hard", 2, "btn-warning"}, {"Good", 3, "btn-primary"}, {"Easy", 4, "btn-success"}
           ] do %>
-            <button type="submit" name="answer" value="<%= choice %>" class="flex-1 btn-icon btn-<%= color %>" @click="choice = <%= choice %>">
-              <%= label %> <span x-show="choice != <%= choice %>" class="ml-2">(<%= @intervals[choice] %>)</span>
-              <svg class="w-4 h-4 ml-2" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff" x-show="choice == <%= choice %>"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"> <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
+            <button
+              type="submit"
+              name="answer"
+              value="<%= choice %>"
+              class="relative flex text-sm flex-1 flex-col space-y-0 <%= btn %>"
+              @click="choice = <%= choice %>"
+              :class="{ 'cursor-not-allowed': choice == <%= choice %> }"
+            >
+              <%= label %>
+              <span class="flex items-center justify-center text-xs">
+                <%= @intervals[choice] %>
+                <svg class="w-4 h-4 ml-1" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff" x-show="choice == <%= choice %>"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"> <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
+              </span>
             </button>
           <% end %>
         </div>
