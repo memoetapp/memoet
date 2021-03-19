@@ -201,9 +201,12 @@ defmodule Memoet.Cards do
     end
   end
 
-  @spec answer_card(Card.t(), integer()) :: {:ok, Card.t()} | {:error, Ecto.Changeset.t()}
   def answer_card(%Card{} = card, choice) do
-    choice = Memoet.Cards.Choices.to_atom(choice)
+    choice = case Integer.parse(choice) do
+      {c, _} -> Memoet.Cards.Choices.to_atom(c)
+      :error -> Memoet.Cards.Choices.to_atom(Choices.ok())
+    end
+
     scheduler = SRS.get_scheduler(card.user_id)
 
     srs_card =
@@ -212,13 +215,13 @@ defmodule Memoet.Cards do
 
     ecto_card = Map.from_struct(SRS.Card.to_ecto_card(srs_card))
 
-    card
-    |> Card.srs_changeset(ecto_card)
-    |> Repo.update()
-
     %{deck_id: card.deck_id}
     |> Memoet.Tasks.DeckStatsJob.new()
     |> Oban.insert()
+
+    card
+    |> Card.srs_changeset(ecto_card)
+    |> Repo.update()
   end
 
   @spec next_intervals(Card.t()) :: map()
