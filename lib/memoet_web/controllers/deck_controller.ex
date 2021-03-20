@@ -6,6 +6,7 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Decks.Deck
   alias Memoet.Notes
   alias Memoet.Cards
+  alias Memoet.Utils.MapUtil
 
   @public_limit 10
 
@@ -145,7 +146,7 @@ defmodule MemoetWeb.DeckController do
 
   defp clone_deck(conn, deck, user) do
     params =
-      from_struct(deck)
+      MapUtil.from_struct(deck)
       |> Map.merge(%{
         "user_id" => user.id,
         "source_id" => deck.id
@@ -153,10 +154,12 @@ defmodule MemoetWeb.DeckController do
 
     case Decks.create_deck(params) do
       {:ok, %Deck{} = new_deck} ->
-        clone_notes(user, new_deck, deck)
+        %{from_deck_id: deck.id, to_deck_id: new_deck.id, to_user_id: user.id}
+        |> Memoet.Tasks.DeckCloneJob.new()
+        |> Oban.insert()
 
         conn
-        |> put_flash(:info, "Clone deck success!")
+        |> put_flash(:info, "Clone deck success, notes are copying over!")
         |> redirect(to: "/decks/" <> new_deck.id)
 
       {:error, _changeset} ->
@@ -164,34 +167,6 @@ defmodule MemoetWeb.DeckController do
         |> put_flash(:error, "Clone deck failed!")
         |> redirect(to: "/decks")
     end
-  end
-
-  defp clone_notes(user, new_deck, old_deck) do
-    Repo.transaction(
-      fn ->
-        Notes.stream_notes(old_deck.id)
-        |> Stream.map(fn note ->
-          params =
-            from_struct(note)
-            |> Map.merge(%{
-              "options" => Enum.map(note.options, fn o -> from_struct(o) end),
-              "deck_id" => new_deck.id,
-              "user_id" => user.id
-            })
-
-          Notes.create_note_with_card_transaction(params)
-          |> Memoet.Repo.transaction()
-        end)
-        |> Stream.run()
-      end,
-      timeout: :infinity
-    )
-  end
-
-  defp from_struct(struct) do
-    Map.from_struct(struct)
-    |> Enum.map(fn {k, v} -> {Atom.to_string(k), v} end)
-    |> Enum.into(%{})
   end
 
   @spec update(Plug.Conn.t(), map) :: Plug.Conn.t()

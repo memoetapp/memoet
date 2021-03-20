@@ -7,6 +7,8 @@ defmodule Memoet.Decks do
 
   alias Memoet.Repo
   alias Memoet.Decks.Deck
+  alias Memoet.Notes
+  alias Memoet.Utils.MapUtil
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
@@ -132,5 +134,27 @@ defmodule Memoet.Decks do
         # Not a where parameter
         dynamic
     end)
+  end
+
+  def clone_notes(from_deck_id, to_deck_id, to_user_id) do
+    Repo.transaction(
+      fn ->
+        Notes.stream_notes(from_deck_id)
+        |> Stream.map(fn note ->
+          params =
+            MapUtil.from_struct(note)
+            |> Map.merge(%{
+              "options" => Enum.map(note.options, fn o -> MapUtil.from_struct(o) end),
+              "deck_id" => to_deck_id,
+              "user_id" => to_user_id
+            })
+
+          Notes.create_note_with_card_transaction(params)
+          |> Memoet.Repo.transaction()
+        end)
+        |> Stream.run()
+      end,
+      timeout: :infinity
+    )
   end
 end

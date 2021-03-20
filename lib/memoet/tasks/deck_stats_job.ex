@@ -10,7 +10,7 @@ defmodule Memoet.Tasks.DeckStatsJob do
     queue: :default,
     priority: 3,
     max_attempts: 1,
-    tags: ["stats"],
+    tags: ["deck"],
     unique: [fields: [:args], keys: [:deck_id], period: 60]
 
   @impl Oban.Worker
