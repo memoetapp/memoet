@@ -23,11 +23,7 @@ defmodule MemoetWeb.DeckController do
 
   @spec public_index(Plug.Conn.t(), map) :: Plug.Conn.t()
   def public_index(conn, params) do
-    params =
-      params
-      |> Map.merge(%{"public" => true})
-
-    %{entries: public_decks, metadata: metadata} = Decks.list_decks(params)
+    %{entries: public_decks, metadata: metadata} = Decks.list_public_decks(params)
     render(conn, "public_index.html", public_decks: public_decks, metadata: metadata)
   end
 

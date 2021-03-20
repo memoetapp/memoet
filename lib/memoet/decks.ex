@@ -10,6 +10,40 @@ defmodule Memoet.Decks do
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
+    {cursor_before, cursor_after, limit} = get_pagination_params(params)
+
+    Deck
+    |> where(^filter_where(params))
+    |> order_by(desc: :updated_at)
+    |> Repo.paginate(
+      before: cursor_before,
+      after: cursor_after,
+      include_total_count: true,
+      cursor_fields: [{:updated_at, :desc}],
+      limit: limit
+    )
+  end
+
+  @spec list_public_decks(map) :: map()
+  def list_public_decks(params \\ %{}) do
+    {cursor_before, cursor_after, limit} = get_pagination_params(params)
+
+    params
+    |> Map.merge(%{"public" => true})
+
+    Deck
+    |> where(^filter_where(params))
+    |> order_by(desc: :inserted_at)
+    |> Repo.paginate(
+      before: cursor_before,
+      after: cursor_after,
+      include_total_count: true,
+      cursor_fields: [{:inserted_at, :desc}],
+      limit: limit
+    )
+  end
+
+  defp get_pagination_params(params) do
     cursor_before =
       if Map.has_key?(params, "before") and params["before"] != "" do
         params["before"]
@@ -31,16 +65,7 @@ defmodule Memoet.Decks do
         10
       end
 
-    Deck
-    |> where(^filter_where(params))
-    |> order_by(desc: :updated_at)
-    |> Repo.paginate(
-      before: cursor_before,
-      after: cursor_after,
-      include_total_count: true,
-      cursor_fields: [{:updated_at, :desc}],
-      limit: limit
-    )
+    {cursor_before, cursor_after, limit}
   end
 
   @spec get_deck!(binary()) :: Deck.t()
