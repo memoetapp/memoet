@@ -1,7 +1,6 @@
 defmodule MemoetWeb.DeckController do
   use MemoetWeb, :controller
 
-  alias Memoet.Repo
   alias Memoet.Decks
   alias Memoet.Decks.Deck
   alias Memoet.Notes
