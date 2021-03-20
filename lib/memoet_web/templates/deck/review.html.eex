@@ -5,8 +5,6 @@
     </a>
     <%= if @card do %>
       <%= @card.note.title %>
-    <% else %>
-      Review
     <% end %>
   </h1>
   <%= if @card do %>
@@ -18,7 +16,7 @@
 
 <%= if @card do %>
   <section x-data="{ hint: false, choice: -1, check: false, answer: '', options: <%= Poison.encode!(@card.note.options) %> }">
-    <%= form_for @conn, Routes.review_card_path(@conn, :review, @deck), [method: "PUT", class: "mt-8 space-y-8"], fn _f -> %>
+    <%= form_for @conn, Routes.practice_path(@conn, :answer, @deck), [method: "PUT", class: "mt-8 space-y-8"], fn _f -> %>
       <section class="flex flex-col space-y-8">
           <%= if @card.note.image do %>
             <img src="<%= @card.note.image %>" alt="<%= @card.note.title %> image" />
@@ -101,15 +99,15 @@
           <% end %>
         </div>
 
-        <a class="btn-primary" @click="check = true" x-show="!check">Check answer</a>
+        <a class="btn-primary" @click="check = true" x-show="!check">Check</a>
         <%= if @card.note.hint do %>
-          <a class="btn-outline" @click="hint = true" x-show="!check && !hint">Show hint</a>
+          <a class="btn-outline" @click="hint = true" x-show="!check && !hint">Hint</a>
         <% end %>
       </section>
     <% end %>
   </section>
 <% else %>
   <p class="py-6 text-center">
-    No more notes to review for now.
+    No more cards to practice for now.
   </p>
 <% end %>

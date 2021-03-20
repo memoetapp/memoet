@@ -59,8 +59,8 @@ defmodule MemoetWeb.Router do
 
     get("/:id/clone", DeckController, :clone, as: :deck)
 
-    get("/:id/review", DeckController, :due, as: :review_card)
-    put("/:id/review", DeckController, :review, as: :review_card)
+    get("/:id/practice", DeckController, :practice, as: :practice)
+    put("/:id/practice", DeckController, :answer, as: :practice)
   end
 
   scope "/user", MemoetWeb do

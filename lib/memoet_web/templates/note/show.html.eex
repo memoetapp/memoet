@@ -50,8 +50,8 @@
 </section>
 
 <section class="py-10 text-center space-x-2">
-  <a href="<%= Routes.review_card_path(@conn, :due, @deck) %>" class="btn-outline">
-    Review
+  <a href="<%= Routes.practice_path(@conn, :practice, @deck, note_id: @note.id) %>" class="btn-outline">
+    Practice
   </a>
 </section>
 

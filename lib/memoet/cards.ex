@@ -202,10 +202,11 @@ defmodule Memoet.Cards do
   end
 
   def answer_card(%Card{} = card, choice) do
-    choice = case Integer.parse(choice) do
-      {c, _} -> Memoet.Cards.Choices.to_atom(c)
-      :error -> Memoet.Cards.Choices.to_atom(Choices.ok())
-    end
+    choice =
+      case Integer.parse(choice) do
+        {c, _} -> Memoet.Cards.Choices.to_atom(c)
+        :error -> Memoet.Cards.Choices.to_atom(Choices.ok())
+      end
 
     scheduler = SRS.get_scheduler(card.user_id)
 
@@ -242,10 +243,14 @@ defmodule Memoet.Cards do
   defp filter_where(attrs) do
     Enum.reduce(attrs, dynamic(true), fn
       {"card_type", value}, dynamic ->
-        dynamic([p], ^dynamic and p.card_type == ^value)
+        dynamic([c], ^dynamic and c.card_type == ^value)
 
       {"card_queue", value}, dynamic ->
-        dynamic([p], ^dynamic and p.card_queue == ^value)
+        dynamic([c], ^dynamic and c.card_queue == ^value)
+
+      {"note_id", value}, dynamic ->
+        IO.puts value
+        dynamic([c], ^dynamic and c.note_id == ^value)
 
       {_, _}, dynamic ->
         # Not a where parameter
