@@ -194,15 +194,22 @@ defmodule MemoetWeb.DeckController do
   @spec practice(Plug.Conn.t(), map) :: Plug.Conn.t()
   def practice(conn, %{"id" => deck_id} = params) do
     user = Pow.Plug.current_user(conn)
-    deck = Decks.get_deck!(deck_id, user.id)
+
+    deck = case user do
+      nil ->
+        Decks.get_public_deck!(deck_id)
+
+      _ ->
+        Decks.get_deck!(deck_id, user.id)
+    end
 
     cards =
       case params do
         %{"note_id" => note_id} ->
-          Cards.list_cards(user.id, %{"deck_id" => deck_id, "note_id" => note_id})
+          Cards.list_cards(%{"deck_id" => deck_id, "note_id" => note_id})
 
         _ ->
-          Cards.due_cards(user.id, %{"deck_id" => deck_id})
+          Cards.due_cards(%{"deck_id" => deck_id})
       end
 
     case cards do
@@ -217,13 +224,19 @@ defmodule MemoetWeb.DeckController do
   end
 
   @spec answer(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def answer(conn, %{"id" => _deck_id, "card_id" => card_id, "answer" => choice} = _params) do
-    user = Pow.Plug.current_user(conn)
-    card = Cards.get_card!(card_id, user.id)
+  def answer(conn, %{"id" => deck_id, "card_id" => card_id, "answer" => choice} = _params) do
+    case Pow.Plug.current_user(conn) do
+      nil ->
+        conn
+        |> put_flash(:error, "You are practicing in guest mode, your progress will not be saved!")
+        |> redirect(to: Routes.community_deck_path(conn, :practice, %Deck{id: deck_id}))
 
-    Cards.answer_card(card, choice)
+      user ->
+        card = Cards.get_card!(card_id, user.id)
+        Cards.answer_card(card, choice)
 
-    conn
-    |> redirect(to: Routes.practice_path(conn, :practice, %Deck{id: card.deck_id}))
+        conn
+        |> redirect(to: Routes.practice_path(conn, :practice, %Deck{id: deck_id}))
+    end
   end
 end

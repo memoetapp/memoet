@@ -11,4 +11,16 @@
   .header__subtitle {
     @apply opacity-70;
   }
+
+  .pagination__wrapper {
+    @apply flex items-center justify-between py-6 opacity-70;
+  }
+
+  .pagination__button {
+    @apply flex items-center justify-center space-x-1;
+  }
+
+  .pagination__nav {
+    @apply relative flex items-center justify-center w-8 h-8 p-0 mx-1 border text-xs leading-tight rounded-md;
+  }
 }

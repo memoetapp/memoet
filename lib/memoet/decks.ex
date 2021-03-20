@@ -49,6 +49,12 @@ defmodule Memoet.Decks do
     |> Repo.get_by!(id: id)
   end
 
+  @spec get_public_deck!(binary()) :: Deck.t()
+  def get_public_deck!(id) do
+    Deck
+    |> Repo.get_by!(id: id, public: true)
+  end
+
   def calculate_deck_stats(id) do
     # This function will calculate decks statistics, but doing nothing for now
     Deck

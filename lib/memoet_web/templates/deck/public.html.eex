@@ -19,22 +19,22 @@
   </ul>
 </section>
 
-<section class="flex items-center justify-between py-6 opacity-70">
+<section class="pagination__wrapper">
   <p class="text-sm">
     <%= @metadata.total_count %> total
   </p>
 
-  <ul class="flex items-center justify-center space-x-1">
+  <ul class="pagination__button">
     <%= if @metadata.before do %>
       <li>
-        <a href="<%= Routes.community_deck_path(@conn, :public, %{ before: @metadata.before }) %>" class="relative flex items-center justify-center w-8 h-8 p-0 mx-1 border text-xsleading-tight rounded-md">
+        <a href="<%= Routes.community_deck_path(@conn, :public, %{ before: @metadata.before }) %>" class="pagination__nav">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </a>
       </li>
     <% end %>
     <%= if @metadata.after do %>
       <li>
-        <a href="<%= Routes.community_deck_path(@conn, :public, %{ after: @metadata.after }) %>" class="relative flex items-center justify-center w-8 h-8 p-0 mx-1 border text-xsleading-tight rounded-md">
+        <a href="<%= Routes.community_deck_path(@conn, :public, %{ after: @metadata.after }) %>" class="pagination__nav">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </a>
       </li>

@@ -11,25 +11,23 @@ defmodule Memoet.Cards do
 
   @limit 1
 
-  def due_cards(user_id, params) do
+  def due_cards(params) do
     today = get_today(params)
     now = TimestampUtil.now()
 
     review_cards_query =
       from(c in Card,
         where:
-          (c.user_id == ^user_id and
-             (c.card_queue == ^CardQueues.learn() and c.due < ^now)) or
-            (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
-            (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
+          (c.card_queue == ^CardQueues.learn() and c.due < ^now) or
+          (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
+          (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
         order_by: fragment("RANDOM()")
       )
 
     new_cards_query =
       from(c in Card,
         where:
-          c.user_id == ^user_id and
-            c.card_queue == ^CardQueues.new(),
+          c.card_queue == ^CardQueues.new(),
         order_by: fragment("RANDOM()")
       )
 
@@ -44,21 +42,10 @@ defmodule Memoet.Cards do
 
   defp get_random_cards(query, params) do
     query
-    |> filter_by_deck(params)
+    |> where(^filter_where(params))
     |> limit(@limit)
     |> Repo.all()
     |> Repo.preload([:note])
-  end
-
-  defp filter_by_deck(query, params) do
-    case params do
-      %{deck_id: deck_id} ->
-        query
-        |> where(deck_id: ^deck_id)
-
-      _ ->
-        query
-    end
   end
 
   defp get_today(params) do
@@ -68,11 +55,10 @@ defmodule Memoet.Cards do
     end
   end
 
-  @spec list_cards(binary(), map) :: [Card.t()]
-  def list_cards(user_id, params) do
+  @spec list_cards(map) :: [Card.t()]
+  def list_cards(params) do
     Card
     |> where(^filter_where(params))
-    |> where(user_id: ^user_id)
     |> limit(@limit)
     |> Repo.all()
     |> Repo.preload([:note])
@@ -250,6 +236,9 @@ defmodule Memoet.Cards do
 
       {"note_id", value}, dynamic ->
         dynamic([c], ^dynamic and c.note_id == ^value)
+
+      {"deck_id", value}, dynamic ->
+        dynamic([c], ^dynamic and c.deck_id == ^value)
 
       {_, _}, dynamic ->
         # Not a where parameter
