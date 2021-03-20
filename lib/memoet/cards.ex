@@ -19,15 +19,14 @@ defmodule Memoet.Cards do
       from(c in Card,
         where:
           (c.card_queue == ^CardQueues.learn() and c.due < ^now) or
-          (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
-          (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
+            (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
+            (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
         order_by: fragment("RANDOM()")
       )
 
     new_cards_query =
       from(c in Card,
-        where:
-          c.card_queue == ^CardQueues.new(),
+        where: c.card_queue == ^CardQueues.new(),
         order_by: fragment("RANDOM()")
       )
 

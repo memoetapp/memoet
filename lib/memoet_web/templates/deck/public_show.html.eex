@@ -53,22 +53,12 @@
 </section>
 
 <section class="py-10 text-center space-x-2">
-  <%= if Pow.Plug.current_user(@conn) != nil do %>
-    <%= if @deck.user_id == Pow.Plug.current_user(@conn).id do %>
-      <a class="btn-primary" href="<%= Routes.deck_path @conn, :show, @deck %>">
-        Go to your deck
-      </a>
-    <% else %>
-      <a class="btn-outline" href="<%= Routes.deck_path @conn, :clone, @deck %>">
-        Copy to your account
-      </a>
-    <% end %>
-  <% else %>
-    <a href="<%= Routes.community_deck_path(@conn, :public_practice, @deck) %>" class="btn-primary">
-      Demo practice
-    </a>
+  <a href="<%= Routes.community_deck_path(@conn, :public_practice, @deck) %>" class="btn-primary">
+    Preview
+  </a>
+  <%= if Pow.Plug.current_user(@conn) == nil or @deck.user_id != Pow.Plug.current_user(@conn).id do %>
     <a class="btn-outline" href="<%= Routes.deck_path @conn, :clone, @deck %>">
-      Copy to your account
+      Copy to my account
     </a>
   <% end %>
 </section>

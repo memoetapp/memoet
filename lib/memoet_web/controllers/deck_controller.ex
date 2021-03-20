@@ -260,7 +260,11 @@ defmodule MemoetWeb.DeckController do
 
       [card | _] ->
         conn
-        |> render("public_practice.html", card: card, deck: deck, intervals: Cards.next_intervals(card))
+        |> render("public_practice.html",
+          card: card,
+          deck: deck,
+          intervals: Cards.next_intervals(card)
+        )
     end
   end
 
@@ -277,7 +281,7 @@ defmodule MemoetWeb.DeckController do
   @spec public_answer(Plug.Conn.t(), map) :: Plug.Conn.t()
   def public_answer(conn, %{"id" => deck_id} = _params) do
     conn
-    |> put_flash(:error, "You are practicing in demo mode, your progress will not be saved!")
+    |> put_flash(:error, "You are practicing in preview mode, your progress will not be saved!")
     |> redirect(to: Routes.community_deck_path(conn, :public_practice, %Deck{id: deck_id}))
   end
 end

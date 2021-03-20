@@ -14,5 +14,9 @@
         Created <%= Timex.format!(@deck.inserted_at, "{relative}", :relative) %>
       </p>
     </div>
+
+    <a href="<%= Routes.community_deck_path(@conn, :public_practice, @deck) %>" class="flex-none text-sm btn-outline">
+      Preview
+    </a>
   </div>
 </li>
