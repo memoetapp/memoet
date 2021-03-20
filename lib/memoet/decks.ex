@@ -30,8 +30,9 @@ defmodule Memoet.Decks do
   def list_public_decks(params \\ %{}) do
     {cursor_before, cursor_after, limit} = get_pagination_params(params)
 
-    params
-    |> Map.merge(%{"public" => true})
+    params =
+      params
+      |> Map.merge(%{"public" => true, "source_id" => nil})
 
     Deck
     |> where(^filter_where(params))
@@ -125,6 +126,12 @@ defmodule Memoet.Decks do
 
       {"public", value}, dynamic ->
         dynamic([d], ^dynamic and d.public == ^value)
+
+      {"source_id", nil}, dynamic ->
+        dynamic([d], ^dynamic and is_nil(d.source_id))
+
+      {"source_id", value}, dynamic ->
+        dynamic([d], ^dynamic and d.source_id == ^value)
 
       {"q", value}, dynamic ->
         q = "%" <> value <> "%"

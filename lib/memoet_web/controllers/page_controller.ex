@@ -5,7 +5,7 @@ defmodule MemoetWeb.PageController do
   def index(conn, _params) do
     case Pow.Plug.current_user(conn) do
       nil ->
-        %{entries: public_decks} = Decks.list_decks(%{"public" => true, "limit" => 3})
+        %{entries: public_decks} = Decks.list_public_decks(%{"limit" => 3})
 
         conn
         |> assign(:width_full, true)

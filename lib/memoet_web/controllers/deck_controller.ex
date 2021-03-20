@@ -149,6 +149,7 @@ defmodule MemoetWeb.DeckController do
       MapUtil.from_struct(deck)
       |> Map.merge(%{
         "user_id" => user.id,
+        "public" => false,
         "source_id" => deck.id
       })
 
