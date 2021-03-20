@@ -11,25 +11,25 @@
       </p>
 
       <section>
-        Learn steps (in minutes)
+        Learn steps (in minutes):
         <%= text_input f, :learn_steps, required: true, class: "form-control form-block", value: Enum.join(@srs_config.learn_steps, " ") %>
         <%= error_tag f, :learn_steps %>
       </section>
 
       <section>
-        Starting ease
+        Starting ease:
         <%= text_input f, :initial_ease, required: true, class: "form-control form-block", value: @srs_config.initial_ease %>
         <%= error_tag f, :initial_ease %>
       </section>
 
       <section>
-        Good graduating interval (days)
+        Good graduating interval (days):
         <%= text_input f, :graduating_interval_good, required: true, class: "form-control form-block", value: @srs_config.graduating_interval_good %>
         <%= error_tag f, :graduating_interval_good %>
       </section>
 
       <section>
-        Easy graduating interval (days)
+        Easy graduating interval (days):
         <%= text_input f, :graduating_interval_easy, required: true, class: "form-control form-block", value: @srs_config.graduating_interval_easy %>
         <%= error_tag f, :graduating_interval_easy %>
       </section>
@@ -41,37 +41,37 @@
       </p>
 
       <section>
-        Easy multiplier
+        Easy multiplier:
         <%= text_input f, :easy_multiplier, required: true, class: "form-control form-block", value: @srs_config.easy_multiplier %>
         <%= error_tag f, :easy_multiplier %>
       </section>
 
       <section>
-        Hard multiplier
+        Hard multiplier:
         <%= text_input f, :hard_multiplier, required: true, class: "form-control form-block", value: @srs_config.hard_multiplier %>
         <%= error_tag f, :hard_multiplier %>
       </section>
 
       <section>
-        Again multiplier
+        Again multiplier:
         <%= text_input f, :lapse_multiplier, required: true, class: "form-control form-block", value: @srs_config.lapse_multiplier %>
         <%= error_tag f, :lapse_multiplier %>
       </section>
 
       <section>
-        Interval multiplier
+        Interval multiplier:
         <%= text_input f, :interval_multiplier, required: true, class: "form-control form-block", value: @srs_config.interval_multiplier %>
         <%= error_tag f, :interval_multiplier %>
       </section>
 
       <section>
-        Maximum review interval (days)
+        Maximum review interval (days):
         <%= text_input f, :maximum_review_interval, required: true, class: "form-control form-block", value: @srs_config.maximum_review_interval %>
         <%= error_tag f, :maximum_review_interval %>
       </section>
 
       <section>
-        Minimum review interval (days)
+        Minimum review interval (days):
         <%= text_input f, :minimum_review_interval, required: true, class: "form-control form-block", value: @srs_config.minimum_review_interval %>
         <%= error_tag f, :minimum_review_interval %>
       </section>
@@ -83,7 +83,7 @@
       </p>
 
       <section>
-        Relearn steps (in minutes)
+        Relearn steps (in minutes):
         <%= text_input f, :relearn_steps, required: true, class: "form-control form-block", value: Enum.join(@srs_config.relearn_steps, " ") %>
         <%= error_tag f, :relearn_steps %>
       </section>
@@ -95,4 +95,3 @@
     </div>
   <% end %>
 </section>
-

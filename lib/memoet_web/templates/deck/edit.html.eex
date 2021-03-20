@@ -10,7 +10,7 @@
 <section>
   <%= form_for @conn, Routes.deck_path(@conn, :update, @deck.id), [method: :put, class: "mt-8 space-y-6"], fn f -> %>
     <div>
-      Deck name
+      Deck name:
       <%= text_input f, :name, value: @deck.name, required: true, class: "form-control form-block" %>
     </div>
 

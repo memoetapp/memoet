@@ -58,7 +58,7 @@
 
 <section class="py-10 text-center space-x-2">
   <a class="btn-primary" href="<%= Routes.deck_note_path @conn, :new, @deck %>">
-    Add note
+    New note
   </a>
 
   <%= if length(@notes) > 0 do %>

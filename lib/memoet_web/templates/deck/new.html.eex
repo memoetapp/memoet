@@ -5,7 +5,8 @@
 <section>
   <%= form_for @conn, Routes.deck_path(@conn, :create), [class: "mt-8 space-y-6"], fn f -> %>
     <div>
-      Deck name: <%= text_input f, :name, required: true, class: "form-control form-block" %>
+      Deck name:
+      <%= text_input f, :name, required: true, class: "form-control form-block" %>
       <%= error_tag f, :title %>
     </div>
 
