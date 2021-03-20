@@ -249,7 +249,6 @@ defmodule Memoet.Cards do
         dynamic([c], ^dynamic and c.card_queue == ^value)
 
       {"note_id", value}, dynamic ->
-        IO.puts value
         dynamic([c], ^dynamic and c.note_id == ^value)
 
       {_, _}, dynamic ->

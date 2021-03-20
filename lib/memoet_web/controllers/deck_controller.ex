@@ -196,13 +196,14 @@ defmodule MemoetWeb.DeckController do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(deck_id, user.id)
 
-    cards = case params do
-      %{"note_id" => note_id} ->
-        Cards.list_cards(user.id, %{"deck_id" => deck_id, "note_id" => note_id})
+    cards =
+      case params do
+        %{"note_id" => note_id} ->
+          Cards.list_cards(user.id, %{"deck_id" => deck_id, "note_id" => note_id})
 
-      _ ->
-        Cards.due_cards(user.id, %{"deck_id" => deck_id})
-    end
+        _ ->
+          Cards.due_cards(user.id, %{"deck_id" => deck_id})
+      end
 
     case cards do
       [] ->

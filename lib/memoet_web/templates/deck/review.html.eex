@@ -99,7 +99,7 @@
           <% end %>
         </div>
 
-        <a class="btn-primary" @click="check = true" x-show="!check">Check</a>
+        <a class="btn-primary" @click="check = true" x-show="!check">Check answer</a>
         <%= if @card.note.hint do %>
           <a class="btn-outline" @click="hint = true" x-show="!check && !hint">Hint</a>
         <% end %>
