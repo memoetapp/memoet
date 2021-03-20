@@ -46,5 +46,5 @@
 
 <section class="py-10 text-center space-x-2">
   <%= link "New deck", to: Routes.deck_path(@conn, :new), class: "btn-primary" %>
-  <%= link "Public decks", to: Routes.community_deck_path(@conn, :public), class: "btn-outline" %>
+  <%= link "Public decks", to: Routes.community_deck_path(@conn, :public_index), class: "btn-outline" %>
 </section>

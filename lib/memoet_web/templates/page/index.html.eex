@@ -22,6 +22,6 @@
   <%= if @metadata.after do %>
     <%= link "View more", to: Routes.deck_path(@conn, :index), class: "btn-outline" %>
   <% else %>
-    <%= link "Public decks", to: Routes.community_deck_path(@conn, :public), class: "btn-outline" %>
+    <%= link "Public decks", to: Routes.community_deck_path(@conn, :public_index), class: "btn-outline" %>
   <% end %>
 </section>

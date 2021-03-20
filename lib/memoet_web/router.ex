@@ -88,11 +88,11 @@ defmodule MemoetWeb.Router do
     pow_routes()
     pow_extension_routes()
 
-    get "/community/:id/practice", MemoetWeb.DeckController, :practice, as: :community_deck
-    put("/community/:id/practice", MemoetWeb.DeckController, :answer, as: :community_deck)
+    get "/community/:id/practice", MemoetWeb.DeckController, :public_practice, as: :community_deck
+    put("/community/:id/practice", MemoetWeb.DeckController, :public_answer, as: :community_deck)
 
-    get "/community/:id", MemoetWeb.DeckController, :show, as: :community_deck
-    get "/community", MemoetWeb.DeckController, :public, as: :community_deck
+    get "/community/:id", MemoetWeb.DeckController, :public_show, as: :community_deck
+    get "/community", MemoetWeb.DeckController, :public_index, as: :community_deck
     get "/", MemoetWeb.PageController, :index
   end
 

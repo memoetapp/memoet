@@ -45,10 +45,13 @@ defmodule MemoetWeb.NoteController do
     deck = Decks.get_deck!(deck_id)
     note = Notes.get_note!(id)
 
-    if note.user_id != user.id and not deck.public do
-      redirect(conn, to: "/decks")
+    if note.user_id != user.id do
+      conn
+      |> put_flash(:error, "The desk does not exist, or you must copy it to your account first.")
+      |> redirect(to: "/decks")
     else
-      render(conn, "show.html", note: note, deck: deck)
+      conn
+      |> render("show.html", note: note, deck: deck)
     end
   end
 

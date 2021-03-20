@@ -1,15 +1,11 @@
 <header class="header__wrapper">
   <h1 class="header__title">
-    <a class="text-link" href="<%= Routes.deck_path @conn, :index %>">
+    <a class="text-link" href="<%= Routes.community_deck_path @conn, :public_index %>">
       <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
     </a>
 
     <%= @deck.name %>
   </h1>
-
-  <a class="text-link" href="<%= Routes.deck_path @conn, :edit, @deck %>">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-  </a>
 </header>
 
 <section>
@@ -19,7 +15,7 @@
         <h2 class="truncate">
           <a
             class="justify-start py-1 border-b border-gray-100 hover:border-indigo-600 text-link"
-            href="<%= Routes.deck_note_path @conn, :show, @deck, note %>"
+            href="<%= Routes.community_deck_path @conn, :public_practice, @deck, note_id: note.id %>"
           >
             <%= note.title %>
           </a>
@@ -41,14 +37,14 @@
   <ul class="pagination__button">
     <%= if @metadata.before do %>
       <li>
-        <a href="<%= Routes.deck_path(@conn, :show, @deck, %{ before: @metadata.before }) %>" class="pagination__nav">
+        <a href="<%= Routes.community_deck_path(@conn, :public_show, @deck, %{ before: @metadata.before }) %>" class="pagination__nav">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </a>
       </li>
     <% end %>
     <%= if @metadata.after do %>
       <li>
-        <a href="<%= Routes.deck_path(@conn, :show, @deck, %{ after: @metadata.after }) %>" class="pagination__nav">
+        <a href="<%= Routes.community_deck_path(@conn, :public_show, @deck, %{ after: @metadata.after }) %>" class="pagination__nav">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </a>
       </li>
@@ -57,13 +53,22 @@
 </section>
 
 <section class="py-10 text-center space-x-2">
-  <a class="btn-primary" href="<%= Routes.deck_note_path @conn, :new, @deck %>">
-    Add note
-  </a>
-
-  <%= if length(@notes) > 0 do %>
-    <a href="<%= Routes.practice_path(@conn, :practice, @deck) %>" class="btn-outline">
-      Practice
+  <%= if Pow.Plug.current_user(@conn) != nil do %>
+    <%= if @deck.user_id == Pow.Plug.current_user(@conn).id do %>
+      <a class="btn-primary" href="<%= Routes.deck_path @conn, :show, @deck %>">
+        Go to your deck
+      </a>
+    <% else %>
+      <a class="btn-outline" href="<%= Routes.deck_path @conn, :clone, @deck %>">
+        Copy to your account
+      </a>
+    <% end %>
+  <% else %>
+    <a href="<%= Routes.community_deck_path(@conn, :public_practice, @deck) %>" class="btn-primary">
+      Demo practice
+    </a>
+    <a class="btn-outline" href="<%= Routes.deck_path @conn, :clone, @deck %>">
+      Copy to your account
     </a>
   <% end %>
 </section>
