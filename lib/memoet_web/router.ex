@@ -54,7 +54,7 @@ defmodule MemoetWeb.Router do
     pipe_through [:browser, :protected]
 
     resources("/", DeckController) do
-      resources("/notes", NoteController, except: [:index])
+      resources("/notes", NoteController)
     end
 
     get("/:id/clone", DeckController, :clone, as: :deck)
@@ -78,7 +78,7 @@ defmodule MemoetWeb.Router do
     pipe_through([:api, :api_protected])
 
     resources("/decks", DeckController) do
-      resources("/notes", NoteController, except: [:index])
+      resources("/notes", NoteController)
     end
   end
 

@@ -34,6 +34,11 @@ defmodule MemoetWeb.NoteController do
     end
   end
 
+  @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def index(conn, %{"deck_id" => deck_id}) do
+    redirect(conn, to: "/decks/" <> deck_id)
+  end
+
   @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show(conn, %{"id" => id, "deck_id" => deck_id}) do
     user = Pow.Plug.current_user(conn)

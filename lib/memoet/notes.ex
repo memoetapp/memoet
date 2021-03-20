@@ -102,7 +102,7 @@ defmodule Memoet.Notes do
       {"user_id", value}, dynamic ->
         dynamic([n], ^dynamic and n.user_id == ^value)
 
-      {"deck_id", value}, dynamic ->
+      {"id", value}, dynamic ->
         dynamic([n], ^dynamic and n.deck_id == ^value)
 
       {"q", value}, dynamic ->
