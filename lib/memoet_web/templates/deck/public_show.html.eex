@@ -14,7 +14,7 @@
       <li class="truncate">
         <h2 class="truncate">
           <a
-            class="justify-start py-1 border-b border-gray-100 hover:border-indigo-600 text-link"
+            class="justify-start block py-1 truncate border-b border-gray-100 hover:border-indigo-600 text-link"
             href="<%= Routes.community_deck_path @conn, :public_practice, @deck, note_id: note.id %>"
           >
             <%= note.title %>
