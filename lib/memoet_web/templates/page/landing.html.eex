@@ -103,7 +103,7 @@
       Base on your ratings, we will keep showing the hard quizzes more often and easy ones less so
     </li>
   </ul>
-  <span class="text-xl">As simple as that!</span>
+  <a class="btn-outline" href="https://docs.memoet.com/">Documentation</a>
 </section>
 
 <section class="flex flex-col items-center justify-center p-4 py-10 mx-auto text-center bg-gray-50 space-y-4">
