@@ -68,6 +68,7 @@ defmodule Memoet.MixProject do
       {:site_encrypt, "~> 0.4"},
       # Markdown
       {:earmark, "~> 1.4"},
+      {:html_sanitize_ex, "~> 1.4"},
       # Sm2
       {:rustler, "~> 0.21.1"},
       # Auth

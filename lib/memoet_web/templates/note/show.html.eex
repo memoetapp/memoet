@@ -18,7 +18,7 @@
     <% end %>
 
     <article class="max-w-full p-3 prose">
-      <%= raw Earmark.as_html!(@note.content) %>
+      <%= raw Memoet.Utils.HtmlUtil.to_html(@note.content) %>
     </article>
 
     <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 space-y-3 rounded-md">
@@ -44,7 +44,7 @@
         <p class="w-full pb-2 font-bold border-b">
           Hint
         </p>
-        <%= raw Earmark.as_html!(@note.hint) %>
+        <%= raw Memoet.Utils.HtmlUtil.to_html(@note.hint) %>
       </div>
     <% end %>
 </section>
