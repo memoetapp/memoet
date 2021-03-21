@@ -135,15 +135,15 @@
   </h4>
   <section class="flex flex-wrap items-center justify-center space-x-8">
     <a
-      href="mailto:hi@memoet.com"
+      href="mailto:team@memoet.com"
       target="_blank"
       rel="noreferrer"
       class="hover:opacity-50"
     >
-      hi@memoet.com
+      team@memoet.com
     </a>
     <a
-      href="https://github.com/manhtai/memoet"
+      href="https://github.com/memoetapp/memoet"
       target="_blank"
       rel="noreferrer"
       class="hover:opacity-50"
