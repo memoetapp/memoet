@@ -1,4 +1,4 @@
-defmodule Memoet.APIAuthErrorHandler do
+defmodule MemoetWeb.APIAuthErrorHandler do
   use MemoetWeb, :controller
   alias Plug.Conn
 

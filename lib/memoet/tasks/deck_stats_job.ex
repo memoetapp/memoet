@@ -11,7 +11,7 @@ defmodule Memoet.Tasks.DeckStatsJob do
     priority: 3,
     max_attempts: 1,
     tags: ["deck"],
-    unique: [fields: [:args], keys: [:deck_id], period: 60]
+    unique: [fields: [:args], keys: [:deck_id], period: 600]
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"deck_id" => deck_id} = _args}) do

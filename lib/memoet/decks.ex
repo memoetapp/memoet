@@ -10,6 +10,8 @@ defmodule Memoet.Decks do
   alias Memoet.Notes
   alias Memoet.Utils.MapUtil
 
+  @max_limit 100
+
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
     {cursor_before, cursor_after, limit} = get_pagination_params(params)
@@ -67,6 +69,8 @@ defmodule Memoet.Decks do
       else
         10
       end
+
+    limit = min(limit, @max_limit)
 
     {cursor_before, cursor_after, limit}
   end

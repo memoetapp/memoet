@@ -54,6 +54,10 @@ defmodule MemoetWeb.DeckController do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
 
+    params =
+      params
+      |> Map.merge(%{"deck_id" => id})
+
     %{entries: notes, metadata: metadata} = Notes.list_notes(params)
 
     conn
@@ -63,6 +67,10 @@ defmodule MemoetWeb.DeckController do
   @spec public_show(Plug.Conn.t(), map) :: Plug.Conn.t()
   def public_show(conn, %{"id" => id} = params) do
     deck = Decks.get_public_deck!(id)
+
+    params =
+      params
+      |> Map.merge(%{"deck_id" => id})
 
     %{entries: notes, metadata: metadata} = Notes.list_notes(params)
 
@@ -94,7 +102,7 @@ defmodule MemoetWeb.DeckController do
 
     filter_notes =
       params
-      |> Map.merge(%{"limit" => 0})
+      |> Map.merge(%{"limit" => 0, "deck_id" => id})
 
     %{metadata: metadata} = Notes.list_notes(filter_notes)
 
@@ -129,12 +137,12 @@ defmodule MemoetWeb.DeckController do
     cond do
       deck.user_id == user.id ->
         conn
-        |> put_flash(:error, "You already own this deck")
+        |> put_flash(:error, "You already own this deck.")
         |> redirect(to: "/decks")
 
       not deck.public ->
         conn
-        |> put_flash(:error, "The deck does not exist")
+        |> put_flash(:error, "The deck does not exist.")
         |> redirect(to: "/decks")
 
       true ->
@@ -243,10 +251,19 @@ defmodule MemoetWeb.DeckController do
   def answer(conn, %{"id" => deck_id, "card_id" => card_id, "answer" => choice} = _params) do
     user = Pow.Plug.current_user(conn)
     card = Cards.get_card!(card_id, user.id)
-    Cards.answer_card(card, choice)
 
-    conn
-    |> redirect(to: Routes.practice_path(conn, :practice, %Deck{id: deck_id}))
+    case Cards.answer_card(card, choice) do
+      {:ok, _} ->
+        conn
+        |> redirect(to: Routes.practice_path(conn, :practice, %Deck{id: deck_id}))
+
+      {:error, _} ->
+        conn
+        |> put_flash(:error, "Error when answering, please try again.")
+        |> redirect(
+          to: Routes.practice_path(conn, :practice, %Deck{id: deck_id}, note_id: card.note_id)
+        )
+    end
   end
 
   @spec public_answer(Plug.Conn.t(), map) :: Plug.Conn.t()

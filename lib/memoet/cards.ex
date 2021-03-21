@@ -188,7 +188,7 @@ defmodule Memoet.Cards do
 
   def answer_card(%Card{} = card, choice) do
     choice =
-      case Integer.parse(choice) do
+      case Integer.parse(to_string(choice)) do
         {c, _} -> Memoet.Cards.Choices.to_atom(c)
         :error -> Memoet.Cards.Choices.to_atom(Choices.ok())
       end
