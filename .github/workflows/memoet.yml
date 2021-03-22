@@ -6,8 +6,8 @@ on:
   pull_request:
 
 jobs:
-  mix-test:
-    name: Mix test
+  run-tests:
+    name: Run tests
     runs-on: ubuntu-18.04
     env:
       MIX_ENV: test
