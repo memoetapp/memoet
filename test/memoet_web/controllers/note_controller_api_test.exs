@@ -27,6 +27,7 @@ defmodule MemoetWeb.NoteControllerAPITest do
 
     test "create new note", %{conn: conn, deck: deck} do
       link_notes = "/api/decks/" <> deck.id <> "/notes"
+
       conn =
         post(conn, link_notes, %{
           "note" => %{

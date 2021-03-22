@@ -28,7 +28,7 @@ defmodule MemoetWeb.NoteController do
 
       {:error, _op, changeset, _changes} ->
         deck = Decks.get_deck!(deck_id, user.id)
-        IO.puts changeset
+        IO.puts(changeset)
 
         conn
         |> put_status(:bad_request)

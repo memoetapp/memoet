@@ -7,7 +7,7 @@ defmodule Memoet.Factory do
 
   def account_factory(attrs) do
     account = %Memoet.Accounts.Account{
-      name: sequence("some company_name"),
+      name: sequence("some company_name")
     }
 
     merge_attributes(account, attrs)
@@ -37,7 +37,7 @@ defmodule Memoet.Factory do
       title: sequence("title"),
       content: "",
       deck: deck,
-      user: deck.user,
+      user: deck.user
     }
 
     merge_attributes(note, attrs)

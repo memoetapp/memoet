@@ -19,6 +19,7 @@
     "@babel/preset-env": "^7.0.0",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.4.0",
+    "husky": "^5.2.0",
     "autoprefixer": "^10.2.5",
     "babel-loader": "^8.0.0",
     "copy-webpack-plugin": "^5.1.1",
@@ -31,10 +32,24 @@
     "postcss": "^8.2.8",
     "postcss-import": "^14.0.0",
     "postcss-loader": "4.2",
+    "prettier": "^2.2.1",
     "sass-loader": "^8.0.2",
     "tailwindcss": "^2.0.4",
     "terser-webpack-plugin": "^2.3.2",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,json,css,scss}": [
+      "prettier --write"
+    ],
+    "../**/*.{ex,exs}": [
+      "mix format"
+    ]
   }
 }

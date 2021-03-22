@@ -42,4 +42,3 @@ defmodule Memoet.SRS.Sm2Test do
     assert card.card_queue == :new
   end
 end
-
