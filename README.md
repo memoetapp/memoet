@@ -1,5 +1,8 @@
 # Memoet
 
+[![Memoet CI](https://github.com/memoetapp/memoet/actions/workflows/memoet.yml/badge.svg)](https://github.com/memoetapp/memoet/actions/workflows/memoet.yml)
+
+
 > Play quizzes to remember everything using Spaced Repetition method
 
 
