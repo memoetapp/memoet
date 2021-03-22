@@ -2,6 +2,12 @@
 
 > Play quizzes to remember everything using Spaced Repetition method
 
+
+## Documentation
+
+See [docs.memoet.com](https://docs.memoet.com).
+
+
 ## Local setup
 
 To start your Phoenix server:
