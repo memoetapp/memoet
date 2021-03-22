@@ -9,4 +9,8 @@ defmodule Memoet.TestUtils do
     conn = Pow.Plug.assign_current_user(conn, user, otp_app: :memoet)
     {:ok, conn: conn}
   end
+
+  def create_deck(%{user: user}) do
+    {:ok, deck: Factory.insert(:deck, user: user)}
+  end
 end

@@ -28,8 +28,10 @@ defmodule MemoetWeb.NoteController do
 
       {:error, _op, changeset, _changes} ->
         deck = Decks.get_deck!(deck_id, user.id)
+        IO.puts changeset
 
         conn
+        |> put_status(:bad_request)
         |> render("new.html", changeset: changeset, deck: deck)
     end
   end
@@ -47,6 +49,7 @@ defmodule MemoetWeb.NoteController do
 
     if note.user_id != user.id do
       conn
+      |> put_status(:bad_request)
       |> put_flash(:error, "The desk does not exist, or you must copy it to your account first.")
       |> redirect(to: "/decks")
     else
@@ -117,6 +120,7 @@ defmodule MemoetWeb.NoteController do
         deck = Decks.get_deck!(deck_id, user.id)
 
         conn
+        |> put_status(:bad_request)
         |> render("edit.html", changeset: changeset, deck: deck)
     end
   end

@@ -85,7 +85,6 @@ defmodule Memoet.MixProject do
       {:oban, "~> 2.5"},
       # Lint & test
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.14", only: :test},
       {:ex_machina, "~> 2.7.0", only: :test}
     ]
