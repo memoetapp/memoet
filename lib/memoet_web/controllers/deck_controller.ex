@@ -45,6 +45,7 @@ defmodule MemoetWeb.DeckController do
 
       {:error, changeset} ->
         conn
+        |> put_status(:bad_request)
         |> render("new.html", changeset: changeset)
     end
   end
