@@ -11,7 +11,14 @@ defmodule Memoet.MixProject do
       rustler_crates: rustler_crates(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -76,8 +83,11 @@ defmodule Memoet.MixProject do
       {:pow_postgres_store, "~> 1.0.0-rc2"},
       # Cron
       {:oban, "~> 2.5"},
-      # Lint
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
+      # Lint & test
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.14", only: :test},
+      {:ex_machina, "~> 2.7.0", only: :test}
     ]
   end
 

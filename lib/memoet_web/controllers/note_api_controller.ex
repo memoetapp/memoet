@@ -35,8 +35,9 @@ defmodule MemoetWeb.NoteAPIController do
 
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
   def index(conn, %{"deck_api_id" => deck_id} = params) do
-    params = params
-             |> Map.merge(%{"deck_id" => deck_id})
+    params =
+      params
+      |> Map.merge(%{"deck_id" => deck_id})
 
     %{entries: notes, metadata: metadata} = Notes.list_notes(params)
 
