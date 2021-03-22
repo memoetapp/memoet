@@ -8,7 +8,7 @@ on:
 jobs:
   mix-test:
     name: Mix test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     env:
       MIX_ENV: test
       ELIXIR_ENV: test
@@ -37,7 +37,7 @@ jobs:
           rust-version: stable
 
       - name: Setup Elixir
-        uses: actions/setup-elixir@v1
+        uses: erlef/setup-elixir@v1
         with:
           elixir-version: "1.11.3"
           otp-version: "23.1.1"
