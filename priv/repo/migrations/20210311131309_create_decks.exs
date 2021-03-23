@@ -7,6 +7,7 @@ defmodule Memoet.Repo.Migrations.CreateDecks do
 
       add :name, :string, null: false
       add :public, :boolean, null: false, default: false
+      add :listed, :boolean, null: false, default: false
 
       add :trash, :boolean, null: false, default: false
 
