@@ -17,6 +17,7 @@ defmodule Memoet.Decks.Deck do
   schema "decks" do
     field(:name, :string, null: false)
     field(:public, :boolean, null: false, default: false)
+    field(:listed, :boolean, null: false, default: false)
 
     belongs_to(:user, User, foreign_key: :user_id, references: :id, type: :binary_id)
     belongs_to(:deck, Deck, foreign_key: :source_id, references: :id, type: :binary_id)

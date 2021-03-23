@@ -38,5 +38,6 @@ defmodule Memoet.Repo.Migrations.CreateNotes do
     end
 
     create(index(:notes, [:user_id]))
+    create(index(:notes, [:title]))
   end
 end

@@ -34,7 +34,7 @@ defmodule Memoet.Decks do
 
     params =
       params
-      |> Map.merge(%{"public" => true, "source_id" => nil})
+      |> Map.merge(%{"public" => true, "source_id" => nil, "listed" => true})
 
     Deck
     |> where(^filter_where(params))
@@ -131,6 +131,9 @@ defmodule Memoet.Decks do
       {"public", value}, dynamic ->
         dynamic([d], ^dynamic and d.public == ^value)
 
+      {"listed", value}, dynamic ->
+        dynamic([d], ^dynamic and d.listed == ^value)
+
       {"source_id", nil}, dynamic ->
         dynamic([d], ^dynamic and is_nil(d.source_id))
 
@@ -139,7 +142,7 @@ defmodule Memoet.Decks do
 
       {"q", value}, dynamic ->
         q = "%" <> value <> "%"
-        dynamic([d], ^dynamic and ilike(d.title, ^q))
+        dynamic([d], ^dynamic and ilike(d.name, ^q))
 
       {_, _}, dynamic ->
         # Not a where parameter

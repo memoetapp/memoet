@@ -14,7 +14,7 @@
     <% end %>
 
     <%= if @public_decks == [] do %>
-      <li class="text-center">No decks is created yet.</li>
+      <li class="text-center">No decks is listed here yet.</li>
     <% end %>
   </ul>
 </section>

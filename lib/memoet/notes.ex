@@ -105,6 +105,9 @@ defmodule Memoet.Notes do
       {"deck_id", value}, dynamic ->
         dynamic([n], ^dynamic and n.deck_id == ^value)
 
+      {"title", value}, dynamic ->
+        dynamic([n], ^dynamic and ilike(n.title, ^value))
+
       {"q", value}, dynamic ->
         q = "%" <> value <> "%"
         dynamic([n], ^dynamic and ilike(n.title, ^q))

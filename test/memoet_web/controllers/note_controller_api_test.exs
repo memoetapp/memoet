@@ -1,8 +1,6 @@
 defmodule MemoetWeb.NoteControllerAPITest do
   use MemoetWeb.ConnCase
 
-  alias Memoet.Repo
-
   import Memoet.Factory
   import Memoet.TestUtils
 
