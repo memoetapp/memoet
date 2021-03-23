@@ -107,20 +107,14 @@ defmodule MemoetWeb.DeckController do
   end
 
   @spec edit(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def edit(conn, %{"id" => id} = params) do
+  def edit(conn, %{"id" => id} = _params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
-
-    filter_notes =
-      params
-      |> Map.merge(%{"limit" => 0, "deck_id" => id})
-
-    %{metadata: metadata} = Notes.list_notes(filter_notes)
 
     render(
       conn,
       "edit.html",
-      deck: deck,
+      deck: deck
     )
   end
 
