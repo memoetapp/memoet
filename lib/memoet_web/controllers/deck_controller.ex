@@ -7,8 +7,6 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Cards
   alias Memoet.Utils.MapUtil
 
-  @public_limit 10
-
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
   def index(conn, params) do
     user = Pow.Plug.current_user(conn)
@@ -53,16 +51,28 @@ defmodule MemoetWeb.DeckController do
   @spec show(Plug.Conn.t(), map) :: Plug.Conn.t()
   def show(conn, %{"id" => id} = params) do
     user = Pow.Plug.current_user(conn)
-    deck = Decks.get_deck!(id, user.id)
+    deck = Decks.get_deck!(id)
 
-    params =
-      params
-      |> Map.merge(%{"deck_id" => id})
+    # Redirect public deck to community route
+    if deck.user_id != user.id do
+      if deck.public do
+        conn
+        |> redirect(to: Routes.community_deck_path(conn, :public_show, deck))
+      else
+        conn
+        |> put_flash(:error, "Invalid deck.")
+        |> redirect(to: "/decks")
+      end
+    else
+      params =
+        params
+        |> Map.merge(%{"deck_id" => id})
 
-    %{entries: notes, metadata: metadata} = Notes.list_notes(params)
+      %{entries: notes, metadata: metadata} = Notes.list_notes(params)
 
-    conn
-    |> render("show.html", deck: deck, notes: notes, metadata: metadata)
+      conn
+      |> render("show.html", deck: deck, notes: notes, metadata: metadata)
+    end
   end
 
   @spec public_show(Plug.Conn.t(), map) :: Plug.Conn.t()
@@ -107,16 +117,10 @@ defmodule MemoetWeb.DeckController do
 
     %{metadata: metadata} = Notes.list_notes(filter_notes)
 
-    # Allow user to set public / private when it is already public
-    # or having more than @public_limit notes
-    can_be_public = deck.public or metadata.total_count > @public_limit
-
     render(
       conn,
       "edit.html",
       deck: deck,
-      can_be_public: can_be_public,
-      public_limit: @public_limit
     )
   end
 
