@@ -4,6 +4,7 @@ defmodule MemoetWeb.APIAuthPlug do
   use Pow.Plug.Base
 
   alias Memoet.Users
+  alias Memoet.Utils.StringUtil
   alias Plug.Conn
 
   @impl true
@@ -33,14 +34,18 @@ defmodule MemoetWeb.APIAuthPlug do
   end
 
   defp get_user_from_token(token) do
-    {_, user} =
-      Cachex.fetch(
-        :memoet_cachex,
-        get_token_cache(token),
-        fn _key -> {:commit, Users.find_user_by_token(token)} end
-      )
+    if StringUtil.blank?(token) do
+      nil
+    else
+      {_, user} =
+        Cachex.fetch(
+          :memoet_cachex,
+          get_token_cache(token),
+          fn _key -> {:commit, Users.find_user_by_token(token)} end
+        )
 
-    user
+      user
+    end
   end
 
   defp fetch_auth_token(conn) do

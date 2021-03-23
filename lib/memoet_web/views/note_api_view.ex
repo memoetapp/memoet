@@ -3,7 +3,7 @@ defmodule MemoetWeb.NoteAPIView do
 
   def render("index.json", %{notes: notes, metadata: metadata}) do
     %{
-      data: render_many(notes, __MODULE__, "basic.json", as: :note),
+      data: render_many(notes, __MODULE__, "expanded.json", as: :note),
       metadata: render_one(metadata, __MODULE__, "metadata.json", as: :metadata)
     }
   end
@@ -18,13 +18,6 @@ defmodule MemoetWeb.NoteAPIView do
 
   def render("show.json", %{note: note}) do
     %{data: render_one(note, __MODULE__, "expanded.json", as: :note)}
-  end
-
-  def render("basic.json", %{note: note}) do
-    %{
-      id: note.id,
-      title: note.title
-    }
   end
 
   def render("expanded.json", %{note: note}) do
