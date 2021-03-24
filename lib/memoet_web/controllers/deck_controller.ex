@@ -83,7 +83,7 @@ defmodule MemoetWeb.DeckController do
       params
       |> Map.merge(%{"deck_id" => id})
 
-    %{entries: notes, metadata: metadata} = Notes.list_notes(params)
+    %{entries: notes, metadata: metadata} = Notes.list_public_notes(params)
 
     conn
     |> render("public_show.html", deck: deck, notes: notes, metadata: metadata)

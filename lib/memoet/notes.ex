@@ -8,23 +8,11 @@ defmodule Memoet.Notes do
   alias Memoet.Repo
   alias Memoet.Notes.Note
   alias Memoet.Cards
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Utils.RequestUtil
 
   @spec list_notes(map) :: map()
   def list_notes(params) do
-    cursor_before =
-      if Map.has_key?(params, "before") and !StringUtil.blank?(params["before"]) do
-        params["before"]
-      else
-        nil
-      end
-
-    cursor_after =
-      if Map.has_key?(params, "after") and !StringUtil.blank?(params["after"]) do
-        params["after"]
-      else
-        nil
-      end
+    {cursor_before, cursor_after, limit} = RequestUtil.get_pagination_params(params)
 
     Note
     |> where(^filter_where(params))
@@ -34,7 +22,23 @@ defmodule Memoet.Notes do
       after: cursor_after,
       include_total_count: true,
       cursor_fields: [{:updated_at, :desc}],
-      limit: 10
+      limit: limit
+    )
+  end
+
+  @spec list_public_notes(map) :: map()
+  def list_public_notes(params) do
+    {cursor_before, cursor_after, limit} = RequestUtil.get_pagination_params(params)
+
+    Note
+    |> where(^filter_where(params))
+    |> order_by(desc: :inserted_at)
+    |> Repo.paginate(
+      before: cursor_before,
+      after: cursor_after,
+      include_total_count: true,
+      cursor_fields: [{:inserted_at, :desc}],
+      limit: limit
     )
   end
 

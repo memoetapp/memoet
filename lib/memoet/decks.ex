@@ -8,13 +8,11 @@ defmodule Memoet.Decks do
   alias Memoet.Repo
   alias Memoet.Decks.Deck
   alias Memoet.Notes
-  alias Memoet.Utils.MapUtil
-
-  @max_limit 100
+  alias Memoet.Utils.{MapUtil, RequestUtil}
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
-    {cursor_before, cursor_after, limit} = get_pagination_params(params)
+    {cursor_before, cursor_after, limit} = RequestUtil.get_pagination_params(params)
 
     Deck
     |> where(^filter_where(params))
@@ -30,7 +28,7 @@ defmodule Memoet.Decks do
 
   @spec list_public_decks(map) :: map()
   def list_public_decks(params \\ %{}) do
-    {cursor_before, cursor_after, limit} = get_pagination_params(params)
+    {cursor_before, cursor_after, limit} = RequestUtil.get_pagination_params(params)
 
     params =
       params
@@ -46,33 +44,6 @@ defmodule Memoet.Decks do
       cursor_fields: [{:inserted_at, :desc}],
       limit: limit
     )
-  end
-
-  defp get_pagination_params(params) do
-    cursor_before =
-      if Map.has_key?(params, "before") and params["before"] != "" do
-        params["before"]
-      else
-        nil
-      end
-
-    cursor_after =
-      if Map.has_key?(params, "after") and params["after"] != "" do
-        params["after"]
-      else
-        nil
-      end
-
-    limit =
-      if Map.has_key?(params, "limit") do
-        params["limit"]
-      else
-        10
-      end
-
-    limit = min(limit, @max_limit)
-
-    {cursor_before, cursor_after, limit}
   end
 
   @spec get_deck!(binary()) :: Deck.t()
