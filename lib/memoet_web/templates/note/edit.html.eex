@@ -18,7 +18,6 @@
     <section>
       Cover image:
       <%= render("_upload.html", f: f, image: @note.image) %>
-      <%= error_tag f, :image %>
     </section>
 
     <section>

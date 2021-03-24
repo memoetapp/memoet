@@ -82,7 +82,7 @@ defmodule MemoetWeb.Router do
     get("/config/srs", SrsConfigController, :edit, as: :srs_config)
     put("/config/srs", SrsConfigController, :update, as: :srs_config)
 
-    post("/file", UploadController, :create, as: :upload)
+    post("/files", UploadController, :create, as: :upload)
   end
 
   scope "/" do

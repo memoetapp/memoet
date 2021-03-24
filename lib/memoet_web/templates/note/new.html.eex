@@ -16,9 +16,8 @@
     </section>
 
     <section>
-      Image:
-      <%= text_input f, :image, class: "form-control form-block", placeholder: "Optional cover image..." %>
-      <%= error_tag f, :image %>
+      Cover image:
+      <%= render("_upload.html", f: f, image: '') %>
     </section>
 
     <section>
