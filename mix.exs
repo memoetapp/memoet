@@ -83,6 +83,11 @@ defmodule Memoet.MixProject do
       {:pow_postgres_store, "~> 1.0.0-rc2"},
       # Cron
       {:oban, "~> 2.5"},
+      # S3 upload
+      {:waffle, "~> 1.1"},
+      {:ex_aws, "~> 2.1"},
+      {:ex_aws_s3, "~> 2.1"},
+      {:sweet_xml, "~> 0.6"},
       # Lint & test
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.14", only: :test},
