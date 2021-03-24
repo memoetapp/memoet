@@ -1,4 +1,4 @@
-<section  x-data="imageViewer('<%= @image %>')">
+<section  x-data="imageUploader('<%= @image %>')">
   <div class="flex items-center justify-center space-x-2">
     <%= text_input @f,
       :image,
@@ -39,7 +39,7 @@
 </section>
 
 <script>
-function imageViewer(src) {
+function imageUploader(src) {
   return {
     imageUrl: src || '',
     imageUploading: false,
