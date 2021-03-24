@@ -1,0 +1,94 @@
+<section  x-data="imageUploader('<%= @image %>')">
+  <div class="flex items-center justify-center space-x-2">
+    <%= text_input @f,
+      :image,
+      class: "form-control form-block",
+      value: @image,
+      "x-model": "imageUrl",
+      placeholder: "Image link..." %>
+    <div class="relative">
+      <label class="cursor-pointer">
+        <!-- Show the image -->
+        <template x-if="imageUrl">
+          <img :src="imageUrl"
+               class="object-cover w-16 h-10 border border-gray-300 rounded-md"
+          >
+        </template>
+        <template x-if="!imageUrl">
+          <div class="flex items-center justify-center w-16 h-10 border border-gray-300 rounded-md">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          </div>
+        </template>
+        <template x-if="imageUploading">
+          <div
+            class="absolute inset-0 flex items-center justify-center bg-gray-400 rounded-md"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"> <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
+          </div>
+        </template>
+        <input class="sr-only" type="file" accept="image/*" @change="fileChosen">
+      </label>
+    </div>
+  </div>
+
+  <template x-if="imageError">
+    <p x-text="imageError">
+  </template>
+
+  <%= error_tag @f, :image %>
+</section>
+
+<script>
+function imageUploader(src) {
+  return {
+    imageUrl: src || '',
+    imageUploading: false,
+    imageData: null,
+    imageError: null,
+
+    fileChosen(event) {
+      if (!event.target.files.length) return;
+      const file = event.target.files[0];
+      this.uploadFile(file)
+    },
+
+    uploadFile(file) {
+      this.imageUploading = true;
+      this.imageError = null;
+
+      this.sendData(file, (event) => {
+        if (event && event.target && event.target.status == 200) {
+          const res = JSON.parse(event.target.response);
+          this.imageUrl = res.data.file_path;
+        } else {
+          this.imageError = "Error while uploading message, please try again.";
+        }
+
+        this.imageUploading = false;
+      })
+    },
+
+    sendData(file, callback) {
+      const XHR = new XMLHttpRequest();
+      const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+      const formData = new FormData();
+      formData.append("file", file)
+
+      // Success handler
+      XHR.addEventListener('load', function(event) {
+        callback(event);
+      });
+
+      // Error handler
+      XHR.addEventListener('error', function(event) {
+        callback(event);
+      });
+
+      // Set up & send our request
+      XHR.open('POST', '/user/files', true);
+      XHR.setRequestHeader('x-csrf-token', csrfToken)
+      XHR.send(formData);
+    }
+  }
+}
+</script>

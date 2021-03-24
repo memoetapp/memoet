@@ -10,15 +10,14 @@
 <section x-data="{ type: '<%= @note.type %>', confirmDelete: false }">
   <%= form_for @changeset, Routes.deck_note_path(@conn, :update, @deck, @note), [class: "mt-8 space-y-8"], fn f -> %>
     <section>
-      Title (required):
+      Title:
       <%= text_input f, :title, required: true, class: "form-control form-block", value: @note.title %>
       <%= error_tag f, :title %>
     </section>
 
     <section>
       Cover image:
-      <%= text_input f, :image, class: "form-control form-block", value: @note.image %>
-      <%= error_tag f, :image %>
+      <%= render("_upload.html", f: f, image: @note.image) %>
     </section>
 
     <section>

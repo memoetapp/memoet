@@ -10,15 +10,14 @@
 <section x-data="{ type: 'multiple_choice' }">
   <%= form_for @changeset, Routes.deck_note_path(@conn, :create, @deck), [class: "mt-8 space-y-8"], fn f -> %>
     <section>
-      Title (required):
+      Title:
       <%= text_input f, :title, required: true, class: "form-control form-block", placeholder: "Interesting title..." %>
       <%= error_tag f, :title %>
     </section>
 
     <section>
-      Image:
-      <%= text_input f, :image, class: "form-control form-block", placeholder: "Optional cover image..." %>
-      <%= error_tag f, :image %>
+      Cover image:
+      <%= render("_upload.html", f: f, image: '') %>
     </section>
 
     <section>

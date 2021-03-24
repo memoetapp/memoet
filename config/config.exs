@@ -42,6 +42,19 @@ rescue
   _ -> IO.puts("no .env file found!")
 end
 
+# Uploaders
+config :waffle,
+  version_timeout: 60_000,
+  storage: Waffle.Storage.S3,
+  asset_host: System.get_env("AWS_ASSET_HOST"),
+  bucket: System.get_env("AWS_BUCKET_NAME")
+
+config :ex_aws,
+  json_codec: Jason,
+  access_key_id: System.get_env("AWS_ACCESS_KEY_ID"),
+  secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
+  region: System.get_env("AWS_REGION")
+
 # Job
 config :memoet, Oban,
   repo: Memoet.Repo,
