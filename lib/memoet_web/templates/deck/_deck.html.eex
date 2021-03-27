@@ -20,11 +20,12 @@
       </p>
     </div>
 
-    <a href="<%= Routes.practice_path(@conn, :practice, @deck) %>" class="flex-none text-sm btn-outline">
-      <span class="hidden md:block">Practice</span>
-      <span class="block md:hidden">
-        <svg version="1.1" class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="currentColor" x="0px" y="0px" viewBox="0 0 320 320" xml:space="preserve"><g><path d="M295.84,146.049l-256-144c-4.96-2.784-11.008-2.72-15.904,0.128C19.008,5.057,16,10.305,16,16.001v288 c0,5.696,3.008,10.944,7.936,13.824c2.496,1.44,5.28,2.176,8.064,2.176c2.688,0,5.408-0.672,7.84-2.048l256-144 c5.024-2.848,8.16-8.16,8.16-13.952S300.864,148.897,295.84,146.049z"/></g></svg>
-      </span>
+    <a href="<%= Routes.practice_path(@conn, :practice, @deck) %>" class="flex-none hidden text-sm btn-outline md:block">
+      Practice
+    </a>
+
+    <a href="<%= Routes.practice_path(@conn, :practice, @deck) %>" class="flex-none text-sm text-indigo-500 md:hidden hover:text-indigo-600 transition-all">
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
     </a>
 
     <span class="relative cursor-pointer" @click="menuOpen = true" @click.away="menuOpen = false">

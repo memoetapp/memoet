@@ -65,7 +65,7 @@
   }
 
   .dropdown-wrapper {
-    @apply absolute w-32 text-sm bg-white border shadow top-2 rounded-md right-5;
+    @apply absolute w-32 text-sm bg-white border shadow z-10 top-2 rounded-md right-5;
   }
 
   .dropdown-item {
