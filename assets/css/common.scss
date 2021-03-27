@@ -64,12 +64,36 @@
     @apply flex items-center justify-center cursor-pointer hover:text-indigo-600 transition-all;
   }
 
-  [x-cloak] {
-    display: none !important;
+  .dropdown-wrapper {
+    @apply absolute w-32 text-sm bg-white border shadow top-2 rounded-md right-5;
   }
 
-  iframe {
-    @apply hidden;
+  .dropdown-item {
+    @apply flex items-center justify-start px-3 py-2 opacity-80 hover:bg-gray-100;
+  }
+
+  .x-enter {
+    @apply transition ease-out duration-300;
+  }
+
+  .x-enter-start {
+    @apply opacity-0 transform -translate-y-2;
+  }
+
+  .x-enter-end {
+    @apply opacity-100 transform translate-y-0;
+  }
+
+  .x-leave {
+    @apply transition ease-in duration-300;
+  }
+
+  .x-leave-end {
+    @apply opacity-0 transform -translate-y-3;
+  }
+
+  [x-cloak] {
+    display: none !important;
   }
 
   html {

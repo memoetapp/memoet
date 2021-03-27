@@ -283,4 +283,13 @@ defmodule MemoetWeb.DeckController do
     |> put_flash(:error, "You are practicing in preview mode, your progress will not be saved!")
     |> redirect(to: Routes.community_deck_path(conn, :public_practice, %Deck{id: deck_id}))
   end
+
+  @spec stats(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def stats(conn, %{"id" => id} = _params) do
+    user = Pow.Plug.current_user(conn)
+    deck = Decks.get_deck!(id, user.id)
+
+    conn
+    |> render("stats.html", deck: deck)
+  end
 end
