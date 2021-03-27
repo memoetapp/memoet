@@ -7,8 +7,11 @@ defmodule Memoet.Decks do
 
   alias Memoet.Repo
   alias Memoet.Decks.Deck
+  alias Memoet.Cards.{Card, CardQueues, CardLog}
   alias Memoet.Notes
-  alias Memoet.Utils.{MapUtil, RequestUtil}
+  alias Memoet.Utils.{MapUtil, RequestUtil, TimestampUtil}
+
+  @stats_days 30
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
@@ -58,12 +61,11 @@ defmodule Memoet.Decks do
     |> Repo.get_by!(id: id, public: true)
   end
 
-  def calculate_deck_stats(id) do
-    # This function will calculate decks statistics, but doing nothing for now
-    Deck
-    |> Repo.get_by!(id: id)
-    |> Deck.stats_changeset(%{updated_at: Timex.now()})
-    |> Repo.update()
+  def touch_deck_update_time(id) do
+    Repo.update_all(
+      from(d in Deck, where: d.id == ^id),
+      set: [updated_at: Timex.now()]
+    )
   end
 
   @spec delete_deck!(binary(), binary()) :: Deck.t()
@@ -141,5 +143,95 @@ defmodule Memoet.Decks do
       end,
       timeout: :infinity
     )
+  end
+
+
+  @spec deck_stats(binary()) :: map()
+  def deck_stats(deck_id) do
+    now = DateTime.utc_now()
+    from_date = DateTime.add(now, -@stats_days * 86_400, :second)
+    to_date = DateTime.add(now, @stats_days * 86_400, :second)
+
+    %{
+      data: %{
+        count_by_queue: count_by_card_queue(deck_id),
+        due_by_date: due_by_date(deck_id, from_date, to_date),
+        practice_by_date: practice_by_date(deck_id, from_date, to_date),
+        practice_by_choice: practice_by_choice(deck_id, from_date, to_date),
+      },
+      from_date: from_date,
+      to_date: to_date,
+    }
+  end
+
+  @spec count_by_card_queue(binary()) :: map()
+  def count_by_card_queue(deck_id) do
+    stats =
+      from(c in Card,
+        group_by: c.card_queue,
+        where: c.deck_id == ^deck_id,
+        select: {c.card_queue, count(c.id)}
+      )
+      |> Repo.all()
+
+    stats =
+      stats
+      |> Enum.map(fn {q, c} -> {CardQueues.to_atom(q), c} end)
+      |> Enum.into(%{})
+
+    total =
+      stats
+      |> Enum.map(fn {_q, c} -> c end)
+      |> Enum.sum()
+
+    stats
+    |> Map.merge(%{total: total})
+  end
+
+  @spec due_by_date(binary(), DateTime.t(), DateTime.t()) :: map()
+  def due_by_date(deck_id, from_date, to_date) do
+    today = TimestampUtil.today()
+    now = DateTime.utc_now()
+
+    from_date = trunc(DateTime.diff(now, from_date, :second) / 86_400) + today
+    to_date = trunc(DateTime.diff(now, to_date, :second) / 86_400) + today
+
+    from(c in Card,
+      group_by: fragment("round(?)", c.due / 86_400),
+      where: c.deck_id == ^deck_id
+        and c.due >= ^from_date
+        and c.due <= ^to_date
+        and c.card_queue in [1, 2, 3], # learn, review, day_learn
+      select: {fragment("round(?)", c.due / 86_400), count(c.id)}
+    )
+    |> Repo.all()
+    |> Enum.map(fn {q, c} -> {q - today, c} end)
+    |> Enum.into(%{})
+  end
+
+  @spec practice_by_date(binary(), DateTime.t(), DateTime.t()) :: map()
+  def practice_by_date(deck_id, from_date, to_date) do
+    from(c in CardLog,
+      group_by: fragment("date(?)", c.inserted_at),
+      where: c.deck_id == ^deck_id
+        and c.inserted_at >= ^from_date
+        and c.inserted_at <= ^to_date,
+      select: {fragment("date(?)", c.inserted_at), count(c.id)}
+    )
+    |> Repo.all()
+    |> Enum.into(%{})
+  end
+
+  @spec practice_by_choice(binary(), DateTime.t(), DateTime.t()) :: map()
+  def practice_by_choice(deck_id, from_date, to_date) do
+    from(c in CardLog,
+      group_by: c.choice,
+      where: c.deck_id == ^deck_id
+        and c.inserted_at >= ^from_date
+        and c.inserted_at <= ^to_date,
+      select: {c.choice, count(c.id)}
+    )
+    |> Repo.all()
+    |> Enum.into(%{})
   end
 end

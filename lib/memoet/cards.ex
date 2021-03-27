@@ -69,30 +69,6 @@ defmodule Memoet.Cards do
     |> Repo.preload([:note])
   end
 
-  @spec stats(binary(), map) :: map()
-  def stats(user_id, _params \\ %{}) do
-    stats =
-      from(c in Card,
-        group_by: c.card_queue,
-        where: c.user_id == ^user_id,
-        select: {c.card_queue, count(c.id)}
-      )
-      |> Repo.all()
-
-    stats =
-      stats
-      |> Enum.map(fn {q, c} -> {CardQueues.to_atom(q), c} end)
-      |> Enum.into(%{})
-
-    total =
-      stats
-      |> Enum.map(fn {_q, c} -> c end)
-      |> Enum.sum()
-
-    stats
-    |> Map.merge(%{total: total})
-  end
-
   @spec get_card!(binary()) :: Card.t() | nil
   def get_card!(id) do
     Card
@@ -240,9 +216,7 @@ defmodule Memoet.Cards do
       {:ok, _} -> :ok
     end
 
-    %{deck_id: card_before.deck_id}
-    |> Memoet.Tasks.DeckStatsJob.new()
-    |> Oban.insert()
+    Decks.touch_deck_update_time(card_before.deck_id)
   end
 
   @spec next_intervals(Card.t()) :: map()
