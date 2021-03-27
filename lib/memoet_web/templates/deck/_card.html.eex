@@ -57,6 +57,8 @@
 
     <section class="py-6 text-center" x-cloak>
       <input type="hidden" name="card_id" value="<%= @card_id %>">
+      <input type="hidden" name="visit_time" value="<%= :os.system_time(:millisecond) %>">
+
       <div x-show="check" class="flex items-center justify-between space-x-3">
         <%= for {label, choice, btn} <- [
           {"Again", 1, "btn-danger"}, {"Hard", 2, "btn-warning"}, {"Good", 3, "btn-primary"}, {"Easy", 4, "btn-success"}

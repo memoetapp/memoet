@@ -109,11 +109,14 @@ defmodule MemoetWeb.DeckAPIController do
   end
 
   @spec answer(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def answer(conn, %{"card_id" => card_id, "answer" => choice} = _params) do
+  def answer(
+        conn,
+        %{"card_id" => card_id, "answer" => choice, "time_answer" => time_answer} = _params
+      ) do
     user = Pow.Plug.current_user(conn)
     card = Cards.get_card!(card_id, user.id)
 
-    case Cards.answer_card(card, choice) do
+    case Cards.answer_card(card, choice, time_answer) do
       {:ok, %Card{} = card} ->
         conn
         |> render("practice.json", card: card)

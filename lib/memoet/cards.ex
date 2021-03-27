@@ -4,12 +4,18 @@ defmodule Memoet.Cards do
   """
   import Ecto.Query
 
+  require Logger
+
   alias Memoet.Repo
-  alias Memoet.Cards.{Card, CardQueues, Choices}
+  alias Memoet.Cards.{Card, CardLog, CardQueues, Choices}
   alias Memoet.SRS
   alias Memoet.Utils.TimestampUtil
 
   @limit 1
+  # 1 sec
+  @min_time_answer 1_000
+  # 60 secs
+  @max_time_answer 60_000
 
   def due_cards(params) do
     today = get_today(params)
@@ -186,13 +192,16 @@ defmodule Memoet.Cards do
     end
   end
 
-  def answer_card(%Card{} = card, choice) do
-    choice =
+  @spec answer_card(Card.t(), Choices.t(), Integer.t()) ::
+          {:ok, Card.t()} | {:error, Ecto.Changeset.t()}
+  def answer_card(%Card{} = card, choice, time_answer) do
+    integer_choice =
       case Integer.parse(to_string(choice)) do
-        {c, _} -> Memoet.Cards.Choices.to_atom(c)
-        :error -> Memoet.Cards.Choices.to_atom(Choices.ok())
+        {c, _} -> c
+        :error -> Choices.ok()
       end
 
+    choice = Memoet.Cards.Choices.to_atom(integer_choice)
     scheduler = SRS.get_scheduler(card.user_id)
 
     srs_card =
@@ -200,14 +209,40 @@ defmodule Memoet.Cards do
       |> SRS.Sm2.answer_card(scheduler, choice)
 
     ecto_card = Map.from_struct(SRS.Card.to_ecto_card(srs_card))
-
-    %{deck_id: card.deck_id}
-    |> Memoet.Tasks.DeckStatsJob.new()
-    |> Oban.insert()
+    log_card_answer(integer_choice, card, ecto_card, time_answer)
 
     card
     |> Card.srs_changeset(ecto_card)
     |> Repo.update()
+  end
+
+  defp log_card_answer(choice, card_before, card_after, time_answer) do
+    time_answer = max(@min_time_answer, min(time_answer, @max_time_answer))
+
+    attrs = %{
+      "choice" => choice,
+      "card_id" => card_before.id,
+      "user_id" => card_before.user_id,
+      "deck_id" => card_before.deck_id,
+      "last_interval" => card_before.interval,
+      "interval" => card_after.interval,
+      "ease_factor" => card_after.ease_factor,
+      "time_answer" => time_answer,
+      "card_type" => card_after.card_type
+    }
+
+    result = %CardLog{}
+    |> CardLog.changeset(attrs)
+    |> Repo.insert()
+
+    case result do
+      {:error, changeset} -> Logger.error(changeset)
+      {:ok, _} -> :ok
+    end
+
+    %{deck_id: card_before.deck_id}
+    |> Memoet.Tasks.DeckStatsJob.new()
+    |> Oban.insert()
   end
 
   @spec next_intervals(Card.t()) :: map()
