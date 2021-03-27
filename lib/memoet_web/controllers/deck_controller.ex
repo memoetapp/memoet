@@ -247,11 +247,23 @@ defmodule MemoetWeb.DeckController do
   end
 
   @spec answer(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def answer(conn, %{"id" => deck_id, "card_id" => card_id, "answer" => choice} = _params) do
+  def answer(
+        conn,
+        %{
+          "id" => deck_id,
+          "card_id" => card_id,
+          "answer" => choice,
+          "visit_time" => visit_time
+        } = _params
+      ) do
     user = Pow.Plug.current_user(conn)
     card = Cards.get_card!(card_id, user.id)
 
-    case Cards.answer_card(card, choice) do
+    now = :os.system_time(:millisecond)
+    {visit_time, _} = Integer.parse(to_string(visit_time))
+    time_answer = now - visit_time
+
+    case Cards.answer_card(card, choice, time_answer) do
       {:ok, _} ->
         conn
         |> redirect(to: Routes.practice_path(conn, :practice, %Deck{id: deck_id}))
