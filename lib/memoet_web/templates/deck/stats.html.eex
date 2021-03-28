@@ -38,13 +38,13 @@
   </blockquote>
 
   <h4>Practice count by date</h4>
-  <div class="ct-chart ct-double-octave" id="practice_by_date"></div>
+  <div class="ct-chart ct-major-tenth" id="practice_by_date"></div>
 
   <h4>Practice speed by date (seconds per note)</h4>
-  <div class="ct-chart ct-double-octave" id="speed_by_date"></div>
+  <div class="ct-chart ct-major-tenth" id="speed_by_date"></div>
 
   <h4>Due count by date</h4>
-  <div class="ct-chart ct-double-octave" id="due_by_date"></div>
+  <div class="ct-chart ct-major-tenth" id="due_by_date"></div>
 
   <h4>Answer count by choice</h4>
   <div class="ct-chart ct-octave" id="answer_by_choice"></div>
