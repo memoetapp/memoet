@@ -8,7 +8,7 @@ defmodule Memoet.Decks do
 
   alias Memoet.Repo
   alias Memoet.Decks.Deck
-  alias Memoet.Cards.{Card, CardQueues, CardLog}
+  alias Memoet.Cards.{Card, CardLog}
   alias Memoet.Notes
   alias Memoet.Utils.{MapUtil, RequestUtil, TimestampUtil}
 
@@ -172,7 +172,7 @@ defmodule Memoet.Decks do
 
   @spec counter_to_date(binary()) :: map()
   def counter_to_date(deck_id) do
-    stats =
+    counts =
       from(c in Card,
         group_by: c.card_queue,
         where: c.deck_id == ^deck_id,
@@ -180,17 +180,17 @@ defmodule Memoet.Decks do
       )
       |> Repo.all()
 
-    stats =
-      stats
-      |> Enum.map(fn {q, c} -> {CardQueues.to_atom(q), c} end)
+    counts =
+      counts
+      |> Enum.map(fn {q, c} -> {q, c} end)
       |> Enum.into(%{})
 
     total =
-      stats
+      counts
       |> Enum.map(fn {_q, c} -> c end)
       |> Enum.sum()
 
-    stats
+    counts
     |> Map.merge(%{total: total})
   end
 

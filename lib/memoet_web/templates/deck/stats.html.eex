@@ -18,13 +18,13 @@
       Total notes: <strong><%= @stats.counter_to_date.total %></strong>
     </li>
     <li>
-      New notes: <strong><%= @stats.counter_to_date.new %></strong>
+      New notes: <strong><%= @stats.counter_to_date[0] || 0 %></strong>
     </li>
     <li>
-      Learning notes: <strong><%= @stats.counter_to_date.learn %></strong>
+      Learn notes: <strong><%= @stats.counter_to_date[1] || 0 %></strong>
     </li>
     <li>
-      Reviewing notes: <strong><%= @stats.counter_to_date.review %></strong>
+      Review notes: <strong><%= @stats.counter_to_date[2] || 0 %></strong>
     </li>
   </ul>
 
