@@ -88,6 +88,8 @@ defmodule Memoet.MixProject do
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.1"},
       {:sweet_xml, "~> 0.6"},
+      # Monitoring
+      {:sentry, "~> 8.0"},
       # Lint & test
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.14", only: :test},

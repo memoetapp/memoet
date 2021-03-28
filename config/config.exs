@@ -19,7 +19,8 @@ config :memoet, MemoetWeb.Endpoint,
   live_view: [signing_salt: "cPUFUjaA"]
 
 # Configures Elixir's Logger
-config :logger, :console,
+config :logger,
+  backends: [:console, Sentry.LoggerBackend],
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
@@ -73,6 +74,12 @@ config :memoet, :pow,
   cache_store_backend: Pow.Postgres.Store
 
 config :pow, Pow.Postgres.Store, repo: Memoet.Repo
+
+# Monitoring
+config :sentry,
+  dsn: System.get_env("SENTRY_DSN"),
+  included_environments: [:prod],
+  environment_name: Mix.env
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
