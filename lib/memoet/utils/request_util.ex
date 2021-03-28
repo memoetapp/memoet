@@ -23,7 +23,8 @@ defmodule Memoet.Utils.RequestUtil do
 
     limit =
       if Map.has_key?(params, "limit") and !StringUtil.blank?(params["limit"]) do
-        Integer.parse(to_string(params["limit"]))
+        {number, _} = Integer.parse(to_string(params["limit"]))
+        number
       else
         10
       end
