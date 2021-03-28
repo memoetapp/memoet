@@ -89,6 +89,10 @@ defmodule Memoet.MixProject do
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.1"},
       {:sweet_xml, "~> 0.6"},
+      # Mailer
+      {:swoosh, "~> 1.3"},
+      {:hackney, "~> 1.16"},
+      {:mail, "~> 0.2"},
       # Monitoring
       {:sentry, "~> 8.0"},
       # Lint & test

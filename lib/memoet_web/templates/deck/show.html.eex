@@ -51,7 +51,7 @@
   </a>
 
   <%= if length(@notes) > 0 do %>
-    <a href="<%= Routes.practice_path(@conn, :practice, @deck) %>" class="btn-outline">
+    <a href="<%= Routes.deck_path(@conn, :practice, @deck) %>" class="btn-outline">
       Practice
     </a>
   <% end %>
