@@ -3,7 +3,6 @@ defmodule Memoet.Tasks.DeckStatsJob do
   Run stats job for deck
   """
 
-  alias Memoet.Decks
   require Logger
 
   use Oban.Worker,
@@ -14,8 +13,7 @@ defmodule Memoet.Tasks.DeckStatsJob do
     unique: [fields: [:args], keys: [:deck_id], period: 60]
 
   @impl Oban.Worker
-  def perform(%Oban.Job{args: %{"deck_id" => deck_id} = _args}) do
-    Decks.calculate_deck_stats(deck_id)
+  def perform(%Oban.Job{args: %{"deck_id" => _deck_id} = _args}) do
     :ok
   end
 end

@@ -56,6 +56,7 @@ defmodule MemoetWeb.Router do
     end
 
     get("/:id/clone", DeckController, :clone, as: :deck)
+    get("/:id/stats", DeckController, :stats, as: :deck)
 
     get("/:id/practice", DeckController, :practice, as: :practice)
     put("/:id/practice", DeckController, :answer, as: :practice)

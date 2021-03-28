@@ -5,7 +5,7 @@
           <img src="<%= @note.image %>" alt="<%= @note.title %> image" />
         <% end %>
 
-        <article class="max-w-full prose">
+        <article class="prose">
           <%= raw Memoet.Utils.HtmlUtil.to_html(@note.content) %>
         </article>
 
@@ -49,7 +49,7 @@
         </div>
 
         <%= if @note.hint do %>
-          <div class="max-w-full p-3 text-sm border bg-blue-50 prose rounded-md" x-show="hint || check" x-cloak>
+          <div class="p-3 text-sm border bg-blue-50 prose rounded-md" x-show="hint || check" x-cloak>
             <%= raw Memoet.Utils.HtmlUtil.to_html(@note.hint) %>
           </div>
         <% end %>
@@ -59,7 +59,14 @@
       <input type="hidden" name="card_id" value="<%= @card_id %>">
       <input type="hidden" name="visit_time" value="<%= :os.system_time(:millisecond) %>">
 
-      <div x-show="check" class="flex items-center justify-between space-x-3">
+      <div
+        x-show="check" class="flex items-center justify-between space-x-3"
+        x-transition:enter="x-enter"
+        x-transition:enter-start="x-enter-start"
+        x-transition:enter-end="x-enter-end"
+        x-transition:leave="x-leave"
+        x-transition:leave-end="x-leave-end"
+      >
         <%= for {label, choice, btn} <- [
           {"Again", 1, "btn-danger"}, {"Hard", 2, "btn-warning"}, {"Good", 3, "btn-primary"}, {"Easy", 4, "btn-success"}
         ] do %>

@@ -23,4 +23,28 @@
   .pagination__nav {
     @apply relative flex items-center justify-center w-8 h-8 p-0 mx-1 border text-xs leading-tight rounded-md;
   }
+
+  .ct-series-a .ct-bar {
+    @apply stroke-indigo #{!important};
+  }
+
+  .ct-series-a .ct-slice-pie {
+    @apply fill-red #{!important};
+  }
+
+  .ct-series-b .ct-slice-pie {
+    @apply fill-yellow #{!important};
+  }
+
+  .ct-series-c .ct-slice-pie {
+    @apply fill-indigo #{!important};
+  }
+
+  .ct-series-d .ct-slice-pie {
+    @apply fill-green #{!important};
+  }
+
+  .ct-label {
+    @apply fill-white #{!important};
+  }
 }

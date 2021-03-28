@@ -8,6 +8,7 @@ defmodule Memoet.Cards do
 
   alias Memoet.Repo
   alias Memoet.Cards.{Card, CardLog, CardQueues, Choices}
+  alias Memoet.Decks
   alias Memoet.SRS
   alias Memoet.Utils.TimestampUtil
 
@@ -67,30 +68,6 @@ defmodule Memoet.Cards do
     |> limit(@limit)
     |> Repo.all()
     |> Repo.preload([:note])
-  end
-
-  @spec stats(binary(), map) :: map()
-  def stats(user_id, _params \\ %{}) do
-    stats =
-      from(c in Card,
-        group_by: c.card_queue,
-        where: c.user_id == ^user_id,
-        select: {c.card_queue, count(c.id)}
-      )
-      |> Repo.all()
-
-    stats =
-      stats
-      |> Enum.map(fn {q, c} -> {CardQueues.to_atom(q), c} end)
-      |> Enum.into(%{})
-
-    total =
-      stats
-      |> Enum.map(fn {_q, c} -> c end)
-      |> Enum.sum()
-
-    stats
-    |> Map.merge(%{total: total})
   end
 
   @spec get_card!(binary()) :: Card.t() | nil
@@ -231,18 +208,17 @@ defmodule Memoet.Cards do
       "card_type" => card_after.card_type
     }
 
-    result = %CardLog{}
-    |> CardLog.changeset(attrs)
-    |> Repo.insert()
+    result =
+      %CardLog{}
+      |> CardLog.changeset(attrs)
+      |> Repo.insert()
 
     case result do
       {:error, changeset} -> Logger.error(changeset)
       {:ok, _} -> :ok
     end
 
-    %{deck_id: card_before.deck_id}
-    |> Memoet.Tasks.DeckStatsJob.new()
-    |> Oban.insert()
+    Decks.touch_deck_update_time(card_before.deck_id)
   end
 
   @spec next_intervals(Card.t()) :: map()

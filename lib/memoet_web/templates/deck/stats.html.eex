@@ -1,0 +1,85 @@
+<header class="header__wrapper">
+  <h1 class="header__title">
+    <a class="text-link" href="<%= Routes.deck_path @conn, :show, @deck %>">
+      <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    </a>
+    Stats
+  </h1>
+</header>
+
+<section class="prose">
+  <h2>Notes stats</h2>
+  <blockquote>
+    Created <%= Timex.format!(@deck.inserted_at, "{relative}", :relative) %>,
+    updated <%= Timex.format!(@deck.updated_at, "{relative}", :relative) %>.
+  </blockquote>
+  <ul>
+    <li>
+      Total notes: <strong><%= @stats.counter_to_date.total %></strong>
+    </li>
+    <li>
+      New notes: <strong><%= @stats.counter_to_date.new %></strong>
+    </li>
+    <li>
+      Learning notes: <strong><%= @stats.counter_to_date.learn %></strong>
+    </li>
+    <li>
+      Reviewing notes: <strong><%= @stats.counter_to_date.review %></strong>
+    </li>
+  </ul>
+
+  <h2>Practice stats</h2>
+  <blockquote>
+    From
+    <strong><%= @stats.span_time.from_date %></strong>
+    to
+    <strong><%= @stats.span_time.to_date %></strong>
+    ("0" label represents today).
+  </blockquote>
+
+  <h4>Practice count by date</h4>
+  <div class="ct-chart ct-major-tenth" id="practice_by_date"></div>
+
+  <h4>Practice speed by date (seconds per note)</h4>
+  <div class="ct-chart ct-major-tenth" id="speed_by_date"></div>
+
+  <h4>Due count by date</h4>
+  <div class="ct-chart ct-major-tenth" id="due_by_date"></div>
+
+  <h4>Answer count by choice</h4>
+  <div class="ct-chart ct-octave" id="answer_by_choice"></div>
+</section>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<script>
+  const practice_by_date = {
+    labels: <%= raw Poison.encode!(for d <- -14..0, do: d) %>,
+    series: [
+      <%= Poison.encode!(for d <- -14..0, do: @stats.span_data.practice_by_date[d]) %>
+    ]
+  };
+
+  const speed_by_date = {
+    labels: <%= raw Poison.encode!(for d <- -14..0, do: d) %>,
+    series: [
+      <%= raw Poison.encode!(for d <- -14..0, do: @stats.span_data.speed_by_date[d]) %>
+    ]
+  };
+
+  const due_by_date = {
+    labels: <%= raw Poison.encode!(for d <- -14..14, do: d) %>,
+    series: [
+      <%= Poison.encode!(for d <- -14..14, do: @stats.span_data.due_by_date[d]) %>
+    ]
+  };
+
+  const answer_by_choice = {
+    labels: ["Again", "Hard", "Good", "Easy"],
+    series: <%= raw Poison.encode!(for key <- [1, 2, 3, 4], do: @stats.span_data.answer_by_choice[key]) %>
+  };
+
+  new Chartist.Bar('#practice_by_date', practice_by_date);
+  new Chartist.Bar('#speed_by_date', speed_by_date);
+  new Chartist.Bar('#due_by_date', due_by_date);
+  new Chartist.Pie('#answer_by_choice', answer_by_choice);
+</script>
