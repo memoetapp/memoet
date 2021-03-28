@@ -8,7 +8,7 @@ defmodule Memoet.Decks do
 
   alias Memoet.Repo
   alias Memoet.Decks.Deck
-  alias Memoet.Cards.{Card, CardQueues, CardLog, Choices}
+  alias Memoet.Cards.{Card, CardQueues, CardLog}
   alias Memoet.Notes
   alias Memoet.Utils.{MapUtil, RequestUtil, TimestampUtil}
 
@@ -197,7 +197,6 @@ defmodule Memoet.Decks do
   @spec due_by_date(binary(), DateTime.t(), DateTime.t()) :: map()
   def due_by_date(deck_id, from_date, to_date) do
     today_unix = TimestampUtil.today()
-    today_date = Date.utc_today()
     now = DateTime.utc_now()
 
     from_date = trunc(DateTime.diff(from_date, now, :second) / 86_400) + today_unix
@@ -238,10 +237,15 @@ defmodule Memoet.Decks do
       |> Enum.map(fn {d, s, c} -> {Date.diff(d, today_date), s, c} end)
 
     %{
-      count: practices |> Enum.map(fn {d, s, c} -> {d, c} end) |> Enum.into(%{}),
+      count:
+        practices
+        |> Enum.map(fn {d, _, c} -> {d, c} end)
+        |> Enum.into(%{}),
       speed:
         practices
-        |> Enum.map(fn {d, s, c} -> {d, s |> Decimal.div(1_000) |> Decimal.round(1) |> Decimal.to_float()} end)
+        |> Enum.map(fn {d, s, _} ->
+          {d, s |> Decimal.div(1_000) |> Decimal.round(1) |> Decimal.to_float()}
+        end)
         |> Enum.into(%{})
     }
   end
