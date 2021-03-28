@@ -8,7 +8,11 @@
 </header>
 
 <section class="prose">
-  <h2>Counter to date</h2>
+  <h2>Notes stats</h2>
+  <blockquote>
+    Created <%= Timex.format!(@deck.inserted_at, "{relative}", :relative) %>,
+    updated <%= Timex.format!(@deck.updated_at, "{relative}", :relative) %>.
+  </blockquote>
   <ul>
     <li>
       Total notes: <strong><%= @stats.counter_to_date.total %></strong>
@@ -24,19 +28,19 @@
     </li>
   </ul>
 
-  <h2>Span stats</h2>
-  <p>
+  <h2>Practice stats</h2>
+  <blockquote>
     From
     <strong><%= @stats.span_time.from_date %></strong>
     to
     <strong><%= @stats.span_time.to_date %></strong>
-    (0 represents today)
-  </p>
+    ("0" label represents today).
+  </blockquote>
 
   <h4>Practice count by date</h4>
   <div class="ct-chart ct-double-octave" id="practice_by_date"></div>
 
-  <h4>Practice speed by date (seconds/note)</h4>
+  <h4>Practice speed by date (seconds per note)</h4>
   <div class="ct-chart ct-double-octave" id="speed_by_date"></div>
 
   <h4>Due count by date</h4>
