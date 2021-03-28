@@ -5,13 +5,16 @@ defmodule MemoetWeb.Plugs.AdminUserAuthPlug do
 
   def call(conn, _opts) do
     user = Pow.Plug.current_user(conn)
-    is_admin_user = System.get_env("ADMIN_USERS", "")
-                    |> String.split(",")
-                    |> Enum.any?(fn email -> email == user.email end)
 
-    case is_admin_user  do
+    is_admin_user =
+      System.get_env("ADMIN_USERS", "")
+      |> String.split(",")
+      |> Enum.any?(fn email -> email == user.email end)
+
+    case is_admin_user do
       true ->
         conn
+
       false ->
         conn
         |> put_resp_content_type("text/plain")

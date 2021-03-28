@@ -18,7 +18,7 @@
 
 <%= if @card do %>
   <%= render("_card.html", conn: @conn, card_id: @card.id, note: @card.note, intervals: @intervals,
-    action: Routes.practice_path(@conn, :answer, @deck)) %>
+    action: Routes.deck_path(@conn, :answer, @deck)) %>
 <% else %>
   <p class="py-6 text-center">
     No more cards to practice for now.

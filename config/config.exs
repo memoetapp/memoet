@@ -56,13 +56,24 @@ config :ex_aws,
   secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY"),
   region: System.get_env("AWS_REGION")
 
-# Job
+# Job worker
 config :memoet, Oban,
   repo: Memoet.Repo,
   plugins: [
     Oban.Plugins.Pruner
   ],
   queues: [default: 10, pro: 50]
+
+# Mailers
+sib_api_key = System.get_env("SENDINBLUE_API_KEY")
+if sib_api_key != nil do
+  config :memoet, Memoet.Emails,
+    adapter: Swoosh.Adapters.Sendinblue,
+    api_key: sib_api_key
+else
+  config :memoet, Memoet.Mailers.Gmail,
+    adapter: Swoosh.Adapters.Gmail
+end
 
 # Auth
 config :memoet, :pow,
@@ -71,6 +82,7 @@ config :memoet, :pow,
   web_module: MemoetWeb,
   extensions: [PowResetPassword, PowPersistentSession],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  mailer_backend: MemoetWeb.Pow.Mailer,
   cache_store_backend: Pow.Postgres.Store
 
 config :pow, Pow.Postgres.Store, repo: Memoet.Repo
@@ -79,7 +91,7 @@ config :pow, Pow.Postgres.Store, repo: Memoet.Repo
 config :sentry,
   dsn: System.get_env("SENTRY_DSN"),
   included_environments: [:prod],
-  environment_name: Mix.env
+  environment_name: Mix.env()
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

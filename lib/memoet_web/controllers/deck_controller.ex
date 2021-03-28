@@ -266,13 +266,13 @@ defmodule MemoetWeb.DeckController do
     case Cards.answer_card(card, choice, time_answer) do
       {:ok, _} ->
         conn
-        |> redirect(to: Routes.practice_path(conn, :practice, %Deck{id: deck_id}))
+        |> redirect(to: Routes.deck_path(conn, :practice, %Deck{id: deck_id}))
 
       {:error, _} ->
         conn
         |> put_flash(:error, "Error when answering, please try again.")
         |> redirect(
-          to: Routes.practice_path(conn, :practice, %Deck{id: deck_id}, note_id: card.note_id)
+          to: Routes.deck_path(conn, :practice, %Deck{id: deck_id}, note_id: card.note_id)
         )
     end
   end

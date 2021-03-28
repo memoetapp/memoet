@@ -6,6 +6,8 @@ defmodule MemoetWeb.Router do
   use Pow.Extension.Phoenix.Router,
     extensions: [PowResetPassword]
 
+  import Phoenix.LiveDashboard.Router
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -62,8 +64,8 @@ defmodule MemoetWeb.Router do
     get("/:id/clone", DeckController, :clone, as: :deck)
     get("/:id/stats", DeckController, :stats, as: :deck)
 
-    get("/:id/practice", DeckController, :practice, as: :practice)
-    put("/:id/practice", DeckController, :answer, as: :practice)
+    get("/:id/practice", DeckController, :practice, as: :deck)
+    put("/:id/practice", DeckController, :answer, as: :deck)
   end
 
   # Decks & notes json
@@ -81,6 +83,9 @@ defmodule MemoetWeb.Router do
   scope "/user", MemoetWeb do
     pipe_through [:browser, :protected]
 
+    get("/change-password", RegistrationController, :edit, as: :account)
+    put("/change-password", RegistrationController, :update, as: :account)
+
     get("/account", UserController, :show, as: :account)
     post("/token", UserController, :refresh_api_token, as: :account)
 
@@ -97,20 +102,12 @@ defmodule MemoetWeb.Router do
     pow_extension_routes()
 
     get "/community/:id/practice", MemoetWeb.DeckController, :public_practice, as: :community_deck
-    put("/community/:id/practice", MemoetWeb.DeckController, :public_answer, as: :community_deck)
+    put "/community/:id/practice", MemoetWeb.DeckController, :public_answer, as: :community_deck
 
     get "/community/:id", MemoetWeb.DeckController, :public_show, as: :community_deck
     get "/community", MemoetWeb.DeckController, :public_index, as: :community_deck
     get "/", MemoetWeb.PageController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", MemoetWeb do
-  #   pipe_through :api
-  # end
-
-  # Enables LiveDashboard
-  import Phoenix.LiveDashboard.Router
 
   scope "/" do
     pipe_through [:browser, :protected, :admin_user]
