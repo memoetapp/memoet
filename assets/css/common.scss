@@ -88,6 +88,14 @@
     @apply opacity-100 transform translate-y-0;
   }
 
+  .x-enter-start-reverse {
+    @apply opacity-0 transform translate-y-2;
+  }
+
+  .x-enter-end-reverse {
+    @apply opacity-100 transform translate-y-0;
+  }
+
   .x-leave {
     @apply transition ease-in duration-300;
   }

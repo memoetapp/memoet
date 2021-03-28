@@ -49,7 +49,12 @@
         </div>
 
         <%= if @note.hint do %>
-          <div class="p-3 text-sm border bg-blue-50 prose rounded-md" x-show="hint || check" x-cloak>
+          <div
+            class="p-3 text-sm border bg-blue-50 prose rounded-md" x-show="hint || check" x-cloak
+            x-transition:enter="x-enter"
+            x-transition:enter-start="x-enter-start"
+            x-transition:enter-end="x-enter-end"
+          >
             <%= raw Memoet.Utils.HtmlUtil.to_html(@note.hint) %>
           </div>
         <% end %>
@@ -62,10 +67,8 @@
       <div
         x-show="check" class="flex items-center justify-between space-x-3"
         x-transition:enter="x-enter"
-        x-transition:enter-start="x-enter-start"
-        x-transition:enter-end="x-enter-end"
-        x-transition:leave="x-leave"
-        x-transition:leave-end="x-leave-end"
+        x-transition:enter-start="x-enter-start-reverse"
+        x-transition:enter-end="x-enter-end-reverse"
       >
         <%= for {label, choice, btn} <- [
           {"Again", 1, "btn-danger"}, {"Hard", 2, "btn-warning"}, {"Good", 3, "btn-primary"}, {"Easy", 4, "btn-success"}
