@@ -1,4 +1,5 @@
 defmodule MemoetWeb.Endpoint do
+  use Sentry.PlugCapture
   use Phoenix.Endpoint, otp_app: :memoet
   use SiteEncrypt.Phoenix
 
@@ -74,6 +75,7 @@ defmodule MemoetWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
+  plug Sentry.PlugContext
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
