@@ -1,4 +1,4 @@
-defmodule MemoetWeb.APIAuthPlug do
+defmodule MemoetWeb.Plugs.APIAuthPlug do
   @moduledoc false
 
   use Pow.Plug.Base
