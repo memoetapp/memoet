@@ -8,6 +8,7 @@ defmodule Memoet.Cards do
 
   alias Memoet.Repo
   alias Memoet.Cards.{Card, CardLog, CardQueues, Choices}
+  alias Memoet.Decks
   alias Memoet.SRS
   alias Memoet.Utils.TimestampUtil
 

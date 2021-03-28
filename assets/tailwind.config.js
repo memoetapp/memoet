@@ -1,5 +1,14 @@
 const plugin = require('tailwindcss/plugin')
 
+const colorFunc = theme => ({
+   'white': theme('colors.white'),
+   'red': theme('colors.red.500'),
+   'green': theme('colors.green.500'),
+   'blue': theme('colors.blue.500'),
+   'yellow': theme('colors.yellow.500'),
+   'indigo': theme('colors.indigo.500'),
+})
+
 module.exports = {
   purge: [
     '../lib/**/*.ex',
@@ -27,6 +36,8 @@ module.exports = {
        '3/4': '75%',
        'full': '100%',
     },
+    stroke: colorFunc,
+    fill: colorFunc,
   },
   variants: {
     extend: {},

@@ -1,5 +1,9 @@
 // App wide common styles
 @layer components {
+  .prose {
+    @apply max-w-full;
+  }
+
   .btn-icon {
     @apply flex items-center justify-center;
   }

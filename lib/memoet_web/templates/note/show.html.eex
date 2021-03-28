@@ -6,9 +6,7 @@
     <%= @note.title %>
   </h1>
   <%= if @deck.user_id == Pow.Plug.current_user(@conn).id do %>
-    <a class="text-link" href="<%= Routes.deck_note_path(@conn, :edit, @deck, @note) %>">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-    </a>
+    <%= render(MemoetWeb.DeckView, "_note_menu.html", conn: @conn, deck: @deck, note: @note) %>
   <% end %>
 </header>
 
@@ -17,7 +15,7 @@
       <img src="<%= @note.image %>" alt="<%= @note.title %> image" />
     <% end %>
 
-    <article class="max-w-full p-3 prose">
+    <article class="p-3 prose">
       <%= raw Memoet.Utils.HtmlUtil.to_html(@note.content) %>
     </article>
 
@@ -40,7 +38,7 @@
     </div>
 
     <%= if @note.hint do %>
-      <div class="max-w-full p-3 text-sm border bg-blue-50 prose rounded-md">
+      <div class="p-3 text-sm border bg-blue-50 prose rounded-md">
         <p class="w-full pb-2 font-bold border-b">
           Hint
         </p>
@@ -48,10 +46,3 @@
       </div>
     <% end %>
 </section>
-
-<section class="py-10 text-center space-x-2">
-  <a href="<%= Routes.practice_path(@conn, :practice, @deck, note_id: @note.id) %>" class="btn-outline">
-    Practice
-  </a>
-</section>
-

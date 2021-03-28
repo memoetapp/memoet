@@ -7,6 +7,64 @@
   </h1>
 </header>
 
-<section>
-  Hello!
+<section class="prose">
+  <h2>Counter to date</h2>
+  <ul>
+    <li>
+      Total notes: <strong><%= @stats.counter_to_date.total %></strong>
+    </li>
+    <li>
+      New notes: <strong><%= @stats.counter_to_date.new %></strong>
+    </li>
+    <li>
+      Learning notes: <strong><%= @stats.counter_to_date.learn %></strong>
+    </li>
+    <li>
+      Reviewing notes: <strong><%= @stats.counter_to_date.review %></strong>
+    </li>
+  </ul>
+
+  <h2>Span counter</h2>
+  <p>
+    From
+    <strong><%= @stats.span_time.from_date %></strong>
+    to
+    <strong><%= @stats.span_time.to_date %></strong>
+    (0 represents today)
+  </p>
+
+  <h4>Practice count by date</h4>
+  <div class="ct-chart ct-double-octave" id="practice_by_date"></div>
+
+  <h4>Due count by date</h4>
+  <div class="ct-chart ct-minor-sixth" id="due_by_date"></div>
+
+  <h4>Answer count by choice</h4>
+  <div class="ct-chart ct-minor-sixth" id="answer_by_choice"></div>
 </section>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<script>
+  const practice_by_date = {
+    labels: <%= raw Poison.encode!(for d <- -14..0, do: d) %>,
+    series: [
+      <%= Poison.encode!(for d <- -14..0, do: @stats.span_data.practice_by_date[d]) %>
+    ]
+  };
+
+  const due_by_date = {
+    labels: <%= raw Poison.encode!(for d <- -14..14, do: d) %>,
+    series: [
+      <%= Poison.encode!(for d <- -14..14, do: @stats.span_data.due_by_date[d]) %>
+    ]
+  };
+
+  const answer_by_choice = {
+    labels: ["Again", "Hard", "Good", "Easy"],
+    series: <%= raw Poison.encode!(for key <- [1, 2, 3, 4], do: @stats.span_data.answer_by_choice[key]) %>
+  };
+
+  new Chartist.Bar('#practice_by_date', practice_by_date);
+  new Chartist.Bar('#due_by_date', due_by_date);
+  new Chartist.Pie('#answer_by_choice', answer_by_choice);
+</script>

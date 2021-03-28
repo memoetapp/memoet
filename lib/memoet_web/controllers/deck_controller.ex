@@ -288,8 +288,9 @@ defmodule MemoetWeb.DeckController do
   def stats(conn, %{"id" => id} = _params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
+    stats = Decks.deck_stats(id)
 
     conn
-    |> render("stats.html", deck: deck)
+    |> render("stats.html", deck: deck, stats: stats)
   end
 end

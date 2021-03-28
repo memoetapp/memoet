@@ -4,14 +4,15 @@ defmodule Memoet.Decks do
   """
 
   import Ecto.Query
+  require Logger
 
   alias Memoet.Repo
   alias Memoet.Decks.Deck
-  alias Memoet.Cards.{Card, CardQueues, CardLog}
+  alias Memoet.Cards.{Card, CardQueues, CardLog, Choices}
   alias Memoet.Notes
   alias Memoet.Utils.{MapUtil, RequestUtil, TimestampUtil}
 
-  @stats_days 30
+  @stats_days 15
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
@@ -148,24 +149,27 @@ defmodule Memoet.Decks do
 
   @spec deck_stats(binary()) :: map()
   def deck_stats(deck_id) do
+    # TODO: Calculate this base on user's timezone
     now = DateTime.utc_now()
     from_date = DateTime.add(now, -@stats_days * 86_400, :second)
     to_date = DateTime.add(now, @stats_days * 86_400, :second)
 
     %{
-      data: %{
-        count_by_queue: count_by_card_queue(deck_id),
+      counter_to_date: counter_to_date(deck_id),
+      span_data: %{
         due_by_date: due_by_date(deck_id, from_date, to_date),
         practice_by_date: practice_by_date(deck_id, from_date, to_date),
-        practice_by_choice: practice_by_choice(deck_id, from_date, to_date),
+        answer_by_choice: answer_by_choice(deck_id, from_date, to_date),
       },
-      from_date: from_date,
-      to_date: to_date,
+      span_time: %{
+        from_date: DateTime.to_date(from_date),
+        to_date: DateTime.to_date(to_date),
+      },
     }
   end
 
-  @spec count_by_card_queue(binary()) :: map()
-  def count_by_card_queue(deck_id) do
+  @spec counter_to_date(binary()) :: map()
+  def counter_to_date(deck_id) do
     stats =
       from(c in Card,
         group_by: c.card_queue,
@@ -190,40 +194,46 @@ defmodule Memoet.Decks do
 
   @spec due_by_date(binary(), DateTime.t(), DateTime.t()) :: map()
   def due_by_date(deck_id, from_date, to_date) do
-    today = TimestampUtil.today()
+    today_unix = TimestampUtil.today()
+    today_date = Date.utc_today()
     now = DateTime.utc_now()
 
-    from_date = trunc(DateTime.diff(now, from_date, :second) / 86_400) + today
-    to_date = trunc(DateTime.diff(now, to_date, :second) / 86_400) + today
+    from_date = trunc(DateTime.diff(from_date, now, :second) / 86_400) + today_unix
+    to_date = trunc(DateTime.diff(to_date, now, :second) / 86_400) + today_unix
 
     from(c in Card,
-      group_by: fragment("round(?)", c.due / 86_400),
+      group_by: c.due,
       where: c.deck_id == ^deck_id
         and c.due >= ^from_date
         and c.due <= ^to_date
-        and c.card_queue in [1, 2, 3], # learn, review, day_learn
-      select: {fragment("round(?)", c.due / 86_400), count(c.id)}
+        and c.card_queue in [2, 3], # review, day_learn only
+      order_by: c.due,
+      select: {c.due, count(c.id)}
     )
     |> Repo.all()
-    |> Enum.map(fn {q, c} -> {q - today, c} end)
+    |> Enum.map(fn {q, c} -> {q - today_unix, c} end)
     |> Enum.into(%{})
   end
 
   @spec practice_by_date(binary(), DateTime.t(), DateTime.t()) :: map()
   def practice_by_date(deck_id, from_date, to_date) do
+    today_date = Date.utc_today()
+
     from(c in CardLog,
-      group_by: fragment("date(?)", c.inserted_at),
+      group_by: fragment("created_date"),
       where: c.deck_id == ^deck_id
         and c.inserted_at >= ^from_date
         and c.inserted_at <= ^to_date,
-      select: {fragment("date(?)", c.inserted_at), count(c.id)}
+      order_by: fragment("created_date"),
+      select: {fragment("date(?) as created_date", c.inserted_at), count(c.id)}
     )
     |> Repo.all()
+    |> Enum.map(fn {q, c} -> {Date.diff(q, today_date), c} end)
     |> Enum.into(%{})
   end
 
-  @spec practice_by_choice(binary(), DateTime.t(), DateTime.t()) :: map()
-  def practice_by_choice(deck_id, from_date, to_date) do
+  @spec answer_by_choice(binary(), DateTime.t(), DateTime.t()) :: map()
+  def answer_by_choice(deck_id, from_date, to_date) do
     from(c in CardLog,
       group_by: c.choice,
       where: c.deck_id == ^deck_id
