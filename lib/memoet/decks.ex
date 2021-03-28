@@ -146,7 +146,6 @@ defmodule Memoet.Decks do
     )
   end
 
-
   @spec deck_stats(binary()) :: map()
   def deck_stats(deck_id) do
     # TODO: Calculate this base on user's timezone
@@ -154,17 +153,20 @@ defmodule Memoet.Decks do
     from_date = DateTime.add(now, -@stats_days * 86_400, :second)
     to_date = DateTime.add(now, @stats_days * 86_400, :second)
 
+    practices = practice_by_date(deck_id, from_date, to_date)
+
     %{
       counter_to_date: counter_to_date(deck_id),
       span_data: %{
         due_by_date: due_by_date(deck_id, from_date, to_date),
-        practice_by_date: practice_by_date(deck_id, from_date, to_date),
-        answer_by_choice: answer_by_choice(deck_id, from_date, to_date),
+        practice_by_date: practices.count,
+        speed_by_date: practices.speed,
+        answer_by_choice: answer_by_choice(deck_id, from_date, to_date)
       },
       span_time: %{
         from_date: DateTime.to_date(from_date),
-        to_date: DateTime.to_date(to_date),
-      },
+        to_date: DateTime.to_date(to_date)
+      }
     }
   end
 
@@ -203,15 +205,17 @@ defmodule Memoet.Decks do
 
     from(c in Card,
       group_by: c.due,
-      where: c.deck_id == ^deck_id
-        and c.due >= ^from_date
-        and c.due <= ^to_date
-        and c.card_queue in [2, 3], # review, day_learn only
+      # review, day_learn only
+      where:
+        c.deck_id == ^deck_id and
+          c.due >= ^from_date and
+          c.due <= ^to_date and
+          c.card_queue in [2, 3],
       order_by: c.due,
       select: {c.due, count(c.id)}
     )
     |> Repo.all()
-    |> Enum.map(fn {q, c} -> {q - today_unix, c} end)
+    |> Enum.map(fn {d, c} -> {d - today_unix, c} end)
     |> Enum.into(%{})
   end
 
@@ -219,26 +223,37 @@ defmodule Memoet.Decks do
   def practice_by_date(deck_id, from_date, to_date) do
     today_date = Date.utc_today()
 
-    from(c in CardLog,
-      group_by: fragment("created_date"),
-      where: c.deck_id == ^deck_id
-        and c.inserted_at >= ^from_date
-        and c.inserted_at <= ^to_date,
-      order_by: fragment("created_date"),
-      select: {fragment("date(?) as created_date", c.inserted_at), count(c.id)}
-    )
-    |> Repo.all()
-    |> Enum.map(fn {q, c} -> {Date.diff(q, today_date), c} end)
-    |> Enum.into(%{})
+    practices =
+      from(c in CardLog,
+        group_by: fragment("created_date"),
+        where:
+          c.deck_id == ^deck_id and
+            c.inserted_at >= ^from_date and
+            c.inserted_at <= ^to_date,
+        select:
+          {fragment("date(?) as created_date", c.inserted_at),
+           fragment("round(avg(?))", c.time_answer), count(c.id)}
+      )
+      |> Repo.all()
+      |> Enum.map(fn {d, s, c} -> {Date.diff(d, today_date), s, c} end)
+
+    %{
+      count: practices |> Enum.map(fn {d, s, c} -> {d, c} end) |> Enum.into(%{}),
+      speed:
+        practices
+        |> Enum.map(fn {d, s, c} -> {d, s |> Decimal.div(1_000) |> Decimal.round(1) |> Decimal.to_float()} end)
+        |> Enum.into(%{})
+    }
   end
 
   @spec answer_by_choice(binary(), DateTime.t(), DateTime.t()) :: map()
   def answer_by_choice(deck_id, from_date, to_date) do
     from(c in CardLog,
       group_by: c.choice,
-      where: c.deck_id == ^deck_id
-        and c.inserted_at >= ^from_date
-        and c.inserted_at <= ^to_date,
+      where:
+        c.deck_id == ^deck_id and
+          c.inserted_at >= ^from_date and
+          c.inserted_at <= ^to_date,
       select: {c.choice, count(c.id)}
     )
     |> Repo.all()

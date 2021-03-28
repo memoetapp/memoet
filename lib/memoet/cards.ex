@@ -208,9 +208,10 @@ defmodule Memoet.Cards do
       "card_type" => card_after.card_type
     }
 
-    result = %CardLog{}
-    |> CardLog.changeset(attrs)
-    |> Repo.insert()
+    result =
+      %CardLog{}
+      |> CardLog.changeset(attrs)
+      |> Repo.insert()
 
     case result do
       {:error, changeset} -> Logger.error(changeset)
