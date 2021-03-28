@@ -71,7 +71,7 @@ if sib_api_key != nil do
     adapter: Swoosh.Adapters.Sendinblue,
     api_key: sib_api_key
 else
-  config :memoet, Memoet.Mailers.Gmail,
+  config :memoet, Memoet.Emails,
     adapter: Swoosh.Adapters.Gmail
 end
 
