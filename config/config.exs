@@ -66,13 +66,13 @@ config :memoet, Oban,
 
 # Mailers
 sib_api_key = System.get_env("SENDINBLUE_API_KEY")
+
 if sib_api_key != nil do
   config :memoet, Memoet.Emails,
     adapter: Swoosh.Adapters.Sendinblue,
     api_key: sib_api_key
 else
-  config :memoet, Memoet.Emails,
-    adapter: Swoosh.Adapters.Gmail
+  config :memoet, Memoet.Emails, adapter: Swoosh.Adapters.Gmail
 end
 
 # Auth
