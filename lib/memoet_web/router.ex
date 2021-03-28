@@ -17,7 +17,7 @@ defmodule MemoetWeb.Router do
 
   pipeline :api do
     plug(:accepts, ["json"])
-    plug(MemoetWeb.APIAuthPlug, otp_app: :memoet)
+    plug(MemoetWeb.Plugs.APIAuthPlug, otp_app: :memoet)
   end
 
   pipeline :api_protected do
@@ -27,6 +27,10 @@ defmodule MemoetWeb.Router do
   pipeline :protected do
     plug Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
+  pipeline :admin_user do
+    plug MemoetWeb.Plugs.AdminUserAuthPlug
   end
 
   pipeline :not_authenticated do
@@ -105,19 +109,11 @@ defmodule MemoetWeb.Router do
   #   pipe_through :api
   # end
 
-  # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
+  # Enables LiveDashboard
+  import Phoenix.LiveDashboard.Router
 
-    scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: MemoetWeb.Telemetry
-    end
+  scope "/" do
+    pipe_through [:browser, :protected, :admin_user]
+    live_dashboard "/dashboard", metrics: MemoetWeb.Telemetry, ecto_repos: [Memoet.Repo]
   end
 end
