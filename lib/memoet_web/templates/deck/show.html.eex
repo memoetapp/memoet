@@ -45,7 +45,7 @@
   </ul>
 </section>
 
-<section class="py-10 text-center space-x-2">
+<section class="pt-2 text-center space-x-2">
   <a class="btn-primary" href="<%= Routes.deck_note_path @conn, :new, @deck %>">
     New note
   </a>
