@@ -10,7 +10,7 @@
           <% end %>
         </span>
 
-        <h2 class="truncate md:text-lg">
+        <h2 class="truncate md:text-lg" title="<%= @deck.name %>">
           <%= @deck.name %>
         </h2>
       </a>

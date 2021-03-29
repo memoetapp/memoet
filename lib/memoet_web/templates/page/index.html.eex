@@ -2,6 +2,8 @@
   <h1 class="header__title">
     Recent decks
   </h1>
+
+  <%= render(MemoetWeb.DeckView, "_home_page_menu.html", conn: @conn) %>
 </nav>
 
 <section>
@@ -14,14 +16,4 @@
       <li class="text-center">No decks is created yet.</li>
     <% end %>
   </ul>
-</section>
-
-<section class="py-6 text-center space-x-2">
-  <%= link "New deck", to: Routes.deck_path(@conn, :new), class: "btn-primary" %>
-
-  <%= if @metadata.after do %>
-    <%= link "View more", to: Routes.deck_path(@conn, :index), class: "btn-outline" %>
-  <% else %>
-    <%= link "Community", to: Routes.community_deck_path(@conn, :public_index), class: "btn-outline" %>
-  <% end %>
 </section>

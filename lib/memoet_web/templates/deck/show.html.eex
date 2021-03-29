@@ -49,10 +49,4 @@
   <a class="btn-primary" href="<%= Routes.deck_note_path @conn, :new, @deck %>">
     New note
   </a>
-
-  <%= if length(@notes) > 0 do %>
-    <a href="<%= Routes.deck_path(@conn, :practice, @deck) %>" class="btn-outline">
-      Practice
-    </a>
-  <% end %>
 </section>
