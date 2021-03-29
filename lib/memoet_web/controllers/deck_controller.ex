@@ -7,6 +7,9 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Cards
   alias Memoet.Utils.MapUtil
 
+  # Max size 255, and " (copy)" takes 7 characters
+  @title_slice_limit 248
+
   @spec index(Plug.Conn.t(), map) :: Plug.Conn.t()
   def index(conn, params) do
     user = Pow.Plug.current_user(conn)
@@ -145,8 +148,16 @@ defmodule MemoetWeb.DeckController do
         |> redirect(to: "/decks")
 
       true ->
-        conn
-        |> clone_deck(deck, user)
+        case Decks.get_clone_of(id, user.id) do
+          %Deck{} = old_deck ->
+            conn
+            |> put_flash(:error, "You already copy the deck over here. Delete this first before copying again.")
+            |> redirect(to: "/decks/" <> old_deck.id)
+
+          nil ->
+            conn
+            |> clone_deck(deck, user)
+        end
     end
   end
 
@@ -154,6 +165,7 @@ defmodule MemoetWeb.DeckController do
     params =
       MapUtil.from_struct(deck)
       |> Map.merge(%{
+        "name" => String.slice(deck.name, 0..@title_slice_limit) <> " (copy)",
         "user_id" => user.id,
         "public" => false,
         "source_id" => deck.id
@@ -166,12 +178,12 @@ defmodule MemoetWeb.DeckController do
         |> Oban.insert()
 
         conn
-        |> put_flash(:info, "Clone deck success, notes are copying over!")
+        |> put_flash(:info, "Copying deck may take a few minutes, refresh this page if necessary!")
         |> redirect(to: "/decks/" <> new_deck.id)
 
       {:error, _changeset} ->
         conn
-        |> put_flash(:error, "Clone deck failed!")
+        |> put_flash(:error, "Copy deck failed!")
         |> redirect(to: "/decks")
     end
   end

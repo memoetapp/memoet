@@ -62,6 +62,18 @@ defmodule Memoet.Decks do
     |> Repo.get_by!(id: id, public: true)
   end
 
+  def get_clone_of(deck_id, user_id) do
+    clones = Deck
+             |> where(^filter_where(%{"source_id" => deck_id, "user_id" => user_id}))
+             |> limit(1)
+             |> Repo.all()
+
+    case clones do
+      [item] -> item
+      _ -> nil
+    end
+  end
+
   def touch_deck_update_time(id) do
     Repo.update_all(
       from(d in Deck, where: d.id == ^id),

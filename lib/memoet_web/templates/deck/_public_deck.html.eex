@@ -18,5 +18,7 @@
     <a href="<%= Routes.community_deck_path(@conn, :public_practice, @deck) %>" class="flex-none text-sm btn-outline">
       Preview
     </a>
+
+    <%= render("_public_deck_menu.html", conn: @conn, deck: @deck) %>
   </div>
 </li>

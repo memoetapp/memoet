@@ -6,6 +6,8 @@
 
     <%= @deck.name %>
   </h1>
+
+  <%= render("_public_deck_menu.html", conn: @conn, deck: @deck) %>
 </header>
 
 <section>
@@ -58,7 +60,7 @@
   </a>
   <%= if Pow.Plug.current_user(@conn) == nil or @deck.user_id != Pow.Plug.current_user(@conn).id do %>
     <a class="btn-outline" href="<%= Routes.deck_path @conn, :clone, @deck %>">
-      Copy to my account
+      Copy to your account
     </a>
   <% end %>
 </section>
