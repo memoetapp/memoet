@@ -60,7 +60,7 @@
         <% end %>
     </section>
 
-    <section class="py-6 text-center" x-cloak>
+    <section class="pt-2 text-center" x-cloak>
       <input type="hidden" name="card_id" value="<%= @card_id %>">
       <input type="hidden" name="visit_time" value="<%= :os.system_time(:millisecond) %>">
 
