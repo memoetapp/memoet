@@ -30,7 +30,7 @@
 
       <div class="text-center">
         Already have an account?
-        <%= link "Log in!", to: Routes.pow_session_path(@conn, :new), class: "text-indigo-600 text-link inline" %>
+        <%= link "Log in!", to: Routes.pow_session_path(@conn, :new), class: "text-indigo-500 text-link inline" %>
       </div>
     <% end %>
   </div>

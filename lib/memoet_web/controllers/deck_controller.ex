@@ -305,4 +305,29 @@ defmodule MemoetWeb.DeckController do
     conn
     |> render("stats.html", deck: deck, stats: stats)
   end
+
+  @spec import(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def import(conn, %{"id" => id} = _params) do
+    user = Pow.Plug.current_user(conn)
+    deck = Decks.get_deck!(id, user.id)
+
+    conn
+    |> render("import.html", deck: deck)
+  end
+
+  @spec upload(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def upload(conn, %{"id" => id, "file" => file} = _params) do
+    user = Pow.Plug.current_user(conn)
+    deck = Decks.get_deck!(id, user.id)
+
+    csv_basename = id <> "_" <> Base.url_encode64(:crypto.strong_rand_bytes(8), padding: false) <> "_import.csv"
+    csv_filename = Path.join(System.tmp_dir!(), csv_basename)
+
+    File.cp!(file.path, csv_filename)
+    Decks.import_notes(deck, csv_filename)
+
+    conn
+    |> put_flash(:info, "Import process is started, you may need to refresh the deck later.")
+    |> redirect(to: "/decks/" <> id)
+  end
 end

@@ -1,4 +1,4 @@
-<section  x-data="imageUploader('<%= @image %>')">
+<section x-data="imageUploader('<%= @image %>')">
   <div class="flex items-center justify-center space-x-2">
     <%= text_input @f,
       :image,

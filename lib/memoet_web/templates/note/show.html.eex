@@ -15,9 +15,11 @@
       <img src="<%= @note.image %>" alt="<%= @note.title %> image" />
     <% end %>
 
-    <article class="p-3 prose">
-      <%= raw Memoet.Utils.HtmlUtil.to_html(@note.content) %>
-    </article>
+    <%= if @note.content != "" do %>
+      <article class="p-3 prose">
+        <%= raw Memoet.Utils.HtmlUtil.to_html(@note.content) %>
+      </article>
+    <% end %>
 
     <%= if length(@note.options) > 0 do %>
       <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 space-y-3 rounded-md">

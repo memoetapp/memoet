@@ -66,6 +66,9 @@ defmodule MemoetWeb.Router do
 
     get("/:id/practice", DeckController, :practice, as: :deck)
     put("/:id/practice", DeckController, :answer, as: :deck)
+
+    get("/:id/import", DeckController, :import, as: :deck)
+    post("/:id/import", DeckController, :upload, as: :deck)
   end
 
   # Decks & notes json
