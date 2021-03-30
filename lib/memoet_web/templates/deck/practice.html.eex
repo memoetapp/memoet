@@ -9,8 +9,8 @@
     <% end %>
   </h1>
 
-  <%= if @card != nil and Pow.Plug.current_user(@conn) != nil and @deck.user_id == Pow.Plug.current_user(@conn).id do %>
-    <%= render("_practice_menu.html", conn: @conn, deck: @deck, note: @card.note) %>
+  <%= if Pow.Plug.current_user(@conn) != nil and @deck.user_id == Pow.Plug.current_user(@conn).id do %>
+    <%= render("_practice_menu.html", conn: @conn, deck: @deck, note: @card && @card.note) %>
   <% end %>
 </header>
 
@@ -19,6 +19,6 @@
     action: Routes.deck_path(@conn, :answer, @deck)) %>
 <% else %>
   <p class="py-6 text-center">
-    No more cards to practice for now.
+    No more notes to practice for now.
   </p>
 <% end %>

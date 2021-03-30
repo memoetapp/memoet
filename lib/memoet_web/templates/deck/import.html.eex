@@ -26,7 +26,7 @@
       </label>
     </div>
 
-    <p class="text-sm opacity-80">You are importing notes to deck <strong>"<%= @deck.name %>"</strong>, we do not detect duplicate notes so make sure you only upload new ones for this deck.
+    <p class="text-sm opacity-80">You are importing notes to deck <strong>"<%= @deck.name %>"</strong>, we do not detect duplicate notes so make sure you only upload new notes for this deck.
 
     <div class="text-center space-x-2">
       <%= submit "Import", class: "btn-primary" %>
