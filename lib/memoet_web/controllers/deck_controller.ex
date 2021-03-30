@@ -7,8 +7,6 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Cards
   alias Memoet.Utils.MapUtil
 
-  require Logger
-
   # Max size 255, and " (copy)" takes 7 characters
   @title_slice_limit 248
 
@@ -327,7 +325,6 @@ defmodule MemoetWeb.DeckController do
 
     File.cp!(file.path, csv_filename)
     Decks.import_notes(deck, csv_filename)
-    Logger.error(csv_filename)
 
     conn
     |> put_flash(:info, "Import process is started, you may need to refresh the deck later.")
