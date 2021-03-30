@@ -9,10 +9,6 @@
 
 <section class="prose">
   <h2>Notes stats</h2>
-  <blockquote>
-    Created <%= Timex.format!(@deck.inserted_at, "{relative}", :relative) %>,
-    updated <%= Timex.format!(@deck.updated_at, "{relative}", :relative) %>.
-  </blockquote>
   <ul>
     <li>
       Total notes: <strong><%= @stats.counter_to_date.total %></strong>
@@ -29,13 +25,13 @@
   </ul>
 
   <h2>Practice stats</h2>
-  <blockquote>
+  <p>
     From
     <strong><%= @stats.span_time.from_date %></strong>
     to
     <strong><%= @stats.span_time.to_date %></strong>
-    ("0" label represents today).
-  </blockquote>
+    (0 represents today).
+  </p>
 
   <h4>Practice count by date</h4>
   <div class="ct-chart ct-major-tenth" id="practice_by_date"></div>
@@ -48,6 +44,12 @@
 
   <h4>Answer count by choice</h4>
   <div class="ct-chart ct-octave" id="answer_by_choice"></div>
+
+
+  <small>
+    Deck is created <%= Timex.format!(@deck.inserted_at, "{relative}", :relative) %>,
+    last updated <%= Timex.format!(@deck.updated_at, "{relative}", :relative) %>.
+  </small>
 </section>
 
 <script type="text/javascript" src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>

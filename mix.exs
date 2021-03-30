@@ -89,6 +89,8 @@ defmodule Memoet.MixProject do
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.1"},
       {:sweet_xml, "~> 0.6"},
+      # Csv
+      {:nimble_csv, "~> 1.1.0"},
       # Mailer
       {:swoosh, "~> 1.3"},
       {:hackney, "~> 1.16"},

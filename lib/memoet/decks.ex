@@ -7,7 +7,7 @@ defmodule Memoet.Decks do
   require Logger
 
   alias Memoet.Repo
-  alias Memoet.Decks.Deck
+  alias Memoet.Decks.{Deck, Import}
   alias Memoet.Cards.{Card, CardLog}
   alias Memoet.Notes
   alias Memoet.Utils.{MapUtil, RequestUtil, TimestampUtil}
@@ -274,5 +274,11 @@ defmodule Memoet.Decks do
     )
     |> Repo.all()
     |> Enum.into(%{})
+  end
+
+  def import_notes(deck, file) do
+    Task.start(fn ->
+      Import.import_csv(deck, file)
+    end)
   end
 end

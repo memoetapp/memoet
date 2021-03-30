@@ -1,0 +1,51 @@
+<header class="header__wrapper">
+  <h1 class="header__title">
+    <a class="text-link" href="<%= Routes.deck_path @conn, :show, @deck %>">
+      <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    </a>
+    Import notes
+  </h1>
+</header>
+
+<section x-data="csvUploader()">
+  <p>
+    We only support CSV for now, download
+    <a href="<%= Routes.static_path(@conn, "/files/memoet_import_template.csv") %>" target="_blank" class="inline text-indigo-500 text-link">CSV template</a>.
+  <p>
+
+  <%= form_for @conn, Routes.deck_path(@conn, :upload, @deck), [multipart: true, class: "mt-8 space-y-6"], fn _f -> %>
+    <div x-cloak>
+      <label>
+        <div class="flex items-center justify-center w-full p-10 bg-gray-100 cursor-pointer rounded-md">
+          <span class="flex items-center justify-center">
+            <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+            <span x-text="fileName">
+          </span>
+        </div>
+        <input class="sr-only" name="file" type="file" accept="text/csv" @change="fileChosen">
+      </label>
+    </div>
+
+    <p class="text-sm opacity-80">You are importing notes to deck <strong>"<%= @deck.name %>"</strong>, we do not detect duplicate notes so make sure you only upload new ones for this deck.
+
+    <div class="text-center space-x-2">
+      <%= submit "Import", class: "btn-primary" %>
+      <%= link "Cancel", to: Routes.deck_path(@conn, :show, @deck), class: "btn-outline" %>
+    </div>
+  <% end %>
+</section>
+
+
+<script>
+  function csvUploader() {
+    return {
+      fileName: 'Choose CSV file...',
+
+      fileChosen(event) {
+        if (!event.target.files.length) return;
+        const file = event.target.files[0];
+        this.fileName = file.name;
+      },
+    }
+  }
+</script>
