@@ -1,3 +1,3 @@
-Title,Image,Content,Quiz type,Option 1,Option 2,Option 3,Option 4,Option 5,Correct option (1-5),Hint
-How many Earths could fit inside the sun?,,,Multiple choice,3,"1,300","1.3 million",,,2,
-What is the capital of France?,,,Type answer,London,Amsterdam,Roma,Paris,,4,
+Title (required),Image,Content,Quiz type,Option 1,Option 2,Option 3,Option 4,Option 5,Correct option (1-5),Hint
+What is the capital of France?,https://images.unsplash.com/photo-1431274172761-fca41d930114?w=640,,Multiple choice,London,Amsterdam,Roma,Paris,,4,
+What is the capital of Germany?,,,Type answer,Berlin,,,,,,
