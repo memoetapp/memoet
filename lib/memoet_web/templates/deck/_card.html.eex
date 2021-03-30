@@ -9,44 +9,46 @@
           <%= raw Memoet.Utils.HtmlUtil.to_html(@note.content) %>
         </article>
 
-        <div class="flex flex-col items-start justify-center w-full p-4 text-sm border bg-indigo-50 rounded-md space-y-6" x-cloak>
-          <%= if @note.type == "multiple_choice" do %>
-            <%= for {o, i} <- Enum.with_index(@note.options) do %>
-              <label class="flex items-start">
-                <input
-                  type="checkbox"
-                  x-model="options[<%= i %>].answer"
-                  class="mr-2 mt-0.5 form-checkbox"
-                  :class="{
-                    'border-green-600 text-green-600': check && (options[<%= i %>].answer || false) == options[<%= i %>].correct,
-                    'border-red-600 text-red-600': check && (options[<%= i %>].answer || false) != options[<%= i %>].correct,
-                  }"
-                >
-                <p
-                  :class="{
-                    'text-green-600': check && (options[<%= i %>].answer || false) == options[<%= i %>].correct,
-                    'text-red-600': check && (options[<%= i %>].answer || false) != options[<%= i %>].correct,
-                  }"
-                >
-                  <%= o.content %>
-                </p>
-              </label>
+        <%= if length(@note.options) > 0 do %>
+          <div class="flex flex-col items-start justify-center w-full p-4 text-sm border bg-indigo-50 rounded-md space-y-6" x-cloak>
+            <%= if @note.type == "multiple_choice" do %>
+              <%= for {o, i} <- Enum.with_index(@note.options) do %>
+                <label class="flex items-start">
+                  <input
+                    type="checkbox"
+                    x-model="options[<%= i %>].answer"
+                    class="mr-2 mt-0.5 form-checkbox"
+                    :class="{
+                      'border-green-600 text-green-600': check && (options[<%= i %>].answer || false) == options[<%= i %>].correct,
+                      'border-red-600 text-red-600': check && (options[<%= i %>].answer || false) != options[<%= i %>].correct,
+                    }"
+                  >
+                  <p
+                    :class="{
+                      'text-green-600': check && (options[<%= i %>].answer || false) == options[<%= i %>].correct,
+                      'text-red-600': check && (options[<%= i %>].answer || false) != options[<%= i %>].correct,
+                    }"
+                  >
+                    <%= o.content %>
+                  </p>
+                </label>
+              <% end %>
+            <% else %>
+              <input
+                autocomplete="off"
+                type="text"
+                name="answer"
+                x-model="answer"
+                class="w-full form-control"
+                :class="{
+                  'border-green-600': check && options.some((o) => o.content.toLowerCase() == answer.toLowerCase()),
+                  'border-red-600': check && !options.some((o) => o.content.toLowerCase() == answer.toLowerCase()),
+                }"
+              >
+              <p x-text="options[0].content" x-show="check">
             <% end %>
-          <% else %>
-            <input
-              autocomplete="off"
-              type="text"
-              name="answer"
-              x-model="answer"
-              class="w-full form-control"
-              :class="{
-                'border-green-600': check && options.some((o) => o.content.toLowerCase() == answer.toLowerCase()),
-                'border-red-600': check && !options.some((o) => o.content.toLowerCase() == answer.toLowerCase()),
-              }"
-            >
-            <p x-text="options[0].content" x-show="check">
-          <% end %>
-        </div>
+          </div>
+        <% end %>
 
         <%= if @note.hint do %>
           <div
@@ -94,7 +96,7 @@
         <% end %>
       </div>
 
-      <a class="btn-primary" @click="check = true" x-show="!check">Check answer</a>
+      <a class="btn-primary" @click="check = true" x-show="!check">Submit</a>
       <%= if @note.hint do %>
         <a class="btn-outline" @click="hint = true" x-show="!check && !hint">Hint</a>
       <% end %>

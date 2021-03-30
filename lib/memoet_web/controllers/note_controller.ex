@@ -64,8 +64,8 @@ defmodule MemoetWeb.NoteController do
     deck = Decks.get_deck!(deck_id, user.id)
 
     embedded_changeset = [
-      Option.changeset(%Option{}, %{"content" => "Remember", "correct" => true}),
-      Option.changeset(%Option{}, %{"content" => "Forget", "correct" => false}),
+      Option.changeset(%Option{}, %{}),
+      Option.changeset(%Option{}, %{}),
       Option.changeset(%Option{}, %{}),
       Option.changeset(%Option{}, %{}),
       Option.changeset(%Option{}, %{})
