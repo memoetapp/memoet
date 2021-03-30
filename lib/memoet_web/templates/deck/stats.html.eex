@@ -3,12 +3,12 @@
     <a class="text-link" href="<%= Routes.deck_path @conn, :show, @deck %>">
       <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
     </a>
-    Stats
+    Report
   </h1>
 </header>
 
 <section class="prose">
-  <h2>Notes stats</h2>
+  <h2>Notes status</h2>
   <ul>
     <li>
       Total notes: <strong><%= @stats.counter_to_date.total %></strong>
@@ -24,7 +24,7 @@
     </li>
   </ul>
 
-  <h2>Practice stats</h2>
+  <h2>Practice report</h2>
   <p>
     From
     <strong><%= @stats.span_time.from_date %></strong>

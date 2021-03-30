@@ -41,3 +41,9 @@
     <% end %>
   </ul>
 </section>
+
+<section class="pt-6 text-center space-x-2">
+  <a class="btn-primary" href="<%= Routes.deck_path @conn, :new %>">
+    New deck
+  </a>
+</section>
