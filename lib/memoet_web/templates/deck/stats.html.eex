@@ -69,7 +69,7 @@
   };
 
   const due_by_date = {
-    labels: <%= raw Poison.encode!(for d <- -14..14, do: d) %>,
+    labels: <%= raw Poison.encode!(for d <- 0..14, do: d) %>,
     series: [
       <%= Poison.encode!(for d <- 0..14, do: @stats.span_data.due_by_date[d]) %>
     ]
