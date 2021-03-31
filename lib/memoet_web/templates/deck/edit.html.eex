@@ -7,7 +7,7 @@
   </h1>
 </header>
 
-<section>
+<section x-data="{ public: <%= @deck.public %> }">
   <%= form_for @conn, Routes.deck_path(@conn, :update, @deck.id), [method: :put, class: "mt-8 space-y-6"], fn f -> %>
     <div>
       Deck name:
@@ -16,13 +16,27 @@
 
     <div class="flex items-center justify-start space-x-4">
       <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, false, checked: @deck.public == false, required: true %>
+        <%= radio_button f, :public, false, checked: @deck.public == false, required: true,
+            "x-value": "public", "x-on:input": "public = false" %>
         <%= label f, :public, "Private" %>
       </span>
       <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, true, checked: @deck.public == true, required: true %>
+        <%= radio_button f, :public, true, checked: @deck.public == true, required: true,
+            "x-value": "public", "x-on:input": "public = true" %>
         <%= label f, :public, "Public" %>
       </span>
+    </div>
+
+    <div x-show="public"
+      x-transition:enter="x-enter"
+      x-transition:enter-start="x-enter-start"
+      x-transition:enter-end="x-enter-end">
+      Public link to share:
+      <input
+        type="text"
+        class="form-control form-block"
+        value="<%= MemoetWeb.Router.Helpers.url(@conn) <> Routes.community_deck_path(@conn, :public_show, @deck) %>"
+        readonly>
     </div>
 
     <div class="text-center space-x-2" x-data="{ confirmDelete: false }">
