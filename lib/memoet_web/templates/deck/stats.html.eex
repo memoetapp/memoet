@@ -5,6 +5,7 @@
     </a>
     Report
   </h1>
+  <%= render("_stats_menu.html", conn: @conn, deck: @deck) %>
 </header>
 
 <section class="prose">
@@ -20,7 +21,10 @@
       Learn notes: <strong><%= @stats.counter_to_date[1] || 0 %></strong>
     </li>
     <li>
-      Review notes: <strong><%= @stats.counter_to_date[2] || 0 %></strong>
+      Review notes:
+      <strong>
+        <%= @stats.counter_to_date[2] || 0 + @stats.counter_to_date[3] || 0 %>
+      </strong>
     </li>
   </ul>
 

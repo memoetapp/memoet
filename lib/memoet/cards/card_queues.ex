@@ -1,4 +1,6 @@
 defmodule Memoet.Cards.CardQueues do
+  @moduledoc false
+
   @new 0
   @learn 1
   @review 2
