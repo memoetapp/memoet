@@ -151,7 +151,10 @@ defmodule MemoetWeb.DeckController do
         case Decks.get_clone_of(id, user.id) do
           %Deck{} = old_deck ->
             conn
-            |> put_flash(:error, "You already copy the deck over here. Delete this first before copying again.")
+            |> put_flash(
+              :error,
+              "You already copy the deck over here. Delete this first before copying again."
+            )
             |> redirect(to: "/decks/" <> old_deck.id)
 
           nil ->
@@ -178,7 +181,10 @@ defmodule MemoetWeb.DeckController do
         |> Oban.insert()
 
         conn
-        |> put_flash(:info, "Copying deck may take a few minutes, refresh this page if necessary!")
+        |> put_flash(
+          :info,
+          "Copying deck may take a few minutes, refresh this page if necessary!"
+        )
         |> redirect(to: "/decks/" <> new_deck.id)
 
       {:error, _changeset} ->
@@ -320,7 +326,10 @@ defmodule MemoetWeb.DeckController do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
 
-    csv_basename = id <> "_" <> Base.url_encode64(:crypto.strong_rand_bytes(8), padding: false) <> "_import.csv"
+    csv_basename =
+      id <>
+        "_" <> Base.url_encode64(:crypto.strong_rand_bytes(8), padding: false) <> "_import.csv"
+
     csv_filename = Path.join(System.tmp_dir!(), csv_basename)
 
     File.cp!(file.path, csv_filename)

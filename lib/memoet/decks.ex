@@ -63,10 +63,11 @@ defmodule Memoet.Decks do
   end
 
   def get_clone_of(deck_id, user_id) do
-    clones = Deck
-             |> where(^filter_where(%{"source_id" => deck_id, "user_id" => user_id}))
-             |> limit(1)
-             |> Repo.all()
+    clones =
+      Deck
+      |> where(^filter_where(%{"source_id" => deck_id, "user_id" => user_id}))
+      |> limit(1)
+      |> Repo.all()
 
     case clones do
       [item] -> item

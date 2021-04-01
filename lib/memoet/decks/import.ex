@@ -5,7 +5,6 @@ NimbleCSV.define(Memoet.Decks.Import.ExcelCSV,
   moduledoc: false
 )
 
-
 defmodule Memoet.Decks.Import do
   @moduledoc false
 
@@ -28,7 +27,7 @@ defmodule Memoet.Decks.Import do
         rescue
           e ->
             Logger.error(e)
-            Sentry.capture_exception(e, [stacktrace: __STACKTRACE__, extra: %{deck_id: deck.id}])
+            Sentry.capture_exception(e, stacktrace: __STACKTRACE__, extra: %{deck_id: deck.id})
             Repo.rollback(e.message)
         end
       end,
@@ -48,7 +47,7 @@ defmodule Memoet.Decks.Import do
     |> parser.parse_stream()
     |> Stream.map(fn [title, image, content, type, op1, op2, op3, op4, op5, correct_op, hint] ->
       params = %{
-        "title" => (if StringUtil.blank?(title), do: "No title", else: title),
+        "title" => if(StringUtil.blank?(title), do: "No title", else: title),
         "image" => image,
         "content" => content,
         "type" => Types.detect(type),
@@ -57,11 +56,11 @@ defmodule Memoet.Decks.Import do
           %{"content" => op2, "correct" => correct_op == "2"},
           %{"content" => op3, "correct" => correct_op == "3"},
           %{"content" => op4, "correct" => correct_op == "4"},
-          %{"content" => op5, "correct" => correct_op == "5"},
+          %{"content" => op5, "correct" => correct_op == "5"}
         ],
         "hint" => hint,
         "user_id" => deck.user_id,
-        "deck_id" => deck.id,
+        "deck_id" => deck.id
       }
 
       Notes.create_note_with_card_transaction(params)
@@ -76,9 +75,9 @@ defmodule Memoet.Decks.Import do
     File.close(file)
 
     if String.split(first_line, ";") |> Enum.count() == @columns do
-        Memoet.Decks.Import.ExcelCSV
+      Memoet.Decks.Import.ExcelCSV
     else
-        NimbleCSV.RFC4180
+      NimbleCSV.RFC4180
     end
   end
 end

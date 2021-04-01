@@ -8,10 +8,11 @@ defmodule Memoet.Notes.Types do
   def type_answer, do: @type_answer
 
   def detect(type) do
-    type = type
-           |> String.trim()
-           |> String.replace(" ", "_")
-           |> String.downcase()
+    type =
+      type
+      |> String.trim()
+      |> String.replace(" ", "_")
+      |> String.downcase()
 
     if type == @type_answer do
       @type_answer
