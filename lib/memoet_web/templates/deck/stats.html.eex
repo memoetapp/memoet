@@ -23,7 +23,7 @@
     <li>
       Review notes:
       <strong>
-        <%= @stats.counter_to_date[2] || 0 + @stats.counter_to_date[3] || 0 %>
+        <%= (@stats.counter_to_date[2] || 0) + (@stats.counter_to_date[3] || 0) %>
       </strong>
     </li>
   </ul>
