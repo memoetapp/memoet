@@ -16,7 +16,7 @@
     <% end %>
 
     <%= if @note.content != "" do %>
-      <article class="p-3 prose">
+      <article class="prose">
         <%= raw Memoet.Utils.HtmlUtil.to_html(@note.content) %>
       </article>
     <% end %>
@@ -26,11 +26,11 @@
         <p class="w-full pb-2 font-bold border-b">
           <%= if @note.type == "multiple_choice", do: "Multiple choice", else: "Type answer" %>
         </p>
-        <ul class="space-y-2">
+        <ul class="space-y-6">
           <%= for o <- @note.options do %>
               <%= if @note.type == "multiple_choice" do %>
-                <li class="flex items-center">
-                  <input type="checkbox" <%= if o.correct, do: "checked" %> class="p-2 mr-2 form-checkbox" disabled>
+                <li class="flex items-start">
+                  <input type="checkbox" <%= if o.correct, do: "checked" %> class="mt-0.5 mr-2 form-checkbox" disabled>
                   <p><%= o.content %></p>
                 </li>
               <% else %>
