@@ -34,7 +34,9 @@ defmodule Memoet.Cards do
     new_cards_query =
       from(c in Card,
         where: c.card_queue == ^CardQueues.new(),
-        order_by: fragment("RANDOM()")
+        # TODO: Support config new cards order
+        # order_by: fragment("RANDOM()")
+        order_by: c.inserted_at
       )
 
     cards = get_random_cards(review_cards_query, params)
