@@ -8,6 +8,7 @@ defmodule Memoet.Repo.Migrations.CreateDecks do
       add :name, :string, null: false
       add :public, :boolean, null: false, default: false
       add :listed, :boolean, null: false, default: false
+      add :learning_order, :string, null: false, default: "random"
 
       add :trash, :boolean, null: false, default: false
 

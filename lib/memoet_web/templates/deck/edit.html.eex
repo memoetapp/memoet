@@ -14,6 +14,14 @@
       <%= text_input f, :name, value: @deck.name, required: true, class: "form-control form-block" %>
     </div>
 
+    <div>
+      Learning order:
+      <%= select f, :learning_order, [
+        "Random": "random",
+        "First created": "first_created"
+        ], required: true, value: @deck.learning_order, class: "form-control w-full" %>
+    </div>
+
     <div class="flex items-center justify-start space-x-4">
       <span class="flex items-center justify-center space-x-1">
         <%= radio_button f, :public, false, checked: @deck.public == false, required: true,

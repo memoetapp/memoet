@@ -19,25 +19,8 @@ defmodule Memoet.Cards do
   @max_time_answer 60_000
 
   def due_cards(params) do
-    today = get_today(params)
-    now = TimestampUtil.now()
-
-    review_cards_query =
-      from(c in Card,
-        where:
-          (c.card_queue == ^CardQueues.learn() and c.due < ^now) or
-            (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
-            (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
-        order_by: fragment("RANDOM()")
-      )
-
-    new_cards_query =
-      from(c in Card,
-        where: c.card_queue == ^CardQueues.new(),
-        # TODO: Support config new cards order
-        # order_by: fragment("RANDOM()")
-        order_by: c.inserted_at
-      )
+    review_cards_query = get_review_cards_query(params)
+    new_cards_query = get_new_cards_query(params)
 
     cards = get_random_cards(review_cards_query, params)
 
@@ -45,6 +28,39 @@ defmodule Memoet.Cards do
       cards
     else
       get_random_cards(new_cards_query, params)
+    end
+  end
+
+  defp get_review_cards_query(params) do
+    today = get_today(params)
+    now = TimestampUtil.now()
+
+    from(c in Card,
+      where:
+        (c.card_queue == ^CardQueues.learn() and c.due < ^now) or
+          (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
+          (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
+      order_by: fragment("RANDOM()")
+    )
+  end
+
+  defp get_new_cards_query(params) do
+    learning_order = case params do
+      %{"learning_order" => order} -> order
+      _ -> "random"
+    end
+
+    case learning_order do
+      "first_created" ->
+        from(c in Card,
+          where: c.card_queue == ^CardQueues.new(),
+          order_by: c.inserted_at
+        )
+      _ ->
+        from(c in Card,
+          where: c.card_queue == ^CardQueues.new(),
+          order_by: fragment("RANDOM()")
+        )
     end
   end
 

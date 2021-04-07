@@ -19,6 +19,8 @@ defmodule Memoet.Decks.Deck do
     field(:public, :boolean, null: false, default: false)
     field(:listed, :boolean, null: false, default: false)
 
+    field(:learning_order, :string, null: false, default: "random")
+
     belongs_to(:user, User, foreign_key: :user_id, references: :id, type: :binary_id)
     belongs_to(:deck, Deck, foreign_key: :source_id, references: :id, type: :binary_id)
 
@@ -32,11 +34,16 @@ defmodule Memoet.Decks.Deck do
     |> cast(attrs, [
       :name,
       :public,
+      :learning_order,
       :source_id,
       :user_id
     ])
     |> validate_length(:name, max: @name_limit)
     |> validate_required([:name, :public, :user_id])
+    |> validate_inclusion(:learning_order, [
+      "random",
+      "first_created"
+    ])
   end
 
   def stats_changeset(deck, attrs) do

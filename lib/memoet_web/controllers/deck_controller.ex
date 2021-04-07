@@ -222,7 +222,7 @@ defmodule MemoetWeb.DeckController do
           Cards.list_cards(%{"deck_id" => deck_id, "note_id" => note_id})
 
         _ ->
-          Cards.due_cards(%{"deck_id" => deck_id})
+          Cards.due_cards(%{"deck_id" => deck.id, "learning_order" => deck.learning_order})
       end
 
     case cards do
