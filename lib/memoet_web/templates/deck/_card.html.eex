@@ -13,29 +13,31 @@
         <% end %>
 
         <%= if length(@note.options) > 0 do %>
-          <div class="flex flex-col items-start justify-center w-full p-4 text-sm border bg-indigo-50 rounded-md space-y-6" x-cloak>
+          <div class="flex flex-col items-start justify-center w-full p-4 text-sm border bg-indigo-50 rounded-md space-y-2" x-cloak>
             <%= if @note.type == "multiple_choice" do %>
-              <%= for {o, i} <- Enum.with_index(@note.options) do %>
-                <label class="flex items-start">
-                  <input
-                    type="checkbox"
-                    x-model="options[<%= i %>].answer"
-                    class="mr-2 mt-0.5 form-checkbox"
-                    :class="{
-                      'border-green-600 text-green-600': check && (options[<%= i %>].answer || false) == options[<%= i %>].correct,
-                      'border-red-600 text-red-600': check && (options[<%= i %>].answer || false) != options[<%= i %>].correct,
-                    }"
-                  >
-                  <p
-                    :class="{
-                      'text-green-600': check && (options[<%= i %>].answer || false) == options[<%= i %>].correct,
-                      'text-red-600': check && (options[<%= i %>].answer || false) != options[<%= i %>].correct,
-                    }"
-                  >
-                    <%= o.content %>
-                  </p>
-                </label>
-              <% end %>
+              <div class="space-y-6">
+                <%= for {o, i} <- Enum.with_index(@note.options) do %>
+                  <label class="flex items-start">
+                    <input
+                      type="checkbox"
+                      x-model="options[<%= i %>].answer"
+                      class="mr-2 mt-0.5 form-checkbox"
+                      :class="{
+                        'border-green-600 text-green-600': check && (options[<%= i %>].answer || false) == options[<%= i %>].correct,
+                        'border-red-600 text-red-600': check && (options[<%= i %>].answer || false) != options[<%= i %>].correct,
+                      }"
+                    >
+                    <p
+                      :class="{
+                        'text-green-600': check && (options[<%= i %>].answer || false) == options[<%= i %>].correct,
+                        'text-red-600': check && (options[<%= i %>].answer || false) != options[<%= i %>].correct,
+                      }"
+                    >
+                      <%= o.content %>
+                    </p>
+                  </label>
+                <% end %>
+              </div>
             <% else %>
               <input
                 autocomplete="off"
@@ -48,7 +50,13 @@
                   'border-red-600': check && !options.some((o) => o.content.toLowerCase() == answer.toLowerCase()),
                 }"
               >
-              <p x-text="options[0].content" x-show="check">
+                <template x-if="check">
+                  <ul class="space-y-2">
+                    <template x-for="option in options" :key="option.content">
+                      <li class="list-disc list-inside" x-text="option.content">
+                    </template>
+                  </ul>
+                </template>
             <% end %>
           </div>
         <% end %>
