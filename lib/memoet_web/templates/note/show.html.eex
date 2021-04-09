@@ -26,22 +26,22 @@
         <p class="w-full pb-2 font-bold border-b">
           <%= if @note.type == "multiple_choice", do: "Multiple choice", else: "Type answer" %>
         </p>
-          <%= if @note.type == "multiple_choice" do %>
-            <ul class="space-y-6">
-              <%= for o <- @note.options do %>
-                <li class="flex items-start">
-                  <input type="checkbox" <%= if o.correct, do: "checked" %> class="mt-0.5 mr-2 form-checkbox" disabled>
-                  <p><%= o.content %></p>
-                </li>
-              <% end %>
-            </ul>
-          <% else %>
-            <ul class="space-y-2">
-              <%= for o <- @note.options do %>
-                <li class="list-disc list-inside"><%= o.content %></li>
-              <% end %>
-            </ul>
-          <% end %>
+        <%= if @note.type == "multiple_choice" do %>
+          <ul class="space-y-6">
+            <%= for o <- @note.options do %>
+              <li class="flex items-start">
+                <input type="checkbox" <%= if o.correct, do: "checked" %> class="mt-0.5 mr-2 form-checkbox" disabled>
+                <p><%= o.content %></p>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <ul class="space-y-2">
+            <%= for o <- @note.options do %>
+              <li class="list-disc list-inside"><%= o.content %></li>
+            <% end %>
+          </ul>
+        <% end %>
       </div>
     <% end %>
 

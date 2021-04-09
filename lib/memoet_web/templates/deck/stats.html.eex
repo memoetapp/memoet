@@ -34,13 +34,14 @@
     <strong><%= @stats.span_time.from_date %></strong>
     to
     <strong><%= @stats.span_time.to_date %></strong>
-    (0 represents today).
   </p>
 
   <h4>Practice count by date</h4>
+  <p class="text-sm opacity-50">(0 is today)</p>
   <div class="ct-chart ct-major-tenth" id="practice_by_date"></div>
 
-  <h4>Practice speed by date (seconds per note)</h4>
+  <h4>Practice speed by date</h4>
+  <p class="text-sm opacity-50">(seconds per note)</p>
   <div class="ct-chart ct-major-tenth" id="speed_by_date"></div>
 
   <h4>Due count by date</h4>
@@ -84,8 +85,31 @@
     series: <%= raw Poison.encode!(for key <- [1, 2, 3, 4], do: @stats.span_data.answer_by_choice[key] || 0) %>
   };
 
+  const responsiveOptions = [
+    ['screen and (min-width: 375px)', {
+      chartPadding: 20,
+      labelOffset: 50,
+      labelDirection: 'explode',
+    }],
+    ['screen and (min-width: 414px)', {
+      chartPadding: 30,
+      labelOffset: 60,
+      labelDirection: 'explode',
+    }],
+    ['screen and (min-width: 600px)', {
+      chartPadding: 40,
+      labelOffset: 70,
+      labelDirection: 'explode',
+    }],
+    ['screen and (min-width: 1024px)', {
+      chartPadding: 50,
+      labelOffset: 80,
+      labelDirection: 'explode',
+    }],
+  ];
+
   new Chartist.Bar('#practice_by_date', practice_by_date);
   new Chartist.Bar('#speed_by_date', speed_by_date);
   new Chartist.Bar('#due_by_date', due_by_date);
-  new Chartist.Pie('#answer_by_choice', answer_by_choice);
+  new Chartist.Pie('#answer_by_choice', answer_by_choice, {}, responsiveOptions);
 </script>

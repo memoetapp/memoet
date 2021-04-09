@@ -2,6 +2,7 @@ const plugin = require('tailwindcss/plugin')
 
 const colorFunc = theme => ({
    'white': theme('colors.white'),
+   'gray': theme('colors.gray.500'),
    'red': theme('colors.red.500'),
    'green': theme('colors.green.500'),
    'blue': theme('colors.blue.500'),
