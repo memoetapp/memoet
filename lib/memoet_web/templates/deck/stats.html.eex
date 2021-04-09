@@ -81,7 +81,7 @@
 
   const answer_by_choice = {
     labels: ["Again", "Hard", "Good", "Easy"],
-    series: <%= raw Poison.encode!(for key <- [1, 2, 3, 4], do: @stats.span_data.answer_by_choice[key]) %>
+    series: <%= raw Poison.encode!(for key <- [1, 2, 3, 4], do: @stats.span_data.answer_by_choice[key] || 0) %>
   };
 
   new Chartist.Bar('#practice_by_date', practice_by_date);
