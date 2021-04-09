@@ -38,7 +38,7 @@
           <% else %>
             <ul class="space-y-2">
               <%= for o <- @note.options do %>
-                <li class="list-disc list-inside">"<%= o.content %>"</li>
+                <li class="list-disc list-inside"><%= o.content %></li>
               <% end %>
             </ul>
           <% end %>
