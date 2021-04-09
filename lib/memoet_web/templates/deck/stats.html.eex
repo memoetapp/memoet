@@ -87,13 +87,13 @@
 
   const responsiveOptions = [
     ['screen and (min-width: 375px)', {
-      chartPadding: 20,
-      labelOffset: 50,
+      chartPadding: 30,
+      labelOffset: 40,
       labelDirection: 'explode',
     }],
     ['screen and (min-width: 414px)', {
-      chartPadding: 30,
-      labelOffset: 60,
+      chartPadding: 40,
+      labelOffset: 50,
       labelDirection: 'explode',
     }],
     ['screen and (min-width: 600px)', {
