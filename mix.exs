@@ -56,6 +56,7 @@ defmodule Memoet.MixProject do
       {:phoenix, "~> 1.5.8"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
+      {:db_connection, "~> 2.3.1"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_live_view, "~> 0.15.1"},
       {:floki, ">= 0.27.0", only: :test},
