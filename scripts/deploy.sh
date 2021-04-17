@@ -4,7 +4,7 @@ mix deps.get
 MIX_ENV=prod mix compile
 
 # Assets
-(cd assets/ && npm install && npm run deploy)
+(cd assets/ && npm ci && npm run deploy)
 MIX_ENV=prod mix phx.digest
 
 (sudo lsof -ti :4000 | xargs kill) || true
