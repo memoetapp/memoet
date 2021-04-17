@@ -18,7 +18,7 @@ config :memoet, Memoet.Repo,
 # with webpack to recompile .js and .css sources.
 config :memoet, MemoetWeb.Endpoint,
   http: [port: 4000],
-  url: [scheme: "https", host: "localhost", port: 4001],
+  # url: [scheme: "https", host: "localhost", port: 4001],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,

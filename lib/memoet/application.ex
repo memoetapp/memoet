@@ -14,7 +14,8 @@ defmodule Memoet.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Memoet.PubSub},
       # Start the Endpoint (http/https)
-      {SiteEncrypt.Phoenix, MemoetWeb.Endpoint},
+      # {SiteEncrypt.Phoenix, MemoetWeb.Endpoint},
+      MemoetWeb.Endpoint,
       # Cache
       {Cachex, name: :memoet_cachex},
       # Job

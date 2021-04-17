@@ -73,7 +73,7 @@ defmodule Memoet.MixProject do
       {:paginator, "~> 1.0.3"},
       {:cachex, "~> 3.3"},
       # ssl
-      {:site_encrypt, "~> 0.4"},
+      # {:site_encrypt, "~> 0.4"},
       # Markdown
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.4"},
