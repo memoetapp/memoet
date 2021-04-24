@@ -120,4 +120,14 @@ defmodule Memoet.Timezones do
   def options() do
     @options
   end
+
+  def day_cut_off(time_zone) do
+    Timex.now(time_zone)
+    |> Timex.end_of_day()
+    |> DateTime.to_unix()
+  end
+
+  def day_cut_off() do
+    day_cut_off("Etc/Greenwich")
+  end
 end
