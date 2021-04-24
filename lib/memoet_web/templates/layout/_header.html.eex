@@ -38,6 +38,7 @@
               type="text"
               class="w-full p-0 text-sm border-none opacity-50 focus:opacity-80 focus:outline-none focus:ring-0"
               name="q"
+              value="<%= @conn.params["q"] %>"
               placeholder="Type to search..."
             />
           </form>

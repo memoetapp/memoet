@@ -36,14 +36,14 @@
   <ul class="pagination__button">
     <%= if @metadata.before do %>
       <li>
-        <a href="<%= Routes.search_path(@conn, :search, %{ before: @metadata.before }) %>" class="pagination__nav">
+        <a href="<%= Routes.search_path(@conn, :search, %{ before: @metadata.before, q: @conn.params["q"] }) %>" class="pagination__nav">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </a>
       </li>
     <% end %>
     <%= if @metadata.after do %>
       <li>
-        <a href="<%= Routes.search_path(@conn, :search, %{ after: @metadata.after }) %>" class="pagination__nav">
+        <a href="<%= Routes.search_path(@conn, :search, %{ after: @metadata.after, q: @conn.params["q"] }) %>" class="pagination__nav">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </a>
       </li>
