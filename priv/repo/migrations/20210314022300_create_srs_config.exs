@@ -25,6 +25,8 @@ defmodule Memoet.Repo.Migrations.CreateSrsConfig do
 
       add(:leech_threshold, :integer, null: false)
 
+      add(:time_zone, :string, null: false, default: "Etc/Greenwich")
+
       add(
         :user_id,
         references(:users,

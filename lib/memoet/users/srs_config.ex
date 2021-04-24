@@ -10,6 +10,7 @@ defmodule Memoet.Users.SrsConfig do
   @srs_fields [
     # TODO: Support learn ahead feature
     # :learn_ahead_time,
+    :time_zone,
     :learn_steps,
     :relearn_steps,
     :initial_ease,
@@ -50,6 +51,8 @@ defmodule Memoet.Users.SrsConfig do
 
     # Should be 7 or 8 times, we set 1_000_000 here to not support it for now
     field(:leech_threshold, :integer, default: 1_000_000)
+
+    field(:time_zone, :string, default: "Etc/Greenwich")
 
     belongs_to(:user, User, foreign_key: :user_id, references: :id, type: :binary_id)
 
