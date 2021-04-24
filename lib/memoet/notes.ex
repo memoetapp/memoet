@@ -16,12 +16,12 @@ defmodule Memoet.Notes do
 
     Note
     |> where(^filter_where(params))
-    |> order_by(desc: :updated_at)
+    |> order_by([desc: :updated_at, asc: :id])
     |> Repo.paginate(
       before: cursor_before,
       after: cursor_after,
       include_total_count: true,
-      cursor_fields: [{:updated_at, :desc}],
+      cursor_fields: [{:updated_at, :desc}, {:id, :asc}],
       limit: limit
     )
   end
@@ -32,12 +32,12 @@ defmodule Memoet.Notes do
 
     Note
     |> where(^filter_where(params))
-    |> order_by(desc: :inserted_at)
+    |> order_by([desc: :inserted_at, asc: :id])
     |> Repo.paginate(
       before: cursor_before,
       after: cursor_after,
       include_total_count: true,
-      cursor_fields: [{:inserted_at, :desc}],
+      cursor_fields: [{:inserted_at, :desc}, {:id, :asc}],
       limit: limit
     )
   end
@@ -114,7 +114,7 @@ defmodule Memoet.Notes do
 
       {"q", value}, dynamic ->
         q = "%" <> value <> "%"
-        dynamic([n], ^dynamic and ilike(n.title, ^q))
+        dynamic([n], ^dynamic and (ilike(n.title, ^q) or ilike(n.content, ^q)))
 
       {_, _}, dynamic ->
         # Not a where parameter

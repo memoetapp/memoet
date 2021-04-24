@@ -11,14 +11,17 @@
   <ul class="flex flex-col w-full space-y-4">
     <%= for note <- @notes do %>
       <li class="truncate">
-        <h2 class="truncate">
-          <a
-            class="justify-start py-1 border-b border-gray-100 hover:border-indigo-600 text-link"
-            href="<%= Routes.deck_note_path @conn, :show, %Memoet.Decks.Deck{id: note.deck_id}, note %>"
-          >
+        <a
+          class="block py-1 border-b border-gray-100 hover:border-indigo-600 text-link"
+          href="<%= Routes.deck_note_path @conn, :show, %Memoet.Decks.Deck{id: note.deck_id}, note %>"
+        >
+          <h2 class="truncate">
             <%= note.title %>
-          </a>
-        </h2>
+          </h2>
+          <p class="text-sm truncate opacity-80">
+            <%= note.content %>
+          </p>
+        </a>
       </li>
     <% end %>
 

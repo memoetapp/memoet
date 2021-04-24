@@ -71,10 +71,8 @@ defmodule Memoet.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:timex, "~> 3.6"},
       {:poison, "~> 4.0"},
-      {:paginator, "~> 1.0.3"},
+      {:paginator, "~> 1.0.4"},
       {:cachex, "~> 3.3"},
-      # ssl
-      # {:site_encrypt, "~> 0.4"},
       # Markdown
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.4"},
