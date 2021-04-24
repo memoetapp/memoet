@@ -1,4 +1,6 @@
-<div class="flex items-center justify-center py-12">
+<div class="flex items-center justify-center py-12"
+     x-data="{timezone_offset: 0}"
+     x-init="timezone_offset = new Date().getTimezoneOffset()">
   <div class="w-full max-w-md space-y-8">
     <div>
       <img src="<%= Routes.static_path(@conn, "/images/logo.svg") %>" alt="Memoet Logo" class="w-auto h-8 mx-auto"/>
@@ -30,6 +32,7 @@
           <%= error_tag f, :password_confirmation %>
         </div>
         <%= hidden_input f, :persistent_session, value: true %>
+        <%= hidden_input f, :timezone_offset, "x-model": "timezone_offset" %>
       </div>
 
       <%= submit "Register", class: "btn-primary w-full" %>

@@ -13,12 +13,12 @@
       <section>
         Your timezone:
         <%= select f,
-          :time_zone,
+          :timezone,
           Memoet.Timezones.options,
           required: true,
           class: "form-control form-block",
-          value: @srs_config.time_zone %>
-        <%= error_tag f, :time_zone %>
+          value: @srs_config.timezone %>
+        <%= error_tag f, :timezone %>
       </section>
     </section>
 

@@ -121,13 +121,24 @@ defmodule Memoet.Timezones do
     @options
   end
 
-  def day_cut_off(time_zone) do
-    Timex.now(time_zone)
+  def day_cut_off(timezone) do
+    Timex.now(timezone)
     |> Timex.end_of_day()
     |> DateTime.to_unix()
   end
 
   def day_cut_off() do
     day_cut_off("Etc/Greenwich")
+  end
+
+  def get_timezone_from_offset(offset) do
+    el = @options
+         |> Enum.filter(fn item -> item[:offset] == to_string(offset) end)
+         |> List.first()
+
+    case el do
+      nil -> "Etc/Greenwich"
+      _ -> el[:value]
+    end
   end
 end
