@@ -7,6 +7,23 @@
 
     <section class="p-4 pb-6 border rounded-md space-y-5">
       <p class="w-full pb-2 font-bold border-b">
+        General
+      </p>
+
+      <section>
+        Your timezone:
+        <%= select f,
+          :timezone,
+          Memoet.Timezones.options,
+          required: true,
+          class: "form-control form-block",
+          value: @srs_config.timezone %>
+        <%= error_tag f, :timezone %>
+      </section>
+    </section>
+
+    <section class="p-4 pb-6 border rounded-md space-y-5">
+      <p class="w-full pb-2 font-bold border-b">
         Learn
       </p>
 

@@ -23,8 +23,8 @@ fn load(env: Env, _: Term) -> bool {
 }
 
 #[rustler::nif]
-fn new(config: Config) -> Result<ResourceArc<Scheduler>, Error> {
-    let scheduler = Scheduler::new(config, Timestamp::day_cut_off());
+fn new(config: Config, day_cut_off: i64) -> Result<ResourceArc<Scheduler>, Error> {
+    let scheduler = Scheduler::new(config, day_cut_off);
     Ok(ResourceArc::new(scheduler))
 }
 

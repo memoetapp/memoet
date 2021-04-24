@@ -1,7 +1,7 @@
 defmodule MemoetWeb.RegistrationController do
   use MemoetWeb, :controller
 
-  alias Memoet.Accounts
+  alias Memoet.{Accounts, Users, Timezones}
   alias Memoet.Accounts.Roles
 
   def new(conn, _params) do
@@ -45,11 +45,22 @@ defmodule MemoetWeb.RegistrationController do
             |> put_session(:current_user_id, user.id)
             |> configure_session(renew: true)
 
+          init_user_timezone(user.id, user_params)
+
           {:ok, conn}
 
         {:error, changeset, _conn} ->
           {:error, changeset}
       end
     end)
+  end
+
+  defp init_user_timezone(user_id, user_params) do
+    offset = case user_params do
+      %{"timezone_offset" => timezone_offset} -> timezone_offset
+      _ -> "0"
+    end
+    timezone = Timezones.get_timezone_from_offset(offset)
+    Users.update_srs_config(user_id, %{"timezone" => timezone})
   end
 end
