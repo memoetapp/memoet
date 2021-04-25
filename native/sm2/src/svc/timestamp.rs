@@ -1,19 +1,25 @@
-use chrono::{DateTime, Duration, FixedOffset, Local, TimeZone, Utc};
+use chrono::{DateTime, Duration, FixedOffset, Local, TimeZone, Utc, Datelike};
 
-pub struct Timestamp(i64);
+pub struct Timestamp {
+    pub day_cut_off: i64,
+    pub day_today: i64,
+}
 
 impl Timestamp {
     pub fn now() -> i64 {
         now()
     }
 
-    pub fn day_cut_off() -> i64 {
-        get_next_day(
+    pub fn new() -> Self {
+         let next_day = get_next_day(
             now(),
             local_minutes_west_for_stamp(Utc::now().timestamp()),
             4,
-        )
-        .timestamp()
+        );
+        Self {
+            day_cut_off: next_day.timestamp(),
+            day_today: (next_day.num_days_from_ce() - 719_163) as i64
+        }
     }
 }
 
