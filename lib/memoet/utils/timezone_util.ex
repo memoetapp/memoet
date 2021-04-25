@@ -1,4 +1,4 @@
-defmodule Memoet.Timezones do
+defmodule Memoet.Utils.Timezones do
   @moduledoc "https://stackoverflow.com/a/52265733"
 
   @options [
@@ -119,16 +119,6 @@ defmodule Memoet.Timezones do
 
   def options() do
     @options
-  end
-
-  def day_cut_off(timezone) do
-    Timex.now(timezone)
-    |> Timex.end_of_day()
-    |> DateTime.to_unix()
-  end
-
-  def day_cut_off() do
-    day_cut_off("Etc/Greenwich")
   end
 
   def get_timezone_from_offset(offset) do

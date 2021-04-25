@@ -7,8 +7,8 @@ defmodule Memoet.SRS.Sm2 do
   alias Memoet.SRS.{Config, Scheduler, Card, Choices}
 
   # When your NIF is loaded, it will override this function.
-  @spec new(Config.t(), integer()) :: Scheduler.t()
-  def new(_config, _day_cut_off), do: error()
+  @spec new(Config.t(), integer(), integer()) :: Scheduler.t()
+  def new(_config, _day_cut_off, _day_today), do: error()
 
   def next_interval(_card, _scheduler, _choice), do: error()
   def next_interval_string(_card, _scheduler, _choice), do: error()

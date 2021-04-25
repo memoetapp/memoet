@@ -3,7 +3,7 @@ defmodule Memoet.SRS.Sm2Test do
 
   alias Memoet.SRS.Sm2
   alias Memoet.SRS.{Config, Card}
-  alias Memoet.Timezones
+  alias Memoet.Utils.Timezones
 
   test "next interval" do
     scheduler = Sm2.new(%Config{}, Timezones.day_cut_off())

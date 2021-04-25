@@ -1,11 +1,9 @@
 defmodule MemoetWeb.DeckController do
   use MemoetWeb, :controller
 
-  alias Memoet.Decks
   alias Memoet.Decks.Deck
-  alias Memoet.Notes
-  alias Memoet.Cards
   alias Memoet.Utils.MapUtil
+  alias Memoet.{Decks, Notes, Cards, Users}
 
   # Max size 255, and " (copy)" takes 7 characters
   @title_slice_limit 248
@@ -215,6 +213,7 @@ defmodule MemoetWeb.DeckController do
   def practice(conn, %{"id" => deck_id} = params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(deck_id, user.id)
+    timezone = Users.get_srs_config(user.id).timezone
 
     cards =
       case params do
@@ -222,7 +221,11 @@ defmodule MemoetWeb.DeckController do
           Cards.list_cards(%{"deck_id" => deck_id, "note_id" => note_id})
 
         _ ->
-          Cards.due_cards(%{"deck_id" => deck.id, "learning_order" => deck.learning_order})
+          Cards.due_cards(%{
+            "deck_id" => deck.id,
+            "learning_order" => deck.learning_order,
+            "timezone" => timezone,
+          })
       end
 
     case cards do
@@ -246,7 +249,7 @@ defmodule MemoetWeb.DeckController do
           Cards.list_cards(%{"deck_id" => deck_id, "note_id" => note_id})
 
         _ ->
-          Cards.due_cards(%{"deck_id" => deck_id, "public" => true})
+          Cards.list_cards(%{"deck_id" => deck_id, "public" => true})
       end
 
     case cards do
@@ -306,7 +309,8 @@ defmodule MemoetWeb.DeckController do
   def stats(conn, %{"id" => id} = _params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
-    stats = Decks.deck_stats(id)
+    timezone = Users.get_srs_config(user.id).timezone
+    stats = Decks.deck_stats(id, timezone)
 
     conn
     |> render("stats.html", deck: deck, stats: stats)

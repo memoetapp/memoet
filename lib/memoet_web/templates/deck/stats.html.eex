@@ -34,6 +34,11 @@
     <strong><%= @stats.span_time.from_date %></strong>
     to
     <strong><%= @stats.span_time.to_date %></strong>
+    <span class="opacity-70">
+      (Timezone:
+        <a href="<%= Routes.srs_config_path @conn, :edit %>" class="inline text-link">
+          <%= @stats.span_time.timezone %></a>)
+    </span>
   </p>
 
   <h4>Due count by date</h4>

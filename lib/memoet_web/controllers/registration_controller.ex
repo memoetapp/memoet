@@ -1,7 +1,7 @@
 defmodule MemoetWeb.RegistrationController do
   use MemoetWeb, :controller
 
-  alias Memoet.{Accounts, Users, Timezones}
+  alias Memoet.{Accounts, Users, Utils.Timezones}
   alias Memoet.Accounts.Roles
 
   def new(conn, _params) do
