@@ -6,7 +6,6 @@ use rustler::{Env, Error, ResourceArc, Term};
 use crate::srs::card::Card;
 use crate::srs::config::Config;
 use crate::srs::scheduler::{Choice, Sched, Scheduler};
-use crate::svc::timestamp::Timestamp;
 
 mod atoms {
     rustler::atoms! {
