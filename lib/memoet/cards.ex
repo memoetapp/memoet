@@ -31,8 +31,8 @@ defmodule Memoet.Cards do
     end
   end
 
-  defp get_review_cards_query(params) do
-    today = TimestampUtil.days_from_epoch(params["timezone"])
+  defp get_review_cards_query(%{"timezone" => timezone} = _params) do
+    today = TimestampUtil.days_from_epoch(timezone)
     now = TimestampUtil.now()
 
     from(c in Card,

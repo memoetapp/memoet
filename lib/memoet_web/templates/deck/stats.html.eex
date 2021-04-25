@@ -42,21 +42,21 @@
   </p>
 
   <h4>Due count by date</h4>
-  <p class="text-sm opacity-50">(0 is today)</p>
+  <p class="text-sm opacity-50">(0 represents today)</p>
   <div class="ct-chart ct-major-tenth" id="due_by_date"></div>
 
   <h4>Answer count by choice</h4>
   <div class="ct-chart ct-octave" id="answer_by_choice"></div>
 
   <h4>Practice count by date</h4>
-  <p class="text-sm opacity-50">(0 is today)</p>
+  <p class="text-sm opacity-50">(0 represents today)</p>
   <div class="ct-chart ct-major-tenth" id="practice_by_date"></div>
 
   <h4>Practice speed by date</h4>
   <p class="text-sm opacity-50">(seconds per note)</p>
   <div class="ct-chart ct-major-tenth" id="speed_by_date"></div>
 
-  <small>
+  <small class="block mt-10 opacity-50">
     Deck is created <%= Timex.format!(@deck.inserted_at, "{relative}", :relative) %>,
     last updated <%= Timex.format!(@deck.updated_at, "{relative}", :relative) %>.
   </small>
