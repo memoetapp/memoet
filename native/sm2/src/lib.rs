@@ -6,7 +6,6 @@ use rustler::{Env, Error, ResourceArc, Term};
 use crate::srs::card::Card;
 use crate::srs::config::Config;
 use crate::srs::scheduler::{Choice, Sched, Scheduler};
-use crate::svc::timestamp::Timestamp;
 
 mod atoms {
     rustler::atoms! {
@@ -23,8 +22,8 @@ fn load(env: Env, _: Term) -> bool {
 }
 
 #[rustler::nif]
-fn new(config: Config, day_cut_off: i64) -> Result<ResourceArc<Scheduler>, Error> {
-    let scheduler = Scheduler::new(config, day_cut_off);
+fn new(config: Config, day_cut_off: i64, day_today: i64) -> Result<ResourceArc<Scheduler>, Error> {
+    let scheduler = Scheduler::new(config, day_cut_off, day_today);
     Ok(ResourceArc::new(scheduler))
 }
 

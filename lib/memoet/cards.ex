@@ -31,8 +31,8 @@ defmodule Memoet.Cards do
     end
   end
 
-  defp get_review_cards_query(params) do
-    today = get_today(params)
+  defp get_review_cards_query(%{"timezone" => timezone} = _params) do
+    today = TimestampUtil.days_from_epoch(timezone)
     now = TimestampUtil.now()
 
     from(c in Card,
@@ -70,13 +70,6 @@ defmodule Memoet.Cards do
     |> limit(@limit)
     |> Repo.all()
     |> Repo.preload([:note])
-  end
-
-  defp get_today(params) do
-    case params do
-      %{today: today} -> today
-      _ -> TimestampUtil.today()
-    end
   end
 
   @spec list_cards(map) :: [Card.t()]

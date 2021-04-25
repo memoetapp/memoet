@@ -159,10 +159,12 @@ defmodule Memoet.Decks do
     )
   end
 
-  @spec deck_stats(binary()) :: map()
-  def deck_stats(deck_id) do
-    # TODO: Calculate this base on user's timezone
-    now = DateTime.utc_now()
+  @spec deck_stats(binary(), String.t()) :: map()
+  def deck_stats(deck_id, timezone) do
+    now = Timex.now(timezone)
+          |> Timex.end_of_day()
+    today_unix = TimestampUtil.days_from_epoch(timezone)
+
     from_date = DateTime.add(now, -@stats_days * 86_400, :second)
     to_date = DateTime.add(now, @stats_days * 86_400, :second)
 
@@ -171,12 +173,13 @@ defmodule Memoet.Decks do
     %{
       counter_to_date: counter_to_date(deck_id),
       span_data: %{
-        due_by_date: due_by_date(deck_id, from_date, to_date),
+        due_by_date: due_by_date(deck_id, from_date, to_date, today_unix),
         practice_by_date: practices.count,
         speed_by_date: practices.speed,
         answer_by_choice: answer_by_choice(deck_id, from_date, to_date)
       },
       span_time: %{
+        timezone: timezone,
         from_date: DateTime.to_date(from_date),
         to_date: DateTime.to_date(to_date)
       }
@@ -207,13 +210,10 @@ defmodule Memoet.Decks do
     |> Map.merge(%{total: total})
   end
 
-  @spec due_by_date(binary(), DateTime.t(), DateTime.t()) :: map()
-  def due_by_date(deck_id, from_date, to_date) do
-    today_unix = TimestampUtil.today()
-    now = DateTime.utc_now()
-
-    from_date = trunc(DateTime.diff(from_date, now, :second) / 86_400) + today_unix
-    to_date = trunc(DateTime.diff(to_date, now, :second) / 86_400) + today_unix
+  @spec due_by_date(binary(), DateTime.t(), DateTime.t(), integer()) :: map()
+  def due_by_date(deck_id, from_date, to_date, today_unix) do
+    from_date = Date.diff(from_date, ~D[1970-01-01])
+    to_date = Date.diff(to_date, ~D[1970-01-01])
 
     from(c in Card,
       group_by: c.due,

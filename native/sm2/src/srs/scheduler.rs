@@ -45,11 +45,11 @@ pub struct Scheduler {
 }
 
 impl Scheduler {
-    pub fn new(config: Config, day_cut_off: i64) -> Self {
+    pub fn new(config: Config, day_cut_off: i64, day_today: i64) -> Self {
         Self {
             config,
             day_cut_off,
-            day_today: day_cut_off / 86_400,
+            day_today,
         }
     }
 
@@ -508,7 +508,8 @@ mod tests {
 
     #[test]
     fn test_new() {
-        let scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
         scheduler.answer_card(&mut card, Choice::Again);
         assert!(matches!(card.card_queue, CardQueue::Learn));
@@ -518,7 +519,8 @@ mod tests {
 
     #[test]
     fn test_change_steps() {
-        let mut scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let mut scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
         scheduler.config.learn_steps = vec![1.0, 2.0, 3.0, 4.0, 5.0];
         scheduler.answer_card(&mut card, Choice::Ok);
@@ -528,7 +530,8 @@ mod tests {
 
     #[test]
     fn test_learn() {
-        let mut scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let mut scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         // Fail it
@@ -577,7 +580,8 @@ mod tests {
 
     #[test]
     fn test_initial_hard() {
-        let scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         scheduler.answer(&mut card, Choice::Hard);
@@ -587,7 +591,8 @@ mod tests {
 
     #[test]
     fn test_relearn() {
-        let scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         card.interval = 100;
@@ -611,7 +616,8 @@ mod tests {
 
     #[test]
     fn test_relearn_no_steps() {
-        let mut scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let mut scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         card.interval = 100;
@@ -628,7 +634,8 @@ mod tests {
 
     #[test]
     fn test_learn_day() {
-        let mut scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let mut scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         scheduler.config.learn_steps = vec![1.0, 10.0, 1440.0, 2880.0];
@@ -660,7 +667,8 @@ mod tests {
 
     #[test]
     fn test_review() {
-        let scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         card.card_type = CardType::Review;
@@ -707,7 +715,8 @@ mod tests {
 
     #[test]
     fn test_spacing_button() {
-        let mut scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let mut scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         card.card_type = CardType::Review;
@@ -736,7 +745,8 @@ mod tests {
 
     #[test]
     fn test_bury() {
-        let scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         scheduler.bury_card(&mut card);
@@ -748,7 +758,8 @@ mod tests {
 
     #[test]
     fn test_suspend() {
-        let scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         card.due = scheduler.day_today;
@@ -772,7 +783,8 @@ mod tests {
 
     #[test]
     fn test_reschedule() {
-        let scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         scheduler.schedule_card_as_review(&mut card, 0, 0);
@@ -793,7 +805,8 @@ mod tests {
 
     #[test]
     fn test_fail_multiple() {
-        let mut scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let mut scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         card.interval = 100;
@@ -813,7 +826,8 @@ mod tests {
 
     #[test]
     fn test_ok_multiple_times() {
-        let scheduler = Scheduler::new(Config::default(), Timestamp::day_cut_off());
+        let ts = Timestamp::new();
+        let scheduler = Scheduler::new(Config::default(), ts.day_cut_off, ts.day_today);
         let mut card = Card::default();
 
         for _ in 1..1000 {

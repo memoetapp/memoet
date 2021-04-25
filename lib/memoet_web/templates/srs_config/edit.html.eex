@@ -6,15 +6,11 @@
   <%= form_for @changeset, Routes.srs_config_path(@conn, :update), [method: "PUT", class: "mt-8 space-y-8"], fn f -> %>
 
     <section class="p-4 pb-6 border rounded-md space-y-5">
-      <p class="w-full pb-2 font-bold border-b">
-        General
-      </p>
-
       <section>
         Your timezone:
         <%= select f,
           :timezone,
-          Memoet.Timezones.options,
+          Memoet.Utils.Timezones.options,
           required: true,
           class: "form-control form-block",
           value: @srs_config.timezone %>

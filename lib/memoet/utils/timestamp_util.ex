@@ -8,11 +8,22 @@ defmodule Memoet.Utils.TimestampUtil do
     |> DateTime.to_unix(unit)
   end
 
-  def today(unit \\ :second) do
-    s =
-      DateTime.utc_now()
-      |> DateTime.to_unix(unit)
+  def days_from_epoch(timezone) do
+    Timex.now(timezone)
+    |> Date.diff(~D[1970-01-01])
+  end
 
-    trunc(s / 86_400)
+  def days_from_epoch() do
+    days_from_epoch("Etc/Greenwich")
+  end
+
+  def day_cut_off(timezone) do
+    Timex.now(timezone)
+    |> Timex.end_of_day()
+    |> DateTime.to_unix()
+  end
+
+  def day_cut_off() do
+    day_cut_off("Etc/Greenwich")
   end
 end

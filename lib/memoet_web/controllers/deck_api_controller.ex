@@ -2,9 +2,8 @@ defmodule MemoetWeb.DeckAPIController do
   use MemoetWeb, :controller
 
   alias Ecto.Changeset
-  alias Memoet.Decks
+  alias Memoet.{Decks, Users, Cards}
   alias Memoet.Decks.Deck
-  alias Memoet.Cards
   alias Memoet.Cards.Card
   alias MemoetWeb.ErrorHelpers
 
@@ -87,6 +86,7 @@ defmodule MemoetWeb.DeckAPIController do
   def practice(conn, %{"id" => deck_id} = params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(deck_id, user.id)
+    timezone = Users.get_srs_config(user.id).timezone
 
     cards =
       case params do
@@ -94,7 +94,11 @@ defmodule MemoetWeb.DeckAPIController do
           Cards.list_cards(%{"deck_id" => deck.id, "note_id" => note_id})
 
         _ ->
-          Cards.due_cards(%{"deck_id" => deck.id, "learning_order" => deck.learning_order})
+          Cards.due_cards(%{
+            "deck_id" => deck.id,
+            "learning_order" => deck.learning_order,
+            "timezone" => timezone,
+          })
       end
 
     case cards do
