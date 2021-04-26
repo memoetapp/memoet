@@ -12,7 +12,7 @@ defmodule Memoet.Decks do
   alias Memoet.Notes
   alias Memoet.Utils.{MapUtil, RequestUtil, TimestampUtil}
 
-  @stats_days 15
+  @stats_days 20
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
