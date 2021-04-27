@@ -18,28 +18,54 @@ defmodule Memoet.Cards do
   # 60 secs
   @max_time_answer 60_000
 
-  def due_cards(params) do
-    review_cards_query = get_review_cards_query(params)
-    new_cards_query = get_new_cards_query(params)
+  def due_cards(%{"timezone" => timezone} = params) do
+    now = TimestampUtil.now()
+    today = TimestampUtil.days_from_epoch(timezone)
 
-    cards = get_random_cards(review_cards_query, params)
+    # Due cards order:
+    # 1. Learn cards
+    # 2. Day learn cards
+    # 3. Review cards
+    # 4. New cards
+    # 5. Collapsed learn cards
+    # We doesn't support limit new cards for now so we can't support collapse
+    # learning either
 
+    cards = get_some_cards(get_learn_cards_query(now), params)
     if length(cards) > 0 do
       cards
     else
-      get_random_cards(new_cards_query, params)
+      cards = get_some_cards(get_day_learn_cards_query(today), params)
+      if length(cards) > 0 do
+        cards
+      else
+        cards = get_some_cards(get_review_cards_query(today), params)
+        if length(cards) > 0 do
+          cards
+        else
+          get_some_cards(get_new_cards_query(params), params)
+        end
+      end
     end
   end
 
-  defp get_review_cards_query(%{"timezone" => timezone} = _params) do
-    today = TimestampUtil.days_from_epoch(timezone)
-    now = TimestampUtil.now()
-
+  defp get_learn_cards_query(now) do
     from(c in Card,
-      where:
-        (c.card_queue == ^CardQueues.learn() and c.due < ^now) or
-          (c.card_queue == ^CardQueues.review() and c.due <= ^today) or
-          (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today),
+      where: c.card_queue == ^CardQueues.learn() and c.due < ^now,
+      order_by: fragment("RANDOM()")
+    )
+  end
+
+  defp get_day_learn_cards_query(today) do
+    from(c in Card,
+      where: c.card_queue == ^CardQueues.day_learn() and c.due <= ^today,
+      order_by: fragment("RANDOM()")
+    )
+  end
+
+  defp get_review_cards_query(today) do
+    from(c in Card,
+      where: c.card_queue == ^CardQueues.review() and c.due <= ^today,
       order_by: fragment("RANDOM()")
     )
   end
@@ -64,7 +90,7 @@ defmodule Memoet.Cards do
     end
   end
 
-  defp get_random_cards(query, params) do
+  defp get_some_cards(query, params) do
     query
     |> where(^filter_where(params))
     |> limit(@limit)

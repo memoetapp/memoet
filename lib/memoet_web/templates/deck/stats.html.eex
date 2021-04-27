@@ -18,12 +18,15 @@
       New notes: <strong><%= @stats.counter_to_date[0] || 0 %></strong>
     </li>
     <li>
-      Learn notes: <strong><%= @stats.counter_to_date[1] || 0 %></strong>
+      Learn notes:
+      <strong>
+        <%= (@stats.counter_to_date[1] || 0) + (@stats.counter_to_date[3] || 0) %>
+      </strong>
     </li>
     <li>
       Review notes:
       <strong>
-        <%= (@stats.counter_to_date[2] || 0) + (@stats.counter_to_date[3] || 0) %>
+        <%= @stats.counter_to_date[2] || 0 %>
       </strong>
     </li>
   </ul>
