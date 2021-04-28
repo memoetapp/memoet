@@ -35,7 +35,7 @@ defmodule Memoet.Cards do
       cards
     else
       # 2
-      new_today = if deck.day_today > today do
+      new_today = if deck.day_today < today do
         Decks.update_new(deck, %{"new_today" => deck.new_per_day, "day_today" => today})
         deck.new_per_day
       else
