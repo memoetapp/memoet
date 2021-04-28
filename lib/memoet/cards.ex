@@ -34,7 +34,6 @@ defmodule Memoet.Cards do
     if length(cards) > 0 do
       cards
     else
-      # 2
       new_today = if deck.day_today < today do
         Decks.update_new(deck, %{"new_today" => deck.new_per_day, "day_today" => today})
         deck.new_per_day
@@ -42,23 +41,30 @@ defmodule Memoet.Cards do
         deck.new_today
       end
 
+      # 2
       cards = if new_today > 0 do
         get_some_cards(get_new_cards_query(deck.learning_order), deck.id)
       else
-        # 3
-        get_some_cards(get_day_learn_cards_query(today), deck.id)
+        cards
       end
 
       if length(cards) > 0 do
         cards
       else
-        # 4
-        cards = get_some_cards(get_review_cards_query(today), deck.id)
+        # 3
+        cards = get_some_cards(get_day_learn_cards_query(today), deck.id)
+
         if length(cards) > 0 do
           cards
         else
-          # 5
-          get_some_cards(get_learn_cards_query(now + collapse_time), deck.id)
+          # 4
+          cards = get_some_cards(get_review_cards_query(today), deck.id)
+          if length(cards) > 0 do
+            cards
+          else
+            # 5
+            get_some_cards(get_learn_cards_query(now + collapse_time), deck.id)
+          end
         end
       end
     end
