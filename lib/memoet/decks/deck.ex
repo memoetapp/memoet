@@ -21,6 +21,10 @@ defmodule Memoet.Decks.Deck do
 
     field(:learning_order, :string, null: false, default: "random")
 
+    field(:new_per_day, :integer, null: false, default: 20)
+    field(:new_today, :integer, null: false, default: 20)
+    field(:day_today, :integer, null: false, default: 0)
+
     belongs_to(:user, User, foreign_key: :user_id, references: :id, type: :binary_id)
     belongs_to(:deck, Deck, foreign_key: :source_id, references: :id, type: :binary_id)
 
@@ -35,6 +39,8 @@ defmodule Memoet.Decks.Deck do
       :name,
       :public,
       :learning_order,
+      :new_per_day,
+      :new_today,
       :source_id,
       :user_id
     ])
@@ -49,5 +55,10 @@ defmodule Memoet.Decks.Deck do
   def stats_changeset(deck, attrs) do
     deck
     |> cast(attrs, [:updated_at])
+  end
+
+  def new_changeset(deck, attrs) do
+    deck
+    |> cast(attrs, [:new_today, :day_today])
   end
 end

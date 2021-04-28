@@ -22,6 +22,12 @@
         ], required: true, value: @deck.learning_order, class: "form-control w-full" %>
     </div>
 
+    <div>
+      New notes per day:
+      <%= number_input f, :new_per_day, required: true, value: @deck.new_per_day,
+        class: "form-control w-full" %>
+    </div>
+
     <div class="flex items-center justify-start space-x-4">
       <span class="flex items-center justify-center space-x-1">
         <%= radio_button f, :public, false, checked: @deck.public == false, required: true,

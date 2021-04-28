@@ -104,8 +104,35 @@ defmodule Memoet.Decks do
 
   @spec update_deck(Deck.t(), map()) :: {:ok, Deck.t()} | {:error, Ecto.Changeset.t()}
   def update_deck(%Deck{} = deck, attrs) do
+    new_per_day = case attrs do
+      %{"new_per_day" => new_per_day} -> new_per_day
+      _ -> deck.new_per_day
+    end
+
+    new_per_day = case Integer.parse(to_string(new_per_day)) do
+      {c, _} -> c
+      :error -> 20
+    end
+
+    attrs = if new_per_day != deck.new_per_day do
+      new_to_learn = new_per_day - deck.new_per_day
+      new_today = max(deck.new_today + new_to_learn, 0)
+
+      attrs
+      |> Map.merge(%{"new_today" => new_today})
+    else
+      attrs
+    end
+
     deck
     |> Deck.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @spec update_new(Deck.t(), map()) :: {:ok, Deck.t()} | {:error, Ecto.Changeset.t()}
+  def update_new(%Deck{} = deck, attrs) do
+    deck
+    |> Deck.new_changeset(attrs)
     |> Repo.update()
   end
 

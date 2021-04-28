@@ -8,8 +8,7 @@ defmodule Memoet.Users.SrsConfig do
   alias Memoet.Users.User
 
   @srs_fields [
-    # TODO: Support learn ahead feature
-    # :learn_ahead_time,
+    :learn_ahead_time,
     :timezone,
     :learn_steps,
     :relearn_steps,
@@ -30,7 +29,6 @@ defmodule Memoet.Users.SrsConfig do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "srs_config" do
-    # Not supported for now
     field(:learn_ahead_time, :integer, default: 20)
 
     field(:learn_steps, {:array, :float}, default: [1.0, 10.0])
