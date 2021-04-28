@@ -61,25 +61,25 @@
 
       <section>
         Easy multiplier:
-        <%= number_input f, :easy_multiplier, required: true, class: "form-control form-block", value: @srs_config.easy_multiplier %>
+        <%= text_input f, :easy_multiplier, required: true, class: "form-control form-block", value: @srs_config.easy_multiplier %>
         <%= error_tag f, :easy_multiplier %>
       </section>
 
       <section>
         Hard multiplier:
-        <%= number_input f, :hard_multiplier, required: true, class: "form-control form-block", value: @srs_config.hard_multiplier %>
+        <%= text_input f, :hard_multiplier, required: true, class: "form-control form-block", value: @srs_config.hard_multiplier %>
         <%= error_tag f, :hard_multiplier %>
       </section>
 
       <section>
         Again multiplier:
-        <%= number_input f, :lapse_multiplier, required: true, class: "form-control form-block", value: @srs_config.lapse_multiplier %>
+        <%= text_input f, :lapse_multiplier, required: true, class: "form-control form-block", value: @srs_config.lapse_multiplier %>
         <%= error_tag f, :lapse_multiplier %>
       </section>
 
       <section>
         Interval multiplier:
-        <%= number_input f, :interval_multiplier, required: true, class: "form-control form-block", value: @srs_config.interval_multiplier %>
+        <%= text_input f, :interval_multiplier, required: true, class: "form-control form-block", value: @srs_config.interval_multiplier %>
         <%= error_tag f, :interval_multiplier %>
       </section>
 
