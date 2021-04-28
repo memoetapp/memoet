@@ -86,19 +86,13 @@ defmodule MemoetWeb.DeckAPIController do
   def practice(conn, %{"id" => deck_id} = params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(deck_id, user.id)
-    timezone = Users.get_srs_config(user.id).timezone
 
     cards =
       case params do
         %{"note_id" => note_id} ->
           Cards.list_cards(%{"deck_id" => deck.id, "note_id" => note_id})
 
-        _ ->
-          Cards.due_cards(%{
-            "deck_id" => deck.id,
-            "learning_order" => deck.learning_order,
-            "timezone" => timezone,
-          })
+        _ -> Cards.due_cards(user, deck)
       end
 
     case cards do

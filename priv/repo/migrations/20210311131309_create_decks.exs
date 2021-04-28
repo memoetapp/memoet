@@ -10,6 +10,10 @@ defmodule Memoet.Repo.Migrations.CreateDecks do
       add :listed, :boolean, null: false, default: false
       add :learning_order, :string, null: false, default: "random"
 
+      add :new_per_day, :integer, null: false, default: 20
+      add :new_today, :integer, null: false, default: 20
+      add :day_today, :integer, null: false, default: 0
+
       add :trash, :boolean, null: false, default: false
 
       add :user_id,

@@ -6,10 +6,8 @@ defmodule Memoet.Cards do
 
   require Logger
 
-  alias Memoet.Repo
-  alias Memoet.Cards.{Card, CardLog, CardQueues, Choices}
-  alias Memoet.Decks
-  alias Memoet.SRS
+  alias Memoet.Cards.{Card, CardLog, CardTypes, CardQueues, Choices}
+  alias Memoet.{Decks, Users, SRS, Repo}
   alias Memoet.Utils.TimestampUtil
 
   @limit 1
@@ -18,35 +16,60 @@ defmodule Memoet.Cards do
   # 60 secs
   @max_time_answer 60_000
 
-  def due_cards(%{"timezone" => timezone} = params) do
+  def due_cards(user, deck) do
+    config = Users.get_srs_config(user.id)
     now = TimestampUtil.now()
-    today = TimestampUtil.days_from_epoch(timezone)
+    today = TimestampUtil.days_from_epoch(config.timezone)
+    collapse_time = config.learn_ahead_time * 60
 
     # Due cards order:
     # 1. Learn cards
-    # 2. Day learn cards
-    # 3. Review cards
-    # 4. New cards
+    # 2. New cards
+    # 3. Day learn cards
+    # 4. Review cards
     # 5. Collapsed learn cards
-    # We doesn't support limit new cards for now so we can't support collapse
-    # learning either
 
-    cards = get_some_cards(get_learn_cards_query(now), params)
+    # 1
+    cards = get_some_cards(get_learn_cards_query(now), deck.id)
     if length(cards) > 0 do
       cards
     else
-      cards = get_some_cards(get_day_learn_cards_query(today), params)
+      # 2
+      new_today = if deck.day_today > today do
+        Decks.update_new(deck, %{"new_today" => deck.new_per_day, "day_today" => today})
+        deck.new_per_day
+      else
+        deck.new_today
+      end
+
+      cards = if new_today > 0 do
+        get_some_cards(get_new_cards_query(deck.learning_order), deck.id)
+      else
+        # 3
+        get_some_cards(get_day_learn_cards_query(today), deck.id)
+      end
+
       if length(cards) > 0 do
         cards
       else
-        cards = get_some_cards(get_review_cards_query(today), params)
+        # 4
+        cards = get_some_cards(get_review_cards_query(today), deck.id)
         if length(cards) > 0 do
           cards
         else
-          get_some_cards(get_new_cards_query(params), params)
+          # 5
+          get_some_cards(get_learn_cards_query(now + collapse_time), deck.id)
         end
       end
     end
+  end
+
+  defp get_some_cards(query, deck_id) do
+    query
+    |> where(^filter_where(%{"deck_id" => deck_id}))
+    |> limit(@limit)
+    |> Repo.all()
+    |> Repo.preload([:note])
   end
 
   defp get_learn_cards_query(now) do
@@ -70,12 +93,7 @@ defmodule Memoet.Cards do
     )
   end
 
-  defp get_new_cards_query(params) do
-    learning_order = case params do
-      %{"learning_order" => order} -> order
-      _ -> "random"
-    end
-
+  defp get_new_cards_query(learning_order) do
     case learning_order do
       "first_created" ->
         from(c in Card,
@@ -88,14 +106,6 @@ defmodule Memoet.Cards do
           order_by: fragment("RANDOM()")
         )
     end
-  end
-
-  defp get_some_cards(query, params) do
-    query
-    |> where(^filter_where(params))
-    |> limit(@limit)
-    |> Repo.all()
-    |> Repo.preload([:note])
   end
 
   @spec list_cards(map) :: [Card.t()]
@@ -228,6 +238,15 @@ defmodule Memoet.Cards do
     card
     |> Card.srs_changeset(ecto_card)
     |> Repo.update()
+
+    update_new_today(card)
+  end
+
+  defp update_new_today(card) do
+    if card.card_type == CardTypes.new() do
+      deck = Decks.get_deck!(card.deck_id)
+      Decks.update_new(deck, %{"new_today" => deck.new_today - 1})
+    end
   end
 
   defp log_card_answer(choice, card_before, card_after, time_answer) do

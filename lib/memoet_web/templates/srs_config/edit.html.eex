@@ -24,6 +24,12 @@
       </p>
 
       <section>
+        Learn ahead time (in minutes):
+        <%= number_input f, :learn_ahead_time, required: true, class: "form-control form-block", value: @srs_config.learn_ahead_time %>
+        <%= error_tag f, :learn_ahead_time %>
+      </section>
+
+      <section>
         Learn steps (in minutes):
         <%= text_input f, :learn_steps, required: true, class: "form-control form-block", value: Enum.join(@srs_config.learn_steps, " ") %>
         <%= error_tag f, :learn_steps %>
@@ -31,19 +37,19 @@
 
       <section>
         Starting ease:
-        <%= text_input f, :initial_ease, required: true, class: "form-control form-block", value: @srs_config.initial_ease %>
+        <%= number_input f, :initial_ease, required: true, class: "form-control form-block", value: @srs_config.initial_ease %>
         <%= error_tag f, :initial_ease %>
       </section>
 
       <section>
         Good graduating interval (days):
-        <%= text_input f, :graduating_interval_good, required: true, class: "form-control form-block", value: @srs_config.graduating_interval_good %>
+        <%= number_input f, :graduating_interval_good, required: true, class: "form-control form-block", value: @srs_config.graduating_interval_good %>
         <%= error_tag f, :graduating_interval_good %>
       </section>
 
       <section>
         Easy graduating interval (days):
-        <%= text_input f, :graduating_interval_easy, required: true, class: "form-control form-block", value: @srs_config.graduating_interval_easy %>
+        <%= number_input f, :graduating_interval_easy, required: true, class: "form-control form-block", value: @srs_config.graduating_interval_easy %>
         <%= error_tag f, :graduating_interval_easy %>
       </section>
     </section>
@@ -79,13 +85,13 @@
 
       <section>
         Maximum review interval (days):
-        <%= text_input f, :maximum_review_interval, required: true, class: "form-control form-block", value: @srs_config.maximum_review_interval %>
+        <%= number_input f, :maximum_review_interval, required: true, class: "form-control form-block", value: @srs_config.maximum_review_interval %>
         <%= error_tag f, :maximum_review_interval %>
       </section>
 
       <section>
         Minimum review interval (days):
-        <%= text_input f, :minimum_review_interval, required: true, class: "form-control form-block", value: @srs_config.minimum_review_interval %>
+        <%= number_input f, :minimum_review_interval, required: true, class: "form-control form-block", value: @srs_config.minimum_review_interval %>
         <%= error_tag f, :minimum_review_interval %>
       </section>
     </section>
@@ -97,7 +103,7 @@
 
       <section>
         Relearn steps (in minutes):
-        <%= text_input f, :relearn_steps, required: true, class: "form-control form-block", value: Enum.join(@srs_config.relearn_steps, " ") %>
+        <%= number_input f, :relearn_steps, required: true, class: "form-control form-block", value: Enum.join(@srs_config.relearn_steps, " ") %>
         <%= error_tag f, :relearn_steps %>
       </section>
     </section>
