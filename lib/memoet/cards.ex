@@ -234,12 +234,11 @@ defmodule Memoet.Cards do
 
     ecto_card = Map.from_struct(SRS.Card.to_ecto_card(srs_card))
     log_card_answer(integer_choice, card, ecto_card, time_answer)
+    update_new_today(card)
 
     card
     |> Card.srs_changeset(ecto_card)
     |> Repo.update()
-
-    update_new_today(card)
   end
 
   defp update_new_today(card) do
