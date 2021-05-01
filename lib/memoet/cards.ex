@@ -24,41 +24,45 @@ defmodule Memoet.Cards do
 
     # Due cards order:
     # 1. Learn cards
-    # 2. New cards
-    # 3. Day learn cards
-    # 4. Review cards
+    # 2. Day learn cards
+    # 3. Review cards
+    # 4. New cards
     # 5. Collapsed learn cards
 
     # 1
     cards = get_some_cards(get_learn_cards_query(now), deck.id)
+
     if length(cards) > 0 do
       cards
     else
-      new_today = if deck.day_today < today do
-        Decks.update_new(deck, %{"new_today" => deck.new_per_day, "day_today" => today})
-        deck.new_per_day
-      else
-        deck.new_today
-      end
-
       # 2
-      cards = if new_today > 0 do
-        get_some_cards(get_new_cards_query(deck.learning_order), deck.id)
-      else
-        cards
-      end
+      cards = get_some_cards(get_day_learn_cards_query(today), deck.id)
 
       if length(cards) > 0 do
         cards
       else
         # 3
-        cards = get_some_cards(get_day_learn_cards_query(today), deck.id)
+        cards = get_some_cards(get_review_cards_query(today), deck.id)
 
         if length(cards) > 0 do
           cards
         else
           # 4
-          cards = get_some_cards(get_review_cards_query(today), deck.id)
+          new_today = if deck.day_today < today do
+            new_remain = count_new_cards(deck.id)
+            deck_new_today = min(deck.new_per_day, new_remain)
+            Decks.update_new(deck, %{"new_today" => deck_new_today, "day_today" => today})
+            deck_new_today
+          else
+            deck.new_today
+          end
+
+          cards = if new_today > 0 do
+            get_some_cards(get_new_cards_query(deck.learning_order), deck.id)
+          else
+            cards
+          end
+
           if length(cards) > 0 do
             cards
           else
@@ -68,6 +72,13 @@ defmodule Memoet.Cards do
         end
       end
     end
+  end
+
+  defp count_new_cards(deck_id) do
+    from(c in Card,
+      where: c.card_queue == ^CardQueues.new() and c.deck_id == ^deck_id
+    )
+    |> Repo.aggregate(:count)
   end
 
   defp get_some_cards(query, deck_id) do

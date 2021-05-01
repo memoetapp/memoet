@@ -60,5 +60,6 @@ defmodule Memoet.Decks.Deck do
   def new_changeset(deck, attrs) do
     deck
     |> cast(attrs, [:new_today, :day_today])
+    |> force_change(:updated_at, deck.updated_at)
   end
 end
