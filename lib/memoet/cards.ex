@@ -24,26 +24,23 @@ defmodule Memoet.Cards do
 
     # Due cards order:
     # 1. Learn cards
-    # 2. Review cards
-    # 3. Day learn cards
+    # 2. Day learn cards
+    # 3. Review cards
     # 4. New cards
     # 5. Collapsed learn cards
 
     # 1
     cards = get_some_cards(get_learn_cards_query(now), deck.id)
-
     if length(cards) > 0 do
       cards
     else
       # 2
-      cards = get_some_cards(get_review_cards_query(today), deck.id)
-
+      cards = get_some_cards(get_day_learn_cards_query(today), deck.id)
       if length(cards) > 0 do
         cards
       else
         # 3
-        cards = get_some_cards(get_day_learn_cards_query(today), deck.id)
-
+        cards = get_some_cards(get_review_cards_query(today), deck.id)
         if length(cards) > 0 do
           cards
         else
