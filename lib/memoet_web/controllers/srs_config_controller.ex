@@ -19,7 +19,7 @@ defmodule MemoetWeb.SrsConfigController do
     case Users.update_srs_config(user.id, params) do
       {:ok, srs_config} ->
         # Cache new scheduler
-        SRS.set_scheduler(user.id, srs_config)
+        SRS.set_config(user.id, srs_config)
         conn
         |> put_flash(:info, "Update config success!")
         |> redirect(to: Routes.srs_config_path(conn, :edit))
