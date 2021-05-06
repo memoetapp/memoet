@@ -1,7 +1,7 @@
 <header class="header__wrapper">
   <h1 class="header__title">
     <a class="text-link" href="<%= Routes.deck_path @conn, :index %>">
-      <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
     </a>
 
     <%= @deck.name %>
@@ -31,14 +31,14 @@
     <%= if @metadata.before do %>
       <li>
         <a href="<%= Routes.deck_path(@conn, :show, @deck, %{ before: @metadata.before }) %>" class="pagination__nav">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          <%= Heroicons.Outline.chevron_left(class: "w-6 h-6") %>
         </a>
       </li>
     <% end %>
     <%= if @metadata.after do %>
       <li>
         <a href="<%= Routes.deck_path(@conn, :show, @deck, %{ after: @metadata.after }) %>" class="pagination__nav">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          <%= Heroicons.Outline.chevron_right(class: "w-6 h-6") %>
         </a>
       </li>
     <% end %>

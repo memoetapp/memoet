@@ -1,6 +1,6 @@
 <span class="relative cursor-pointer" x-data="{menuOpen: false}">
   <span @click="menuOpen = true">
-    <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path></svg>
+    <%= Heroicons.Outline.dots_vertical(class: "w-4 h-4 opacity-70") %>
   </span>
 
   <template x-if="menuOpen">
@@ -15,13 +15,13 @@
     >
       <li>
         <a href="<%= Routes.deck_path(@conn, :new) %>" class="dropdown-item">
-          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <%= Heroicons.Outline.plus_circle(class: "w-4 h-4 mr-1") %>
           New deck
         </a>
       </li>
       <li>
         <a href="<%= Routes.deck_path(@conn, :index) %>" class="dropdown-item">
-          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          <%= Heroicons.Outline.collection(class: "w-4 h-4 mr-1") %>
           Your decks
         </a>
       </li>
