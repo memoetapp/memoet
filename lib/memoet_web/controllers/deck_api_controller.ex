@@ -2,7 +2,7 @@ defmodule MemoetWeb.DeckAPIController do
   use MemoetWeb, :controller
 
   alias Ecto.Changeset
-  alias Memoet.{Decks, Users, Cards}
+  alias Memoet.{Decks, Cards}
   alias Memoet.Decks.Deck
   alias Memoet.Cards.Card
   alias MemoetWeb.ErrorHelpers
