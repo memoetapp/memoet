@@ -127,6 +127,7 @@ defmodule Memoet.Cards do
     Card
     |> where(^filter_where(params))
     |> limit(@limit)
+    |> order_by(fragment("RANDOM()"))
     |> Repo.all()
     |> Repo.preload([:note])
   end
