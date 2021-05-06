@@ -2,6 +2,7 @@ defmodule MemoetWeb.DeckController do
   use MemoetWeb, :controller
 
   alias Memoet.Decks.Deck
+  alias Memoet.Cards.CardQueues
   alias Memoet.Utils.MapUtil
   alias Memoet.{Decks, Notes, Cards, Users}
 
@@ -252,11 +253,13 @@ defmodule MemoetWeb.DeckController do
         |> render("public_practice.html", card: nil, deck: deck)
 
       [card | _] ->
+        # Public only see the new intervals
+        new_card = %{card | card_queue: CardQueues.new()}
         conn
         |> render("public_practice.html",
           card: card,
           deck: deck,
-          intervals: Cards.next_intervals(card)
+          intervals: Cards.next_intervals(new_card)
         )
     end
   end
