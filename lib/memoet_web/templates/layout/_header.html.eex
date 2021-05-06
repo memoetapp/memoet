@@ -3,7 +3,7 @@
     <div class="relative flex justify-between w-full md:w-auto md:static md:block md:justify-start">
       <nav class="flex items-center mr-8 md:hidden">
         <a href="/" class="text-link">
-          <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          <%= Heroicons.Outline.home(class: "w-6 h-6 mr-1") %>
         </a>
       </nav>
       <button
@@ -11,12 +11,12 @@
         type="button"
         @click="open = !open"
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" x-show="!open" x-cloak>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" x-show="open" x-cloak>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
+        <span x-show="!open" x-cloak>
+          <%= Heroicons.Outline.menu(class: "w-6 h-6") %>
+        </span>
+        <span x-show="open" x-cloak>
+          <%= Heroicons.Outline.x(class: "w-6 h-6") %>
+        </span>
       </button>
     </div>
 
@@ -27,12 +27,12 @@
     >
       <nav class="items-center hidden mr-8 md:flex">
         <a href="/" class="text-link">
-          <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+          <%= Heroicons.Outline.home(class: "w-6 h-6 mr-1") %>
         </a>
       </nav>
       <nav class="flex flex-col items-start justify-start flex-1 md:flex-row md:space-x-4 md:items-center md:space-y-0 space-y-3" x-cloak>
         <span class="relative flex items-center flex-1">
-          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          <%= Heroicons.Outline.search(class: "w-4 h-4 mr-1") %>
           <form action="<%= Routes.search_path(@conn, :search) %>">
             <input
               type="text"
@@ -45,20 +45,20 @@
         </span>
 
         <a href="https://docs.memoet.com" class="text-link" target="_blank">
-          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          <%= Heroicons.Outline.external_link(class: "w-4 h-4 mr-1") %>
           Docs
         </a>
         <a href="<%= Routes.community_deck_path(@conn, :public_index) %>" class="text-link">
-          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <%= Heroicons.Outline.globe(class: "w-4 h-4 mr-1") %>
           Community
         </a>
         <%= if Pow.Plug.current_user(@conn) do %>
           <a href="<%= Routes.account_path @conn, :show %>" class="text-link">
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <%= Heroicons.Outline.user_circle(class: "w-4 h-4 mr-1") %>
             Account
           </a>
           <a href="<%= Routes.srs_config_path @conn, :edit %>" class="text-link">
-            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <%= Heroicons.Outline.cog(class: "w-4 h-4 mr-1") %>
             Settings
           </a>
         <% else %>

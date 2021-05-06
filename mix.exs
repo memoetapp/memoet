@@ -96,6 +96,8 @@ defmodule Memoet.MixProject do
       {:mail, "~> 0.2"},
       # Monitoring
       {:sentry, "~> 8.0"},
+      # Icons
+      {:heroicons, "~> 0.2"},
       # Lint & test
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.14", only: :test},
