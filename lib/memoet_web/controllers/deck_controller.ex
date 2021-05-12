@@ -97,7 +97,7 @@ defmodule MemoetWeb.DeckController do
 
     params =
       params
-      |> Map.merge(%{user_id: user.id})
+      |> Map.merge(%{"user_id" => user.id})
 
     %{entries: notes, metadata: metadata} = Notes.list_notes(params)
     render(conn, "search.html", notes: notes, metadata: metadata)
