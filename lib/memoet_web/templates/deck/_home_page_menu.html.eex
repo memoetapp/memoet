@@ -22,7 +22,7 @@
       <li>
         <a href="<%= Routes.deck_path(@conn, :index) %>" class="dropdown-item">
           <%= Heroicons.Outline.collection(class: "w-4 h-4 mr-1") %>
-          Your decks
+          All decks
         </a>
       </li>
     </ul>

@@ -18,9 +18,6 @@
       New notes: <strong><%= @stats.counter_to_date[0] || 0 %></strong>
     </li>
     <li>
-      New notes today: <strong><%= min(@deck.new_today, @stats.counter_to_date[0] || 0) %></strong>
-    </li>
-    <li>
       Learn notes:
       <strong>
         <%= @stats.counter_to_date[1] || 0 %>

@@ -16,7 +16,9 @@
       </a>
 
       <p class="text-xs whitespace-normal opacity-50">
-        Updated <%= Timex.format!(@deck.updated_at, "{relative}", :relative) %>
+        <%= Memoet.Cards.count_today(@deck).due %> due
+        ·
+        <%= Memoet.Cards.count_today(@deck).new %> new
       </p>
     </div>
 

@@ -45,15 +45,7 @@ defmodule Memoet.Cards do
           cards
         else
           # 4
-          new_today = if deck.day_today < today do
-            new_remain = count_new_cards(deck.id)
-            deck_new_today = min(deck.new_per_day, new_remain)
-            Decks.update_new(deck, %{"new_today" => deck_new_today, "day_today" => today})
-            deck_new_today
-          else
-            deck.new_today
-          end
-
+          new_today = get_deck_new_today(deck, today)
           cards = if new_today > 0 do
             get_some_cards(get_new_cards_query(deck.learning_order), deck.id)
           else
@@ -68,6 +60,37 @@ defmodule Memoet.Cards do
           end
         end
       end
+    end
+  end
+
+  def count_today(deck) do
+    config = Users.get_srs_config(deck.user_id)
+    now = TimestampUtil.now()
+    today = TimestampUtil.days_from_epoch(config.timezone)
+
+    new_today = get_deck_new_today(deck, today)
+
+    due_today = from(c in Card,
+      where: c.card_queue == ^CardQueues.learn() and c.due < ^now
+        or c.card_queue == ^CardQueues.day_learn() and c.due <= ^today
+        or c.card_queue == ^CardQueues.review() and c.due <= ^today
+    )
+    |> Repo.aggregate(:count)
+
+    %{
+      new: new_today,
+      due: due_today,
+    }
+  end
+
+  defp get_deck_new_today(deck, today) do
+    if deck.day_today < today do
+      new_remain = count_new_cards(deck.id)
+      deck_new_today = min(deck.new_per_day, new_remain)
+      Decks.update_new(deck, %{"new_today" => deck_new_today, "day_today" => today})
+      deck_new_today
+    else
+      deck.new_today
     end
   end
 
