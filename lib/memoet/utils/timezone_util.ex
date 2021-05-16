@@ -122,9 +122,10 @@ defmodule Memoet.Utils.Timezones do
   end
 
   def get_timezone_from_offset(offset) do
-    el = @options
-         |> Enum.filter(fn item -> item[:offset] == to_string(offset) end)
-         |> List.first()
+    el =
+      @options
+      |> Enum.filter(fn item -> item[:offset] == to_string(offset) end)
+      |> List.first()
 
     case el do
       nil -> "Etc/Greenwich"

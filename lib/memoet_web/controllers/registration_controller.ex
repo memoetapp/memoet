@@ -56,10 +56,12 @@ defmodule MemoetWeb.RegistrationController do
   end
 
   defp init_user_timezone(user_id, user_params) do
-    offset = case user_params do
-      %{"timezone_offset" => timezone_offset} -> timezone_offset
-      _ -> "0"
-    end
+    offset =
+      case user_params do
+        %{"timezone_offset" => timezone_offset} -> timezone_offset
+        _ -> "0"
+      end
+
     timezone = Timezones.get_timezone_from_offset(offset)
     Users.update_srs_config(user_id, %{"timezone" => timezone})
   end

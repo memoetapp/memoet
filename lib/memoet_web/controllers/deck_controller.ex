@@ -220,7 +220,8 @@ defmodule MemoetWeb.DeckController do
         %{"note_id" => note_id} ->
           Cards.list_cards(%{"deck_id" => deck_id, "note_id" => note_id})
 
-        _ -> Cards.due_cards(user, deck)
+        _ ->
+          Cards.due_cards(user, deck)
       end
 
     case cards do
@@ -255,6 +256,7 @@ defmodule MemoetWeb.DeckController do
       [card | _] ->
         # Public only see the new intervals
         new_card = %{card | card_queue: CardQueues.new()}
+
         conn
         |> render("public_practice.html",
           card: card,

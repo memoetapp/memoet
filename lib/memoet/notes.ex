@@ -16,7 +16,7 @@ defmodule Memoet.Notes do
 
     Note
     |> where(^filter_where(params))
-    |> order_by([desc: :updated_at, asc: :id])
+    |> order_by(desc: :updated_at, asc: :id)
     |> Repo.paginate(
       before: cursor_before,
       after: cursor_after,
@@ -32,7 +32,7 @@ defmodule Memoet.Notes do
 
     Note
     |> where(^filter_where(params))
-    |> order_by([desc: :inserted_at, asc: :id])
+    |> order_by(desc: :inserted_at, asc: :id)
     |> Repo.paginate(
       before: cursor_before,
       after: cursor_after,

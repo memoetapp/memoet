@@ -31,26 +31,31 @@ defmodule Memoet.Cards do
 
     # 1
     cards = get_some_cards(get_learn_cards_query(now), deck.id)
+
     if length(cards) > 0 do
       cards
     else
       # 2
       cards = get_some_cards(get_day_learn_cards_query(today), deck.id)
+
       if length(cards) > 0 do
         cards
       else
         # 3
         cards = get_some_cards(get_review_cards_query(today), deck.id)
+
         if length(cards) > 0 do
           cards
         else
           # 4
           new_today = get_deck_new_today(deck, today)
-          cards = if new_today > 0 do
-            get_some_cards(get_new_cards_query(deck.learning_order), deck.id)
-          else
-            cards
-          end
+
+          cards =
+            if new_today > 0 do
+              get_some_cards(get_new_cards_query(deck.learning_order), deck.id)
+            else
+              cards
+            end
 
           if length(cards) > 0 do
             cards
@@ -70,16 +75,19 @@ defmodule Memoet.Cards do
 
     new_today = get_deck_new_today(deck, today)
 
-    due_today = from(c in Card,
-      where: c.card_queue == ^CardQueues.learn() and c.due < ^now
-        or c.card_queue == ^CardQueues.day_learn() and c.due <= ^today
-        or c.card_queue == ^CardQueues.review() and c.due <= ^today
-    )
-    |> Repo.aggregate(:count)
+    due_today =
+      from(c in Card,
+        where:
+          ((c.card_queue == ^CardQueues.learn() and c.due < ^now) or
+             (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today) or
+             (c.card_queue == ^CardQueues.review() and c.due <= ^today)) and
+            c.deck_id == ^deck.id
+      )
+      |> Repo.aggregate(:count)
 
     %{
       new: new_today,
-      due: due_today,
+      due: due_today
     }
   end
 
@@ -137,6 +145,7 @@ defmodule Memoet.Cards do
           where: c.card_queue == ^CardQueues.new(),
           order_by: c.inserted_at
         )
+
       _ ->
         from(c in Card,
           where: c.card_queue == ^CardQueues.new(),

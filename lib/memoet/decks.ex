@@ -104,25 +104,28 @@ defmodule Memoet.Decks do
 
   @spec update_deck(Deck.t(), map()) :: {:ok, Deck.t()} | {:error, Ecto.Changeset.t()}
   def update_deck(%Deck{} = deck, attrs) do
-    new_per_day = case attrs do
-      %{"new_per_day" => new_per_day} -> new_per_day
-      _ -> deck.new_per_day
-    end
+    new_per_day =
+      case attrs do
+        %{"new_per_day" => new_per_day} -> new_per_day
+        _ -> deck.new_per_day
+      end
 
-    new_per_day = case Integer.parse(to_string(new_per_day)) do
-      {c, _} -> c
-      :error -> 20
-    end
+    new_per_day =
+      case Integer.parse(to_string(new_per_day)) do
+        {c, _} -> c
+        :error -> 20
+      end
 
-    attrs = if new_per_day != deck.new_per_day do
-      new_to_learn = new_per_day - deck.new_per_day
-      new_today = max(deck.new_today + new_to_learn, 0)
+    attrs =
+      if new_per_day != deck.new_per_day do
+        new_to_learn = new_per_day - deck.new_per_day
+        new_today = max(deck.new_today + new_to_learn, 0)
 
-      attrs
-      |> Map.merge(%{"new_today" => new_today})
-    else
-      attrs
-    end
+        attrs
+        |> Map.merge(%{"new_today" => new_today})
+      else
+        attrs
+      end
 
     deck
     |> Deck.changeset(attrs)
@@ -188,8 +191,10 @@ defmodule Memoet.Decks do
 
   @spec deck_stats(binary(), String.t()) :: map()
   def deck_stats(deck_id, timezone) do
-    now = Timex.now(timezone)
-          |> Timex.end_of_day()
+    now =
+      Timex.now(timezone)
+      |> Timex.end_of_day()
+
     today_unix = TimestampUtil.days_from_epoch(timezone)
 
     from_date = DateTime.add(now, -@stats_days * 86_400, :second)

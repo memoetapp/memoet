@@ -26,7 +26,7 @@ defmodule MemoetWeb.Endpoint do
 
   # @impl Phoenix.Endpoint
   # def init(_key, config) do
-    # {:ok, SiteEncrypt.Phoenix.configure_https(config)}
+  # {:ok, SiteEncrypt.Phoenix.configure_https(config)}
   # end
 
   # The session will be stored in the cookie and signed,
