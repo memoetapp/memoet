@@ -70,9 +70,10 @@ defmodule Memoet.Cards do
 
   def count_today(deck) do
     config = Users.get_srs_config(deck.user_id)
-    now = TimestampUtil.now()
     today = TimestampUtil.days_from_epoch(config.timezone)
 
+    # Count learn ahead, too
+    now = TimestampUtil.now() + config.learn_ahead_time * 60
     new_today = get_deck_new_today(deck, today)
 
     due_today =
