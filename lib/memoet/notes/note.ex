@@ -22,7 +22,7 @@ defmodule Memoet.Notes.Note do
     field(:image, :string, null: true)
 
     field(:content, :string, null: false, default: "")
-    field(:type, :string, null: false, default: Types.multiple_choice())
+    field(:type, :string, null: false, default: Types.flash_card())
 
     embeds_many(:options, Option, on_replace: :delete)
 
@@ -50,8 +50,9 @@ defmodule Memoet.Notes.Note do
     |> validate_length(:title, max: @title_limit)
     |> validate_length(:content, max: @content_limit)
     |> validate_inclusion(:type, [
+      Types.flash_card(),
       Types.multiple_choice(),
-      Types.type_answer()
+      Types.type_answer(),
     ])
     |> validate_required([:title, :type, :user_id, :deck_id])
   end
