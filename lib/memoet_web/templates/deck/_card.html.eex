@@ -12,9 +12,9 @@
           </article>
         <% end %>
 
-        <%= if length(@note.options) > 0 do %>
-          <div class="flex flex-col items-start justify-center w-full p-4 text-sm border bg-indigo-50 rounded-md space-y-2" x-cloak>
-            <%= if @note.type == "multiple_choice" do %>
+        <%= case @note.type do %>
+          <%= "multiple_choice" -> %>
+            <div class="flex flex-col items-start justify-center w-full p-4 text-sm border bg-indigo-50 rounded-md space-y-2" x-cloak>
               <div class="space-y-6">
                 <%= for {o, i} <- Enum.with_index(@note.options) do %>
                   <label class="flex items-start">
@@ -38,7 +38,8 @@
                   </label>
                 <% end %>
               </div>
-            <% else %>
+          <% "type_answer" -> %>
+            <div class="flex flex-col items-start justify-center w-full p-4 text-sm border bg-indigo-50 rounded-md space-y-2" x-cloak>
               <input
                 autocomplete="off"
                 type="text"
@@ -50,15 +51,15 @@
                   'border-red-600': check && !options.some((o) => o.content.toLowerCase() == answer.toLowerCase()),
                 }"
               >
-                <template x-if="check">
-                  <ul class="space-y-2">
-                    <template x-for="option in options" :key="option.content">
-                      <li class="list-disc list-inside" x-text="option.content">
-                    </template>
-                  </ul>
-                </template>
-            <% end %>
-          </div>
+              <template x-if="check">
+                <ul class="space-y-2">
+                  <template x-for="option in options" :key="option.content">
+                    <li class="list-disc list-inside" x-text="option.content">
+                  </template>
+                </ul>
+              </template>
+            </div>
+          <% "flash_card" -> %>
         <% end %>
 
         <%= if @note.hint do %>
@@ -110,7 +111,7 @@
       <a class="btn-primary"
         @click="check = true; setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 100);"
         x-show="!check">Submit</a>
-      <%= if @note.hint do %>
+      <%= if @note.hint && @note.type != "flash_card" do %>
         <a class="btn-outline" @click="hint = true" x-show="!check && !hint">Hint</a>
       <% end %>
     </section>

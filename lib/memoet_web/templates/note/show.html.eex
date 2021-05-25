@@ -21,12 +21,12 @@
       </article>
     <% end %>
 
-    <%= if length(@note.options) > 0 do %>
-      <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 space-y-3 rounded-md">
-        <p class="w-full pb-2 font-bold border-b">
-          <%= if @note.type == "multiple_choice", do: "Multiple choice", else: "Type answer" %>
-        </p>
-        <%= if @note.type == "multiple_choice" do %>
+    <%= case @note.type do %>
+      <% "multiple_choice" -> %>
+        <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 space-y-3 rounded-md">
+          <p class="w-full pb-2 font-bold border-b">
+            Multiple choice
+          </p>
           <ul class="space-y-6">
             <%= for o <- @note.options do %>
               <li class="flex items-start">
@@ -35,14 +35,19 @@
               </li>
             <% end %>
           </ul>
-        <% else %>
+        </div>
+      <% "type_answer" -> %>
+        <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 space-y-3 rounded-md">
+          <p class="w-full pb-2 font-bold border-b">
+            Type answer
+          </p>
           <ul class="space-y-2">
             <%= for o <- @note.options do %>
               <li class="list-disc list-inside"><%= o.content %></li>
             <% end %>
           </ul>
-        <% end %>
-      </div>
+        </div>
+      <% "flash_card" -> %>
     <% end %>
 
     <%= if @note.hint do %>

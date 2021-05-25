@@ -27,16 +27,17 @@
     </section>
 
     <section>
-      Quiz:
+      Type:
       <div class="p-4 border rounded-md space-y-8">
         <div>
           <%= select f, :type, [
+            "Flash card": "flash_card",
             "Multiple choice": "multiple_choice",
-            "Type answer": "type_answer"
+            "Type answer": "type_answer",
             ], required: true, class: "form-control w-full", value: @note.type, "x-model": "type" %>
         </div>
 
-        <div class="space-y-3" x-cloak>
+        <div class="space-y-3" x-show="type != 'flash_card'" x-cloak>
           <%= inputs_for f, :options, fn o -> %>
             <div class="container flex items-center justify-between space-x-2">
               <span class="inline-block px-3 py-1 text-center border rounded-full shadow-sm">

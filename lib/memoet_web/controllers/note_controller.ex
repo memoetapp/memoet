@@ -4,6 +4,7 @@ defmodule MemoetWeb.NoteController do
   alias Memoet.Notes
   alias Memoet.Notes.{Note, Option}
   alias Memoet.Decks
+  alias Memoet.Utils.StringUtil
 
   @options_limit 5
 
@@ -22,16 +23,20 @@ defmodule MemoetWeb.NoteController do
     |> Memoet.Repo.transaction()
     |> case do
       {:ok, %{note: note}} ->
+        deck = Decks.get_deck!(deck_id, user.id)
+        # Reset new cards count
+        Decks.update_new(deck, %{"new_today" => deck.new_per_day, "day_today" => 0})
+
         conn
         |> put_flash(:info, "Create note success!")
         |> redirect(to: "/decks/" <> deck_id <> "/notes/" <> note.id)
 
       {:error, _op, changeset, _changes} ->
         deck = Decks.get_deck!(deck_id, user.id)
-        IO.puts(changeset)
 
         conn
         |> put_status(:bad_request)
+        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
         |> render("new.html", changeset: changeset, deck: deck)
     end
   end
@@ -121,6 +126,7 @@ defmodule MemoetWeb.NoteController do
 
         conn
         |> put_status(:bad_request)
+        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
         |> render("edit.html", changeset: changeset, deck: deck)
     end
   end
