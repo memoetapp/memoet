@@ -38,6 +38,7 @@
                   </label>
                 <% end %>
               </div>
+            </div>
           <% "type_answer" -> %>
             <div class="flex flex-col items-start justify-center w-full p-4 text-sm border bg-indigo-50 rounded-md space-y-2" x-cloak>
               <input
