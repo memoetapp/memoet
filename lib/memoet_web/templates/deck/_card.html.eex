@@ -64,7 +64,7 @@
 
         <%= if @note.hint do %>
           <div
-            class="p-3 text-sm border bg-blue-50 prose rounded-md" x-show="hint || check" x-cloak
+            class="p-3 border bg-blue-50 prose rounded-md" x-show="hint || check" x-cloak
             x-transition:enter="x-enter"
             x-transition:enter-start="x-enter-start"
             x-transition:enter-end="x-enter-end"

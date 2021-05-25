@@ -52,7 +52,7 @@
     </section>
 
     <section>
-      Hint:
+      Explanation:
       <%= textarea f, :hint, class: "form-control form-block", rows: 5, placeholder: "Easy peasy..." %>
     </section>
 
