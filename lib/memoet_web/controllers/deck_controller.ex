@@ -73,6 +73,7 @@ defmodule MemoetWeb.DeckController do
       %{entries: notes, metadata: metadata} = Notes.list_notes(params)
 
       conn
+      |> assign(:page_title, deck.name)
       |> render("show.html", deck: deck, notes: notes, metadata: metadata)
     end
   end
@@ -88,6 +89,7 @@ defmodule MemoetWeb.DeckController do
     %{entries: notes, metadata: metadata} = Notes.list_public_notes(params)
 
     conn
+    |> assign(:page_title, deck.name)
     |> render("public_show.html", deck: deck, notes: notes, metadata: metadata)
   end
 
@@ -231,6 +233,7 @@ defmodule MemoetWeb.DeckController do
 
       [card | _] ->
         conn
+        |> assign(:page_title, card.note.title)
         |> render("practice.html", card: card, deck: deck, intervals: Cards.next_intervals(card))
     end
   end
@@ -258,6 +261,7 @@ defmodule MemoetWeb.DeckController do
         new_card = %{card | card_queue: CardQueues.new()}
 
         conn
+        |> assign(:page_title, card.note.title)
         |> render("public_practice.html",
           card: card,
           deck: deck,
