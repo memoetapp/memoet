@@ -59,7 +59,7 @@ defmodule MemoetWeb.NoteController do
       |> redirect(to: "/decks")
     else
       conn
-      |> assign(:page_title, note.title)
+      |> assign(:page_title, note.title <> " · " <> deck.name)
       |> render("show.html", note: note, deck: deck)
     end
   end
