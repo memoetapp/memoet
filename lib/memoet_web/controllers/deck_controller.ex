@@ -236,7 +236,7 @@ defmodule MemoetWeb.DeckController do
 
       [card | _] ->
         conn
-        |> assign(:page_title, card.note.title)
+        |> assign(:page_title, card.note.title <> " · " <> deck.name)
         |> render("practice.html", card: card, deck: deck, intervals: Cards.next_intervals(card))
     end
   end
