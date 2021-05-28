@@ -7,66 +7,22 @@
   </h1>
 </header>
 
-<section x-data="{ type: '<%= @note.type %>', confirmDelete: false }">
-  <%= form_for @changeset, Routes.deck_note_path(@conn, :update, @deck, @note), [class: "mt-8 space-y-8"], fn f -> %>
-    <section>
-      Title:
-      <%= text_input f, :title, required: true, class: "form-control form-block", value: @note.title %>
-      <%= error_tag f, :title %>
-    </section>
+<%= form_for @changeset,
+  Routes.deck_note_path(@conn, :update, @deck, @note),
+  [class: "mt-8 space-y-8"], fn f -> %>
 
-    <section>
-      Cover image:
-      <%= render("_upload.html", f: f, image: @note.image) %>
-    </section>
+  <%= render("_input.html", conn: @conn, deck: @deck, note: @note, f: f) %>
 
-    <section>
-      Content:
-      <%= textarea f, :content, class: "form-control form-block", rows: 10, value: @note.content %>
-      <%= error_tag f, :content %>
-    </section>
+  <div class="text-center space-x-2">
+    <%= submit "Save", class: "btn-primary" %>
+    <button type="button" class="btn-warning" @click="confirmDelete = confirm('If you want to delete this note, click Confirm delete to delete it permantly')" x-show="!confirmDelete">Delete</button>
 
-    <section>
-      Type:
-      <div class="p-4 border rounded-md space-y-8">
-        <div>
-          <%= select f, :type, [
-            "Flash card": "flash_card",
-            "Multiple choice": "multiple_choice",
-            "Type answer": "type_answer",
-            ], required: true, class: "form-control w-full", value: @note.type, "x-model": "type" %>
-        </div>
-
-        <div class="space-y-3" x-show="type != 'flash_card'" x-cloak>
-          <%= inputs_for f, :options, fn o -> %>
-            <div class="container flex items-center justify-between space-x-2">
-              <span class="inline-block px-3 py-1 text-center border rounded-full shadow-sm">
-                <%= o.index + 1 %>
-              </span>
-              <%= text_input o, :content, class: "form-control flex-grow" %>
-              <%= checkbox o, :correct, class: "form-checkbox p-4", "x-show": "type == 'multiple_choice'" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      Explanation:
-      <%= textarea f, :hint, class: "form-control form-block", rows: 5, placeholder: "Easy peasy..." %>
-    </section>
-
-    <div class="text-center space-x-2">
-      <%= submit "Save", class: "btn-primary" %>
-      <button type="button" class="btn-warning" @click="confirmDelete = confirm('If you want to delete this note, click Confirm delete to delete it permantly')" x-show="!confirmDelete">Delete</button>
-
-      <%= link "Confirm delete",
-          to: Routes.deck_note_path(@conn, :delete, @deck, @note),
-          method: "DELETE",
-          class: "btn-danger",
-          "x-show": "confirmDelete",
-          "x-cloak": true
-      %>
-    </div>
-  <% end %>
-</section>
+    <%= link "Confirm delete",
+        to: Routes.deck_note_path(@conn, :delete, @deck, @note),
+        method: "DELETE",
+        class: "btn-danger",
+        "x-show": "confirmDelete",
+        "x-cloak": true
+    %>
+  </div>
+<% end %>

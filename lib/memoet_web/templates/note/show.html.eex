@@ -52,9 +52,6 @@
 
     <%= if @note.hint do %>
       <div class="p-3 border bg-blue-50 prose rounded-md">
-        <p class="w-full pb-2 font-bold border-b">
-          Explanation
-        </p>
         <%= raw Memoet.Utils.HtmlUtil.to_html(@note.hint) %>
       </div>
     <% end %>

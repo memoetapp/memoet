@@ -4,6 +4,8 @@
 import "../css/app.scss"
 import "@fontsource/nunito-sans"
 import 'alpinejs'
+import marked from 'marked'
+window.marked = marked
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
