@@ -52,7 +52,7 @@ defmodule Memoet.Notes.Note do
     |> validate_inclusion(:type, [
       Types.flash_card(),
       Types.multiple_choice(),
-      Types.type_answer(),
+      Types.type_answer()
     ])
     |> validate_required([:title, :type, :user_id, :deck_id])
   end

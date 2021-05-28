@@ -2,7 +2,7 @@ defmodule MemoetWeb.NoteController do
   use MemoetWeb, :controller
 
   alias Memoet.Notes
-  alias Memoet.Notes.{Note, Option}
+  alias Memoet.Notes.{Note, Option, Types}
   alias Memoet.Decks
   alias Memoet.Utils.StringUtil
 
@@ -77,9 +77,10 @@ defmodule MemoetWeb.NoteController do
       Option.changeset(%Option{}, %{})
     ]
 
-    changeset = Note.changeset(%Note{options: embedded_changeset}, %{})
+    note = %Note{options: embedded_changeset, type: Types.flash_card()}
+    changeset = Note.changeset(note, %{})
 
-    render(conn, "new.html", deck: deck, changeset: changeset)
+    render(conn, "new.html", deck: deck, changeset: changeset, note: note)
   end
 
   @spec delete(Plug.Conn.t(), map) :: Plug.Conn.t()
