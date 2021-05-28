@@ -121,21 +121,21 @@ defmodule Memoet.Cards do
   defp get_learn_cards_query(now) do
     from(c in Card,
       where: c.card_queue == ^CardQueues.learn() and c.due < ^now,
-      order_by: fragment("RANDOM()")
+      order_by: c.due
     )
   end
 
   defp get_day_learn_cards_query(today) do
     from(c in Card,
       where: c.card_queue == ^CardQueues.day_learn() and c.due <= ^today,
-      order_by: fragment("RANDOM()")
+      order_by: c.due
     )
   end
 
   defp get_review_cards_query(today) do
     from(c in Card,
       where: c.card_queue == ^CardQueues.review() and c.due <= ^today,
-      order_by: fragment("RANDOM()")
+      order_by: c.due
     )
   end
 
