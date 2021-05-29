@@ -1,6 +1,6 @@
-<section class="block px-3 py-3 my-4 border border-indigo-300 rounded-lg">
+<section class="block px-3 py-3 my-4 border rounded-lg">
   <div class="flex items-center justify-around space-x-3">
-    <div class="flex-1 text-indigo-700 truncate space-y-1">
+    <div class="flex-1 truncate space-y-1">
       <a href="<%= Routes.today_path(@conn, :edit) %>" class="flex items-center justify-start text-link">
         <span class="mr-2 opacity-70">
             <%= Heroicons.Outline.calendar(class: "w-4 h-4") %>
@@ -37,6 +37,6 @@
       <%= Heroicons.Outline.play(class: "w-7 h-7") %>
     </a>
 
-    <%= render(MemoetWeb.DeckView, "_collection_menu.html", conn: @conn) %>
+    <%= render("_collection_menu.html", conn: @conn) %>
   </div>
 </section>

@@ -1,12 +1,23 @@
-<%= render(MemoetWeb.DeckView, "_collection.html", conn: @conn, collection: @collection) %>
+<section class="my-6">
+  <%= render(MemoetWeb.UserView, "stats.html", conn: @conn, practices: @practices) %>
 
-<section>
-  <ul>
-    <%= for deck <- @decks do %>
-      <%= render(MemoetWeb.DeckView, "_deck.html", assigns: assigns, conn: @conn, deck: deck) %>
-    <% end %>
-  </ul>
+  <%= render(MemoetWeb.CollectionView, "today.html", conn: @conn, collection: @collection) %>
 </section>
+
+<%= if length(@decks) > 0 do %>
+  <header class="header__wrapper">
+    <h2 class="header__title">
+      Recent decks
+    </h2>
+  </header>
+  <section>
+    <ul>
+      <%= for deck <- @decks do %>
+        <%= render(MemoetWeb.DeckView, "_deck.html", assigns: assigns, conn: @conn, deck: deck) %>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
 
 <section class="pt-6 text-center space-x-2">
   <a class="btn-primary" href="<%= Routes.deck_path @conn, :new %>">

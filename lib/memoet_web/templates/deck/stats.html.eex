@@ -74,56 +74,35 @@
 <script type="text/javascript" src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
 <script>
   const practice_by_date = {
-    labels: <%= raw Poison.encode!(for d <- -14..0, do: d) %>,
+    labels: <%= raw Poison.encode!(for d <- -29..0, do: d) %>,
     series: [
-      <%= Poison.encode!(for d <- -14..0, do: @stats.span_data.practice_by_date[d]) %>
+      <%= Poison.encode!(for d <- -29..0, do: @stats.span_data.practice_by_date[d]) %>
     ]
   };
 
   const speed_by_date = {
-    labels: <%= raw Poison.encode!(for d <- -14..0, do: d) %>,
+    labels: <%= raw Poison.encode!(for d <- -29..0, do: d) %>,
     series: [
-      <%= raw Poison.encode!(for d <- -14..0, do: @stats.span_data.speed_by_date[d]) %>
+      <%= raw Poison.encode!(for d <- -29..0, do: @stats.span_data.speed_by_date[d]) %>
     ]
   };
 
   const due_by_date = {
-    labels: <%= raw Poison.encode!(for d <- 0..14, do: d) %>,
+    labels: <%= raw Poison.encode!(for d <- 0..29, do: d) %>,
     series: [
-      <%= Poison.encode!(for d <- 0..14, do: @stats.span_data.due_by_date[d]) %>
+      <%= Poison.encode!(for d <- 0..29, do: @stats.span_data.due_by_date[d]) %>
     ]
   };
 
   const answer_by_choice = {
     labels: ["Again", "Hard", "Good", "Easy"],
-    series: <%= raw Poison.encode!(for key <- [1, 2, 3, 4], do: @stats.span_data.answer_by_choice[key] || 0) %>
+    series: [
+      <%= raw Poison.encode!(for key <- [1, 2, 3, 4], do: @stats.span_data.answer_by_choice[key] || 0) %>
+    ]
   };
-
-  const responsiveOptions = [
-    ['screen and (min-width: 375px)', {
-      chartPadding: 30,
-      labelOffset: 40,
-      labelDirection: 'explode',
-    }],
-    ['screen and (min-width: 414px)', {
-      chartPadding: 40,
-      labelOffset: 50,
-      labelDirection: 'explode',
-    }],
-    ['screen and (min-width: 600px)', {
-      chartPadding: 40,
-      labelOffset: 70,
-      labelDirection: 'explode',
-    }],
-    ['screen and (min-width: 1024px)', {
-      chartPadding: 50,
-      labelOffset: 80,
-      labelDirection: 'explode',
-    }],
-  ];
 
   new Chartist.Bar('#practice_by_date', practice_by_date);
   new Chartist.Bar('#speed_by_date', speed_by_date);
   new Chartist.Bar('#due_by_date', due_by_date);
-  new Chartist.Pie('#answer_by_choice', answer_by_choice, {}, responsiveOptions);
+  new Chartist.Bar('#answer_by_choice', answer_by_choice);
 </script>

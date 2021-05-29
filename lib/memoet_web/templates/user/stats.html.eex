@@ -1,0 +1,39 @@
+<section class="p-3 border rounded-lg space-y-4">
+  <h4 class="flex items-center">
+    <span class="opacity-70">
+      <%= Heroicons.Outline.chart_square_bar(class: "w-4 h-4 mr-2") %>
+    </span>
+    Practice by date
+  </h4>
+
+  <div class="ct-chart ct-double-octave" id="practice_by_date"></div>
+
+  <p class="text-xs opacity-50">
+    <%= Enum.sum(@practices) %> practices in the last <%= length(@practices) %> days
+  </p>
+</section>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+<script>
+  const practice_by_date = {
+    series: [
+      <%= Poison.encode!(@practices) %>
+    ]
+  };
+
+  new Chartist.Line('#practice_by_date', practice_by_date, {
+    low: 0,
+    chartPadding: 2,
+    showArea: true,
+    showPoint: false,
+    fullWidth: true,
+    axisX: {
+      showGrid: false,
+      offset: 0,
+    },
+    axisY: {
+      showGrid: false,
+      offset: 0,
+    },
+  });
+</script>
