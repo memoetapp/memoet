@@ -16,11 +16,15 @@ defmodule Memoet.Cards do
   # 60 secs
   @max_time_answer 60_000
 
-  def due_cards(user, deck) do
+  def due_cards(user, decks) do
     config = Users.get_srs_config(user.id)
     now = TimestampUtil.now()
     today = TimestampUtil.days_from_epoch(config.timezone)
     collapse_time = config.learn_ahead_time * 60
+
+    deck_ids =
+      decks
+      |> Enum.map(fn d -> d.id end)
 
     # Due cards order:
     # 1. Learn cards
@@ -30,51 +34,52 @@ defmodule Memoet.Cards do
     # 5. Collapsed learn cards
 
     # 1
-    cards = get_some_cards(get_learn_cards_query(now), deck.id)
+    cards = get_some_cards(get_learn_cards_query(now), deck_ids)
 
     if length(cards) > 0 do
       cards
     else
       # 2
-      cards = get_some_cards(get_day_learn_cards_query(today), deck.id)
+      cards = get_some_cards(get_day_learn_cards_query(today), deck_ids)
 
       if length(cards) > 0 do
         cards
       else
         # 3
-        cards = get_some_cards(get_review_cards_query(today), deck.id)
+        cards = get_some_cards(get_review_cards_query(today), deck_ids)
 
         if length(cards) > 0 do
           cards
         else
           # 4
-          new_today = get_deck_new_today(deck, today)
-
-          cards =
-            if new_today > 0 do
-              get_some_cards(get_new_cards_query(deck.learning_order), deck.id)
-            else
-              cards
-            end
+          cards = get_some_new_cards(decks, today)
 
           if length(cards) > 0 do
             cards
           else
             # 5
-            get_some_cards(get_learn_cards_query(now + collapse_time), deck.id)
+            get_some_cards(get_learn_cards_query(now + collapse_time), deck_ids)
           end
         end
       end
     end
   end
 
-  def count_today(deck) do
-    config = Users.get_srs_config(deck.user_id)
+  def count_today(user, decks) do
+    config = Users.get_srs_config(user.id)
     today = TimestampUtil.days_from_epoch(config.timezone)
 
     # Count learn ahead, too
     now = TimestampUtil.now() + config.learn_ahead_time * 60
-    new_today = get_deck_new_today(deck, today)
+
+    new_today =
+      decks
+      |> Enum.map(fn d -> get_deck_new_today(d, today) end)
+      |> Enum.sum()
+
+    deck_ids =
+      decks
+      |> Enum.map(fn d -> d.id end)
 
     due_today =
       from(c in Card,
@@ -82,7 +87,7 @@ defmodule Memoet.Cards do
           ((c.card_queue == ^CardQueues.learn() and c.due < ^now) or
              (c.card_queue == ^CardQueues.day_learn() and c.due <= ^today) or
              (c.card_queue == ^CardQueues.review() and c.due <= ^today)) and
-            c.deck_id == ^deck.id
+            c.deck_id in ^deck_ids
       )
       |> Repo.aggregate(:count)
 
@@ -90,6 +95,22 @@ defmodule Memoet.Cards do
       new: new_today,
       due: due_today
     }
+  end
+
+  defp get_some_new_cards(decks, today) do
+    case decks do
+      [] ->
+        []
+
+      [deck | remains] ->
+        new_today = get_deck_new_today(deck, today)
+
+        if new_today > 0 do
+          get_some_cards(get_new_cards_query(deck.learning_order), [deck.id])
+        else
+          get_some_new_cards(remains, today)
+        end
+    end
   end
 
   defp get_deck_new_today(deck, today) do
@@ -110,9 +131,9 @@ defmodule Memoet.Cards do
     |> Repo.aggregate(:count)
   end
 
-  defp get_some_cards(query, deck_id) do
+  defp get_some_cards(query, deck_ids) do
     query
-    |> where(^filter_where(%{"deck_id" => deck_id}))
+    |> where([d], d.deck_id in ^deck_ids)
     |> limit(@limit)
     |> Repo.all()
     |> Repo.preload([:note])

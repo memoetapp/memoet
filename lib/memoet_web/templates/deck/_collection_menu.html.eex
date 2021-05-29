@@ -14,15 +14,9 @@
       @click.away="menuOpen = false"
     >
       <li>
-        <a href="<%= Routes.deck_path(@conn, :new) %>" class="dropdown-item">
-          <%= Heroicons.Outline.plus_circle(class: "w-4 h-4 mr-1") %>
-          New deck
-        </a>
-      </li>
-      <li>
-        <a href="<%= Routes.deck_path(@conn, :index) %>" class="dropdown-item">
-          <%= Heroicons.Outline.collection(class: "w-4 h-4 mr-1") %>
-          All decks
+        <a href="<%= Routes.today_path(@conn, :edit) %>" class="dropdown-item">
+          <%= Heroicons.Outline.pencil_alt(class: "w-4 h-4 mr-1") %>
+          Edit decks
         </a>
       </li>
     </ul>

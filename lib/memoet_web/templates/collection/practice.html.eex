@@ -1,0 +1,24 @@
+<header class="header__wrapper">
+  <h1 class="header__title">
+    <a class="text-link" href="<%= Routes.today_path(@conn, :edit) %>">
+      <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
+    </a>
+
+    <%= if @card do %>
+      <%= @card.note.title %>
+    <% end %>
+  </h1>
+
+  <%= if @deck do %>
+    <%= render(MemoetWeb.DeckView, "_practice_menu.html", conn: @conn, deck: @deck, note: @card && @card.note) %>
+  <% end %>
+</header>
+
+<%= if @card do %>
+  <%= render(MemoetWeb.DeckView, "_card.html", conn: @conn, card_id: @card.id, note: @card.note, intervals: @intervals,
+    action: Routes.today_path(@conn, :answer)) %>
+<% else %>
+  <p class="py-6 text-center">
+    No more notes to practice for now.
+  </p>
+<% end %>

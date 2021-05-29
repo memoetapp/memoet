@@ -1,19 +1,9 @@
-<nav class="header__wrapper">
-  <h1 class="header__title">
-    Recent decks
-  </h1>
-
-  <%= render(MemoetWeb.DeckView, "_home_page_menu.html", conn: @conn) %>
-</nav>
+<%= render(MemoetWeb.DeckView, "_collection.html", conn: @conn, collection: @collection) %>
 
 <section>
   <ul>
     <%= for deck <- @decks do %>
       <%= render(MemoetWeb.DeckView, "_deck.html", assigns: assigns, conn: @conn, deck: deck) %>
-    <% end %>
-
-    <%= if @decks == [] do %>
-      <li class="text-center">No decks is created yet.</li>
     <% end %>
   </ul>
 </section>
@@ -21,5 +11,8 @@
 <section class="pt-6 text-center space-x-2">
   <a class="btn-primary" href="<%= Routes.deck_path @conn, :new %>">
     New deck
+  </a>
+  <a class="btn-outline" href="<%= Routes.deck_path @conn, :index %>">
+    All decks
   </a>
 </section>

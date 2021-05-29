@@ -1,0 +1,42 @@
+<section class="block px-3 py-3 my-4 border border-indigo-300 rounded-lg">
+  <div class="flex items-center justify-around space-x-3">
+    <div class="flex-1 text-indigo-700 truncate space-y-1">
+      <a href="<%= Routes.today_path(@conn, :edit) %>" class="flex items-center justify-start text-link">
+        <span class="mr-2 opacity-70">
+            <%= Heroicons.Outline.calendar(class: "w-4 h-4") %>
+        </span>
+
+        <h2 class="truncate md:text-lg">
+          Today
+        </h2>
+      </a>
+
+      <p class="text-xs whitespace-normal opacity-50">
+      <%= case x = length(@collection.decks) do %>
+        <% 1 -> %>
+          1 deck
+
+        <% _ -> %>
+          <%= x %> decks
+      <% end %>
+        ·
+      <%= case Memoet.Cards.count_today(Pow.Plug.current_user(@conn), @collection.decks) do %>
+        <% count -> %>
+          <%= count.due %> due
+          ·
+          <%= count.new %> new
+      <% end %>
+      </p>
+    </div>
+
+    <a href="<%= Routes.today_path(@conn, :practice) %>" class="flex-none hidden text-sm btn-outline md:block">
+      Practice
+    </a>
+
+    <a href="<%= Routes.today_path(@conn, :practice) %>" class="text-sm text-indigo-500 text-link md:hidden">
+      <%= Heroicons.Outline.play(class: "w-7 h-7") %>
+    </a>
+
+    <%= render(MemoetWeb.DeckView, "_collection_menu.html", conn: @conn) %>
+  </div>
+</section>
