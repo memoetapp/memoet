@@ -21,8 +21,10 @@ defmodule Memoet.Cards do
     now = TimestampUtil.now()
     today = TimestampUtil.days_from_epoch(config.timezone)
     collapse_time = config.learn_ahead_time * 60
-    deck_ids = decks
-               |> Enum.map(fn d -> d.id end)
+
+    deck_ids =
+      decks
+      |> Enum.map(fn d -> d.id end)
 
     # Due cards order:
     # 1. Learn cards
@@ -69,11 +71,15 @@ defmodule Memoet.Cards do
 
     # Count learn ahead, too
     now = TimestampUtil.now() + config.learn_ahead_time * 60
-    new_today = decks
-                |> Enum.map(fn d -> get_deck_new_today(d, today) end)
-                |> Enum.sum()
-    deck_ids = decks
-               |> Enum.map(fn d -> d.id end)
+
+    new_today =
+      decks
+      |> Enum.map(fn d -> get_deck_new_today(d, today) end)
+      |> Enum.sum()
+
+    deck_ids =
+      decks
+      |> Enum.map(fn d -> d.id end)
 
     due_today =
       from(c in Card,
@@ -93,9 +99,12 @@ defmodule Memoet.Cards do
 
   defp get_some_new_cards(decks, today) do
     case decks do
-      [] -> []
+      [] ->
+        []
+
       [deck | remains] ->
         new_today = get_deck_new_today(deck, today)
+
         if new_today > 0 do
           get_some_cards(get_new_cards_query(deck.learning_order), [deck.id])
         else

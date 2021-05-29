@@ -1,6 +1,6 @@
 <header class="header__wrapper">
   <h1 class="header__title">
-    <a class="text-link" href="/">
+    <a class="text-link" href="<%= Routes.today_path(@conn, :edit) %>">
       <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
     </a>
 

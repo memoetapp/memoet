@@ -86,9 +86,10 @@ defmodule MemoetWeb.CollectionController do
         |> render("practice.html", card: nil, deck: nil)
 
       [card | _] ->
-        deck = decks
-               |> Enum.filter(fn d -> d.id == card.deck_id end)
-               |> List.first()
+        deck =
+          decks
+          |> Enum.filter(fn d -> d.id == card.deck_id end)
+          |> List.first()
 
         conn
         |> assign(:page_title, card.note.title <> " · " <> deck.name)
@@ -96,7 +97,7 @@ defmodule MemoetWeb.CollectionController do
           "practice.html",
           card: card,
           deck: deck,
-          intervals: Cards.next_intervals(card),
+          intervals: Cards.next_intervals(card)
         )
     end
   end

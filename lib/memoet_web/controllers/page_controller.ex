@@ -15,6 +15,7 @@ defmodule MemoetWeb.PageController do
       user ->
         %{entries: decks, metadata: metadata} =
           Decks.list_decks(%{"user_id" => user.id, "limit" => 5})
+
         today_collection = Collections.get_today_collection(user.id)
 
         render(conn, "index.html", decks: decks, metadata: metadata, collection: today_collection)
