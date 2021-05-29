@@ -16,13 +16,7 @@
       <li>
         <a href="<%= Routes.deck_path(@conn, :new) %>" class="dropdown-item">
           <%= Heroicons.Outline.plus_circle(class: "w-4 h-4 mr-1") %>
-          New deck
-        </a>
-      </li>
-      <li>
-        <a href="<%= Routes.deck_path(@conn, :index) %>" class="dropdown-item">
-          <%= Heroicons.Outline.collection(class: "w-4 h-4 mr-1") %>
-          All decks
+          Add decks
         </a>
       </li>
     </ul>
