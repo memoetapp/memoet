@@ -4,7 +4,7 @@ defmodule Memoet.Utils.RequestUtil do
   """
   @max_limit 100
 
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   def get_pagination_params(params) do
     cursor_before =

@@ -11,7 +11,7 @@ defmodule Memoet.Users.User do
     extensions: [PowResetPassword, PowEmailConfirmation]
 
   alias Memoet.Accounts.{Account, Roles}
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

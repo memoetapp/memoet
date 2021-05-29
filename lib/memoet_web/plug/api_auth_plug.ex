@@ -4,7 +4,7 @@ defmodule MemoetWeb.Plugs.APIAuthPlug do
   use Pow.Plug.Base
 
   alias Memoet.Users
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
   alias Plug.Conn
 
   @impl true

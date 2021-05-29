@@ -10,7 +10,7 @@ defmodule Memoet.Notes.Note do
   alias Memoet.Users.User
   alias Memoet.Cards.Card
   alias Memoet.Decks.Deck
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   @title_limit 250
   @content_limit 2_500

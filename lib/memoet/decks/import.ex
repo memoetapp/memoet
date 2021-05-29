@@ -17,7 +17,7 @@ defmodule Memoet.Decks.Import do
   alias Memoet.Repo
   alias Memoet.Notes
   alias Memoet.Notes.Types
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   def import_csv(deck, filename) do
     Repo.transaction(

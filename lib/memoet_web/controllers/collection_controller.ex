@@ -2,7 +2,7 @@ defmodule MemoetWeb.CollectionController do
   use MemoetWeb, :controller
 
   alias Memoet.{Collections, Collections.Collection, Cards, Decks}
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   @decks_limit 20
 

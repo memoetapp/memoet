@@ -22,9 +22,11 @@
         ·
       <%= case Memoet.Cards.count_today(Pow.Plug.current_user(@conn), @collection.decks) do %>
         <% count -> %>
-          <%= count.due %> due
+          <%= count.due |> Memoet.Str.format_number %> due
           ·
-          <%= count.new %> new
+          <%= count.new |> Memoet.Str.format_number %> new
+          ·
+          <%= count.total |> Memoet.Str.format_number %> total
       <% end %>
       </p>
     </div>

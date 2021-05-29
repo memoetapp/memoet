@@ -3,7 +3,7 @@ defmodule MemoetWeb.UserController do
 
   alias Memoet.Users
   alias Memoet.Users.User
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, _params) do

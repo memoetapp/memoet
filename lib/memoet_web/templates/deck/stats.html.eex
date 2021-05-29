@@ -12,27 +12,27 @@
   <h2>Notes status</h2>
   <ul>
     <li>
-      Total notes: <strong><%= @stats.counter_to_date.total %></strong>
+      Total notes: <strong><%= @stats.counter_to_date.total |> Memoet.Str.format_number %></strong>
     </li>
     <li>
-      New notes: <strong><%= @stats.counter_to_date[0] || 0 %></strong>
+      New notes: <strong><%= @stats.counter_to_date[0] || 0 |> Memoet.Str.format_number %></strong>
     </li>
     <li>
       Learn notes:
       <strong>
-        <%= @stats.counter_to_date[1] || 0 %>
+        <%= @stats.counter_to_date[1] || 0 |> Memoet.Str.format_number %>
       </strong>
     </li>
     <li>
       Learn notes today:
       <strong>
-        <%= @stats.counter_to_date[3] || 0 %>
+        <%= @stats.counter_to_date[3] || 0 |> Memoet.Str.format_number %>
       </strong>
     </li>
     <li>
       Review notes:
       <strong>
-        <%= @stats.counter_to_date[2] || 0 %>
+        <%= @stats.counter_to_date[2] || 0 |> Memoet.Str.format_number %>
       </strong>
     </li>
   </ul>
