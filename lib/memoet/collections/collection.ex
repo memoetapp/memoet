@@ -8,7 +8,6 @@ defmodule Memoet.Collections.Collection do
 
   alias Memoet.Collections.DeckCollection
   alias Memoet.Users.User
-  alias Memoet.Decks.Deck
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id

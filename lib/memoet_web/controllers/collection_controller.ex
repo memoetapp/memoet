@@ -74,7 +74,7 @@ defmodule MemoetWeb.CollectionController do
   end
 
   @spec practice(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def practice(conn, params) do
+  def practice(conn, _params) do
     user = Pow.Plug.current_user(conn)
     today_collection = Collections.get_today_collection(user.id)
     decks = today_collection.decks
