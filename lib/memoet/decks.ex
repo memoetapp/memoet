@@ -12,7 +12,7 @@ defmodule Memoet.Decks do
   alias Memoet.Notes
   alias Memoet.Utils.{MapUtil, RequestUtil, TimestampUtil}
 
-  @stats_days 20
+  @stats_days 32
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
@@ -226,6 +226,23 @@ defmodule Memoet.Decks do
     }
   end
 
+  @spec user_stats(binary(), String.t()) :: map()
+  def user_stats(user_id, timezone) do
+    now =
+      Timex.now(timezone)
+      |> Timex.end_of_day()
+
+    today_unix = TimestampUtil.days_from_epoch(timezone)
+
+    from_date = DateTime.add(now, -@stats_days * 86_400, :second)
+    to_date = DateTime.add(now, @stats_days * 86_400, :second)
+
+    %{
+      due_by_date: user_due_by_date(user_id, from_date, to_date, today_unix),
+      practice_by_date: user_practice_by_date(user_id, from_date, to_date)
+    }
+  end
+
   @spec counter_to_date(binary()) :: map()
   def counter_to_date(deck_id) do
     counts =
@@ -268,6 +285,46 @@ defmodule Memoet.Decks do
     )
     |> Repo.all()
     |> Enum.map(fn {d, c} -> {d - today_unix, c} end)
+    |> Enum.into(%{})
+  end
+
+  @spec user_due_by_date(binary(), DateTime.t(), DateTime.t(), integer()) :: map()
+  def user_due_by_date(user_id, from_date, to_date, today_unix) do
+    from_date = Date.diff(from_date, ~D[1970-01-01])
+    to_date = Date.diff(to_date, ~D[1970-01-01])
+
+    from(c in Card,
+      group_by: c.due,
+      where:
+        c.user_id == ^user_id and
+          c.due >= ^from_date and
+          c.due <= ^to_date and
+          c.card_queue in [2, 3],
+      order_by: c.due,
+      select: {c.due, count(c.id)}
+    )
+    |> Repo.all()
+    |> Enum.map(fn {d, c} -> {d - today_unix, c} end)
+    |> Enum.into(%{})
+  end
+
+  @spec user_practice_by_date(binary(), DateTime.t(), DateTime.t()) :: map()
+  def user_practice_by_date(user_id, from_date, to_date) do
+    today_date = Date.utc_today()
+
+    from(c in CardLog,
+      group_by: fragment("created_date"),
+      where:
+        c.user_id == ^user_id and
+          c.inserted_at >= ^from_date and
+          c.inserted_at <= ^to_date,
+      select:
+        {fragment("date(?) as created_date", c.inserted_at),
+         fragment("round(avg(?))", c.time_answer), count(c.id)}
+    )
+    |> Repo.all()
+    |> Enum.map(fn {d, s, c} -> {Date.diff(d, today_date), s, c} end)
+    |> Enum.map(fn {d, _, c} -> {d, c} end)
     |> Enum.into(%{})
   end
 

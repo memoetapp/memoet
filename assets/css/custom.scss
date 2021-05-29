@@ -1,7 +1,7 @@
 // Style for custom elements
 @layer components {
   .header__wrapper {
-    @apply flex items-center space-x-4 justify-between mb-8 mt-4 py-2 border-b break-all;
+    @apply flex items-center space-x-4 justify-between mb-5 mt-4 py-2 border-b break-all;
   }
 
   .header__title {
@@ -26,6 +26,14 @@
 
   .ct-series-a .ct-bar {
     @apply stroke-indigo #{!important};
+  }
+
+  .ct-series-a .ct-line {
+    @apply stroke-indigo #{!important};
+  }
+
+  .ct-series-a .ct-area {
+    @apply fill-indigo #{!important};
   }
 
   .ct-series-a .ct-slice-pie {
