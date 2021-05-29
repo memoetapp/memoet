@@ -36,7 +36,7 @@ defmodule MemoetWeb.NoteController do
 
         conn
         |> put_status(:bad_request)
-        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
+        |> put_flash(:error, Str.changeset_error_to_string(changeset))
         |> render("new.html", changeset: changeset, deck: deck)
     end
   end
@@ -128,7 +128,7 @@ defmodule MemoetWeb.NoteController do
 
         conn
         |> put_status(:bad_request)
-        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
+        |> put_flash(:error, Str.changeset_error_to_string(changeset))
         |> render("edit.html", changeset: changeset, deck: deck)
     end
   end

@@ -49,7 +49,7 @@ defmodule Memoet.Users.User do
   defp set_default_token(changeset) do
     api_token = get_field(changeset, :api_token)
 
-    if StringUtil.blank?(api_token) do
+    if Str.blank?(api_token) do
       put_change(changeset, :api_token, Pow.UUID.generate())
     else
       changeset

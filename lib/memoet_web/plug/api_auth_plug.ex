@@ -34,7 +34,7 @@ defmodule MemoetWeb.Plugs.APIAuthPlug do
   end
 
   defp get_user_from_token(token) do
-    if StringUtil.blank?(token) do
+    if Str.blank?(token) do
       nil
     else
       {_, user} =

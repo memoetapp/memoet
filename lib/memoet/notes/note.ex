@@ -60,7 +60,7 @@ defmodule Memoet.Notes.Note do
   def clean_options(changeset) do
     update_change(changeset, :options, fn changesets ->
       changesets
-      |> Enum.filter(fn option -> not StringUtil.blank?(get_field(option, :content)) end)
+      |> Enum.filter(fn option -> not Str.blank?(get_field(option, :content)) end)
     end)
   end
 end

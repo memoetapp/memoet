@@ -25,7 +25,7 @@ defmodule MemoetWeb.UserController do
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
+        |> put_flash(:error, Str.changeset_error_to_string(changeset))
         |> redirect(to: Routes.account_path(conn, :show))
     end
   end
