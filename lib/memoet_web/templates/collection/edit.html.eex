@@ -1,0 +1,28 @@
+<header class="header__wrapper">
+  <h1 class="header__title">
+    <a class="text-link" href="/">
+      <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
+    </a>
+    <%= @collection.name %>
+  </h1>
+</header>
+
+<section>
+  <%= form_for @changeset,
+    Routes.today_path(@conn, :update),
+    [method: "PUT", class: "mt-8 space-y-8"],
+    fn f -> %>
+    <section class="p-4 pb-6 border rounded-md space-y-5">
+      <section>
+          <div class="container flex items-center justify-between space-x-2">
+            <%= f.name %>
+          </div>
+      </section>
+    </section>
+
+    <div class="py-6 text-center space-x-2">
+      <%= submit "Save", class: "btn-primary" %>
+      <%= link "Cancel", to: "/", class: "btn-outline" %>
+    </div>
+  <% end %>
+</section>

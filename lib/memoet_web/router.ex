@@ -53,6 +53,17 @@ defmodule MemoetWeb.Router do
     get("/search", DeckController, :search, as: :search)
   end
 
+  # Collection
+  scope "/today", MemoetWeb do
+    pipe_through [:browser, :protected]
+
+    get("/decks", CollectionController, :edit, as: :today)
+    put("/decks", CollectionController, :update, as: :today)
+
+    get("/", CollectionController, :practice, as: :today)
+    put("/", CollectionController, :answer, as: :today)
+  end
+
   # Decks & notes html
   scope "/decks", MemoetWeb do
     pipe_through [:browser, :protected]
