@@ -3,7 +3,7 @@ defmodule MemoetWeb.UserController do
 
   alias Memoet.Users
   alias Memoet.Users.User
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, _params) do
@@ -25,7 +25,7 @@ defmodule MemoetWeb.UserController do
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
+        |> put_flash(:error, Str.changeset_error_to_string(changeset))
         |> redirect(to: Routes.account_path(conn, :show))
     end
   end

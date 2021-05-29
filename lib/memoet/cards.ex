@@ -91,9 +91,16 @@ defmodule Memoet.Cards do
       )
       |> Repo.aggregate(:count)
 
+    total =
+      from(c in Card,
+        where: c.deck_id in ^deck_ids
+      )
+      |> Repo.aggregate(:count)
+
     %{
       new: new_today,
-      due: due_today
+      due: due_today,
+      total: total
     }
   end
 

@@ -8,11 +8,11 @@ defmodule Memoet.Notes do
   alias Memoet.Repo
   alias Memoet.Notes.Note
   alias Memoet.Cards
-  alias Memoet.Utils.RequestUtil
+  alias Memoet.Req
 
   @spec list_notes(map) :: map()
   def list_notes(params) do
-    {cursor_before, cursor_after, limit} = RequestUtil.get_pagination_params(params)
+    {cursor_before, cursor_after, limit} = Req.get_pagination_params(params)
 
     Note
     |> where(^filter_where(params))
@@ -28,7 +28,7 @@ defmodule Memoet.Notes do
 
   @spec list_public_notes(map) :: map()
   def list_public_notes(params) do
-    {cursor_before, cursor_after, limit} = RequestUtil.get_pagination_params(params)
+    {cursor_before, cursor_after, limit} = Req.get_pagination_params(params)
 
     Note
     |> where(^filter_where(params))

@@ -11,7 +11,7 @@ defmodule Memoet.Users.User do
     extensions: [PowResetPassword, PowEmailConfirmation]
 
   alias Memoet.Accounts.{Account, Roles}
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -49,7 +49,7 @@ defmodule Memoet.Users.User do
   defp set_default_token(changeset) do
     api_token = get_field(changeset, :api_token)
 
-    if StringUtil.blank?(api_token) do
+    if Str.blank?(api_token) do
       put_change(changeset, :api_token, Pow.UUID.generate())
     else
       changeset

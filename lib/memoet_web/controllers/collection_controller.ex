@@ -2,7 +2,7 @@ defmodule MemoetWeb.CollectionController do
   use MemoetWeb, :controller
 
   alias Memoet.{Collections, Collections.Collection, Cards, Decks}
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   @decks_limit 20
 
@@ -68,7 +68,7 @@ defmodule MemoetWeb.CollectionController do
 
       {:error, changeset} ->
         conn
-        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
+        |> put_flash(:error, Str.changeset_error_to_string(changeset))
         |> redirect(to: Routes.today_path(conn, :edit))
     end
   end

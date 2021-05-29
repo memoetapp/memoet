@@ -9,7 +9,10 @@
   <div class="ct-chart ct-double-octave" id="practice_by_date"></div>
 
   <p class="text-xs opacity-50">
-    <%= Enum.sum(@practices) %> practices in the last <%= length(@practices) %> days
+    <%= Enum.sum(@practices) |> Memoet.Str.format_number %>
+    practices in the last
+    <%= length(@practices) %>
+    days
   </p>
 </section>
 

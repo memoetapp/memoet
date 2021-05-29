@@ -10,7 +10,7 @@ defmodule Memoet.Notes.Note do
   alias Memoet.Users.User
   alias Memoet.Cards.Card
   alias Memoet.Decks.Deck
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   @title_limit 250
   @content_limit 2_500
@@ -60,7 +60,7 @@ defmodule Memoet.Notes.Note do
   def clean_options(changeset) do
     update_change(changeset, :options, fn changesets ->
       changesets
-      |> Enum.filter(fn option -> not StringUtil.blank?(get_field(option, :content)) end)
+      |> Enum.filter(fn option -> not Str.blank?(get_field(option, :content)) end)
     end)
   end
 end

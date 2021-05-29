@@ -17,7 +17,7 @@ defmodule Memoet.Decks.Import do
   alias Memoet.Repo
   alias Memoet.Notes
   alias Memoet.Notes.Types
-  alias Memoet.Utils.StringUtil
+  alias Memoet.Str
 
   def import_csv(deck, filename) do
     Repo.transaction(
@@ -47,7 +47,7 @@ defmodule Memoet.Decks.Import do
     |> parser.parse_stream()
     |> Stream.map(fn [title, image, content, type, op1, op2, op3, op4, op5, correct_op, hint] ->
       params = %{
-        "title" => if(StringUtil.blank?(title), do: "No title", else: title),
+        "title" => if(Str.blank?(title), do: "No title", else: title),
         "image" => image,
         "content" => content,
         "type" => Types.detect(type),
