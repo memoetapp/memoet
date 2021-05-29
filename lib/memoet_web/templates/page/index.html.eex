@@ -1,4 +1,4 @@
-<%= render(MemoetWeb.DeckView, "_collection.html", conn: @conn) %>
+<%= render(MemoetWeb.DeckView, "_collection.html", conn: @conn, collection: @collection) %>
 
 <section>
   <ul>

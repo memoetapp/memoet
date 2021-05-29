@@ -93,7 +93,7 @@ defmodule MemoetWeb.DeckAPIController do
           Cards.list_cards(%{"deck_id" => deck.id, "note_id" => note_id})
 
         _ ->
-          Cards.due_cards(user, deck)
+          Cards.due_cards(user, [deck])
       end
 
     case cards do

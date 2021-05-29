@@ -12,11 +12,20 @@
       </a>
 
       <p class="text-xs whitespace-normal opacity-50">
-        2 decks
+      <%= case x = length(@collection.decks) do %>
+        <% 1 -> %>
+          1 deck
+
+        <% _ -> %>
+          <%= x %> decks
+      <% end %>
         ·
-        3 due
-        ·
-        5 new
+      <%= case Memoet.Cards.count_today(Pow.Plug.current_user(@conn), @collection.decks) do %>
+        <% count -> %>
+          <%= count.due %> due
+          ·
+          <%= count.new %> new
+      <% end %>
       </p>
     </div>
 

@@ -1,6 +1,7 @@
 defmodule MemoetWeb.PageController do
   use MemoetWeb, :controller
   alias Memoet.Decks
+  alias Memoet.Collections
 
   def index(conn, _params) do
     case Pow.Plug.current_user(conn) do
@@ -14,8 +15,9 @@ defmodule MemoetWeb.PageController do
       user ->
         %{entries: decks, metadata: metadata} =
           Decks.list_decks(%{"user_id" => user.id, "limit" => 5})
+        today_collection = Collections.get_today_collection(user.id)
 
-        render(conn, "index.html", decks: decks, metadata: metadata)
+        render(conn, "index.html", decks: decks, metadata: metadata, collection: today_collection)
     end
   end
 end

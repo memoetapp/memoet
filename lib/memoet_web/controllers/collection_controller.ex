@@ -4,7 +4,7 @@ defmodule MemoetWeb.CollectionController do
   alias Memoet.{Collections, Collections.Collection, Cards, Decks}
   alias Memoet.Utils.StringUtil
 
-  @decks_limit 50
+  @decks_limit 20
 
   @spec edit(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def edit(conn, _params) do
@@ -63,8 +63,8 @@ defmodule MemoetWeb.CollectionController do
     case Collections.update_today_collection(collection, params) do
       {:ok, _collection} ->
         conn
-        |> put_flash(:info, "Update collection success!")
-        |> redirect(to: Routes.today_path(conn, :edit))
+        |> put_flash(:info, "Update " <> collection.name <> " collection success!")
+        |> redirect(to: "/")
 
       {:error, changeset} ->
         conn
@@ -78,7 +78,7 @@ defmodule MemoetWeb.CollectionController do
     user = Pow.Plug.current_user(conn)
     today_collection = Collections.get_today_collection(user.id)
     decks = today_collection.decks
-    cards = Cards.due_cards(decks, params)
+    cards = Cards.due_cards(user, decks)
 
     case cards do
       [] ->
@@ -86,11 +86,18 @@ defmodule MemoetWeb.CollectionController do
         |> render("practice.html", card: nil, deck: nil)
 
       [card | _] ->
-        deck = Decks.get_deck!(card.deck_id)
+        deck = decks
+               |> Enum.filter(fn d -> d.id == card.deck_id end)
+               |> List.first()
 
         conn
         |> assign(:page_title, card.note.title <> " · " <> deck.name)
-        |> render("practice.html", card: card, deck: deck, intervals: Cards.next_intervals(card))
+        |> render(
+          "practice.html",
+          card: card,
+          deck: deck,
+          intervals: Cards.next_intervals(card),
+        )
     end
   end
 
@@ -98,7 +105,6 @@ defmodule MemoetWeb.CollectionController do
   def answer(
         conn,
         %{
-          "id" => _collection_id,
           "card_id" => card_id,
           "answer" => choice,
           "visit_time" => visit_time

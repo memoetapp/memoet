@@ -16,9 +16,12 @@
       </a>
 
       <p class="text-xs whitespace-normal opacity-50">
-        <%= Memoet.Cards.count_today(@deck).due %> due
-        ·
-        <%= Memoet.Cards.count_today(@deck).new %> new
+      <%= case Memoet.Cards.count_today(Pow.Plug.current_user(@conn), [@deck]) do %>
+        <%= count -> %>
+          <%= count.due %> due
+          ·
+          <%= count.new %> new
+      <% end %>
       </p>
     </div>
 
