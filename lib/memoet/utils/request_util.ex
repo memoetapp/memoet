@@ -1,4 +1,4 @@
-defmodule Memoet.Utils.RequestUtil do
+defmodule Memoet.Req do
   @moduledoc """
   Request utilities
   """

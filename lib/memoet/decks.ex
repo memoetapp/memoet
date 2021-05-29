@@ -10,13 +10,14 @@ defmodule Memoet.Decks do
   alias Memoet.Decks.{Deck, Import}
   alias Memoet.Cards.{Card, CardLog}
   alias Memoet.Notes
-  alias Memoet.Utils.{MapUtil, RequestUtil, TimestampUtil}
+  alias Memoet.Req
+  alias Memoet.Utils.{MapUtil, TimestampUtil}
 
   @stats_days 32
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do
-    {cursor_before, cursor_after, limit} = RequestUtil.get_pagination_params(params)
+    {cursor_before, cursor_after, limit} = Req.get_pagination_params(params)
 
     Deck
     |> where(^filter_where(params))
@@ -32,7 +33,7 @@ defmodule Memoet.Decks do
 
   @spec list_public_decks(map) :: map()
   def list_public_decks(params \\ %{}) do
-    {cursor_before, cursor_after, limit} = RequestUtil.get_pagination_params(params)
+    {cursor_before, cursor_after, limit} = Req.get_pagination_params(params)
 
     params =
       params

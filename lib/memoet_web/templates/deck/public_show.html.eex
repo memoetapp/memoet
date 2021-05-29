@@ -36,7 +36,7 @@
 
 <section class="pagination__wrapper">
   <p class="text-sm">
-    <%= @metadata.total_count %> total
+    <%= @metadata.total_count |> Memoet.Str.format_number %> total
   </p>
 
   <ul class="pagination__button">

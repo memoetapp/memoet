@@ -21,7 +21,7 @@
           <%= count.due |> Memoet.Str.format_number %> due
           ·
           <%= count.new |> Memoet.Str.format_number %> new
-          .
+          ·
           <%= count.total |> Memoet.Str.format_number %> total
       <% end %>
       </p>
