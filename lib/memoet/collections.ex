@@ -13,6 +13,7 @@ defmodule Memoet.Collections do
     Collection
     |> where(user_id: ^user_id)
     |> Repo.one()
+    |> Repo.preload(:decks)
     |> case do
       %Collection{} = collection ->
         collection
@@ -22,9 +23,10 @@ defmodule Memoet.Collections do
     end
   end
 
-  @spec update_today_collection(integer(), map()) :: {:ok, SrsConfig.t()} | {:error, Ecto.Changeset.t()}
-  def update_today_collection(user_id, params) do
-    get_today_collection(user_id)
+  @spec update_today_collection(Collection.t(), map()) ::
+          {:ok, Collection.t()} | {:error, Ecto.Changeset.t()}
+  def update_today_collection(collection, params) do
+    collection
     |> Collection.changeset(params)
     |> Repo.update()
   end

@@ -2,6 +2,9 @@ defmodule MemoetWeb.CollectionController do
   use MemoetWeb, :controller
 
   alias Memoet.{Collections, Collections.Collection, Cards, Decks}
+  alias Memoet.Utils.StringUtil
+
+  @decks_limit 50
 
   @spec edit(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def edit(conn, _params) do
@@ -9,13 +12,20 @@ defmodule MemoetWeb.CollectionController do
     collection = Collections.get_today_collection(user.id)
     changeset = Collection.changeset(collection, %{})
 
-    %{entries: decks} = Decks.list_decks(%{"user_id" => user.id, "limit" => 5})
+    current_decks =
+      collection.decks
+      |> Enum.map(fn d -> d.id end)
+      |> MapSet.new()
+
+    %{entries: recent_decks} = Decks.list_decks(%{"user_id" => user.id, "limit" => @decks_limit})
 
     render(
       conn,
       "edit.html",
-      decks: decks,
+      recent_decks: recent_decks,
+      current_decks: current_decks,
       collection: collection,
+      deck_limit: @decks_limit,
       changeset: changeset
     )
   end
@@ -23,27 +33,51 @@ defmodule MemoetWeb.CollectionController do
   @spec update(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def update(conn, %{"collection" => collection_data} = _params) do
     user = Pow.Plug.current_user(conn)
-    params = Map.merge(collection_data, %{"user_id" => user.id})
+    collection = Collections.get_today_collection(user.id)
 
-    case Collections.update_today_collection(user.id, params) do
+    decks_collections =
+      case collection_data do
+        %{"deck_ids" => deck_ids} ->
+          deck_ids
+          |> Enum.map(fn id ->
+            %{
+              "deck_id" => id,
+              "collection_id" => collection.id,
+              "user_id" => user.id
+            }
+          end)
+
+        _ ->
+          []
+      end
+
+    params =
+      Map.merge(
+        collection_data,
+        %{
+          "user_id" => user.id,
+          "decks_collections" => decks_collections
+        }
+      )
+
+    case Collections.update_today_collection(collection, params) do
       {:ok, _collection} ->
         conn
         |> put_flash(:info, "Update collection success!")
         |> redirect(to: Routes.today_path(conn, :edit))
 
       {:error, changeset} ->
-        collection = Collections.get_today_collection(user.id)
-
         conn
-        |> put_flash(:error, "Fail to update collection!")
-        |> render("edit.html", collection: collection, changeset: changeset)
+        |> put_flash(:error, StringUtil.changeset_error_to_string(changeset))
+        |> redirect(to: Routes.today_path(conn, :edit))
     end
   end
 
   @spec practice(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def practice(conn, %{"id" => collection_id} = params) do
+  def practice(conn, params) do
     user = Pow.Plug.current_user(conn)
-    decks = Collections.get_decks(collection_id, user.id)
+    today_collection = Collections.get_today_collection(user.id)
+    decks = today_collection.decks
     cards = Cards.due_cards(decks, params)
 
     case cards do
@@ -53,6 +87,7 @@ defmodule MemoetWeb.CollectionController do
 
       [card | _] ->
         deck = Decks.get_deck!(card.deck_id)
+
         conn
         |> assign(:page_title, card.note.title <> " · " <> deck.name)
         |> render("practice.html", card: card, deck: deck, intervals: Cards.next_intervals(card))

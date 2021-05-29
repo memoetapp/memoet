@@ -23,5 +23,6 @@ defmodule Memoet.Collections.DeckCollection do
     |> cast(attrs, [:deck_id, :collection_id, :user_id])
     |> validate_required([:deck_id, :collection_id, :user_id])
     |> cast_assoc(:deck, require: true)
+    |> cast_assoc(:collection, require: true)
   end
 end

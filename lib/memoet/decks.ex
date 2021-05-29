@@ -56,6 +56,14 @@ defmodule Memoet.Decks do
     |> Repo.get_by!(id: id)
   end
 
+  @spec get_decks!(list()) :: Deck.t()
+  def get_decks!(ids) do
+    Deck
+    |> where([d], d.id in ^ids)
+    |> limit(100)
+    |> Repo.all()
+  end
+
   @spec get_public_deck!(binary()) :: Deck.t()
   def get_public_deck!(id) do
     Deck
