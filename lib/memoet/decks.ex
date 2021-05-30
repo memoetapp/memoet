@@ -204,17 +204,15 @@ defmodule Memoet.Decks do
       Timex.now(timezone)
       |> Timex.end_of_day()
 
-    today_unix = TimestampUtil.days_from_epoch(timezone)
-
     from_date = DateTime.add(now, -@stats_days * 86_400, :second)
     to_date = DateTime.add(now, @stats_days * 86_400, :second)
 
-    practices = practice_by_date(deck_id, from_date, to_date)
+    practices = practice_by_date(deck_id, from_date, to_date, timezone)
 
     %{
       counter_to_date: counter_to_date(deck_id),
       span_data: %{
-        due_by_date: due_by_date(deck_id, from_date, to_date, today_unix),
+        due_by_date: due_by_date(deck_id, from_date, to_date, timezone),
         practice_by_date: practices.count,
         speed_by_date: practices.speed,
         answer_by_choice: answer_by_choice(deck_id, from_date, to_date)
@@ -233,14 +231,12 @@ defmodule Memoet.Decks do
       Timex.now(timezone)
       |> Timex.end_of_day()
 
-    today_unix = TimestampUtil.days_from_epoch(timezone)
-
     from_date = DateTime.add(now, -@stats_days * 86_400, :second)
     to_date = DateTime.add(now, @stats_days * 86_400, :second)
 
     %{
-      due_by_date: user_due_by_date(user_id, from_date, to_date, today_unix),
-      practice_by_date: user_practice_by_date(user_id, from_date, to_date)
+      due_by_date: user_due_by_date(user_id, from_date, to_date, timezone),
+      practice_by_date: user_practice_by_date(user_id, from_date, to_date, timezone)
     }
   end
 
@@ -268,8 +264,9 @@ defmodule Memoet.Decks do
     |> Map.merge(%{total: total})
   end
 
-  @spec due_by_date(binary(), DateTime.t(), DateTime.t(), integer()) :: map()
-  def due_by_date(deck_id, from_date, to_date, today_unix) do
+  @spec due_by_date(binary(), DateTime.t(), DateTime.t(), String.t()) :: map()
+  def due_by_date(deck_id, from_date, to_date, timezone) do
+    today_unix = TimestampUtil.days_from_epoch(timezone)
     from_date = Date.diff(from_date, ~D[1970-01-01])
     to_date = Date.diff(to_date, ~D[1970-01-01])
 
@@ -289,8 +286,9 @@ defmodule Memoet.Decks do
     |> Enum.into(%{})
   end
 
-  @spec user_due_by_date(binary(), DateTime.t(), DateTime.t(), integer()) :: map()
-  def user_due_by_date(user_id, from_date, to_date, today_unix) do
+  @spec user_due_by_date(binary(), DateTime.t(), DateTime.t(), String.t()) :: map()
+  def user_due_by_date(user_id, from_date, to_date, timezone) do
+    today_unix = TimestampUtil.days_from_epoch(timezone)
     from_date = Date.diff(from_date, ~D[1970-01-01])
     to_date = Date.diff(to_date, ~D[1970-01-01])
 
@@ -309,9 +307,9 @@ defmodule Memoet.Decks do
     |> Enum.into(%{})
   end
 
-  @spec user_practice_by_date(binary(), DateTime.t(), DateTime.t()) :: map()
-  def user_practice_by_date(user_id, from_date, to_date) do
-    today_date = Date.utc_today()
+  @spec user_practice_by_date(binary(), DateTime.t(), DateTime.t(), String.t()) :: map()
+  def user_practice_by_date(user_id, from_date, to_date, timezone) do
+    today_date = Timex.today(timezone)
 
     from(c in CardLog,
       group_by: fragment("created_date"),
@@ -320,7 +318,7 @@ defmodule Memoet.Decks do
           c.inserted_at >= ^from_date and
           c.inserted_at <= ^to_date,
       select:
-        {fragment("date(?) as created_date", c.inserted_at),
+        {fragment("date(? at time zone ?) as created_date", c.inserted_at, ^timezone),
          fragment("round(avg(?))", c.time_answer), count(c.id)}
     )
     |> Repo.all()
@@ -329,9 +327,9 @@ defmodule Memoet.Decks do
     |> Enum.into(%{})
   end
 
-  @spec practice_by_date(binary(), DateTime.t(), DateTime.t()) :: map()
-  def practice_by_date(deck_id, from_date, to_date) do
-    today_date = Date.utc_today()
+  @spec practice_by_date(binary(), DateTime.t(), DateTime.t(), String.t()) :: map()
+  def practice_by_date(deck_id, from_date, to_date, timezone) do
+    today_date = Timex.today(timezone)
 
     practices =
       from(c in CardLog,
@@ -341,7 +339,7 @@ defmodule Memoet.Decks do
             c.inserted_at >= ^from_date and
             c.inserted_at <= ^to_date,
         select:
-          {fragment("date(?) as created_date", c.inserted_at),
+          {fragment("date(? at time zone ?) as created_date", c.inserted_at, ^timezone),
            fragment("round(avg(?))", c.time_answer), count(c.id)}
       )
       |> Repo.all()

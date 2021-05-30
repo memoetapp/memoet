@@ -37,7 +37,7 @@ defmodule Memoet.Users do
   end
 
   # SRS config
-  @spec get_srs_config(integer()) :: SrsConfig.t() | nil
+  @spec get_srs_config(String.t()) :: SrsConfig.t() | nil
   def get_srs_config(user_id) do
     SrsConfig
     |> where(user_id: ^user_id)
@@ -61,7 +61,7 @@ defmodule Memoet.Users do
     end
   end
 
-  @spec update_srs_config(integer(), map()) ::
+  @spec update_srs_config(String.t(), map()) ::
           {:ok, SrsConfig.t()} | {:error, Ecto.Changeset.t()}
   def update_srs_config(user_id, params) do
     get_srs_config(user_id)

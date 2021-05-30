@@ -9,6 +9,15 @@ defmodule Memoet.SRS do
 
   @spec get_scheduler(String.t()) :: Scheduler.t()
   def get_scheduler(user_id) do
+    srs_config = get_config(user_id)
+    config = struct(Config, Map.from_struct(srs_config))
+    day_cut_off = TimestampUtil.day_cut_off(srs_config.timezone)
+    day_today = TimestampUtil.days_from_epoch(srs_config.timezone)
+    Sm2.new(config, day_cut_off, day_today)
+  end
+
+  @spec get_config(String.t()) :: SrsConfig.t()
+  def get_config(user_id) do
     cache_key = get_cache_key(user_id)
 
     {_, srs_config} =
@@ -18,10 +27,7 @@ defmodule Memoet.SRS do
         fn _key -> {:commit, Users.get_srs_config(user_id)} end
       )
 
-    config = struct(Config, Map.from_struct(srs_config))
-    day_cut_off = TimestampUtil.day_cut_off(srs_config.timezone)
-    day_today = TimestampUtil.days_from_epoch(srs_config.timezone)
-    Sm2.new(config, day_cut_off, day_today)
+    srs_config
   end
 
   @spec set_config(String.t(), SrsConfig.t()) :: :ok
