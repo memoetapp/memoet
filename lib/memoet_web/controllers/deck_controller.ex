@@ -4,7 +4,7 @@ defmodule MemoetWeb.DeckController do
   alias Memoet.Decks.Deck
   alias Memoet.Cards.CardQueues
   alias Memoet.Utils.MapUtil
-  alias Memoet.{Decks, Notes, Cards, Users}
+  alias Memoet.{Decks, Notes, Cards, SRS}
 
   # Max size 255, and " (copy)" takes 7 characters
   @title_slice_limit 248
@@ -315,7 +315,7 @@ defmodule MemoetWeb.DeckController do
   def stats(conn, %{"id" => id} = _params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
-    timezone = Users.get_srs_config(user.id).timezone
+    timezone = SRS.get_config(user.id).timezone
     stats = Decks.deck_stats(id, timezone)
 
     conn

@@ -17,7 +17,7 @@ defmodule Memoet.Cards do
   @max_time_answer 60_000
 
   def due_cards(user, decks) do
-    config = Users.get_srs_config(user.id)
+    config = SRS.get_config(user.id)
     now = TimestampUtil.now()
     today = TimestampUtil.days_from_epoch(config.timezone)
     collapse_time = config.learn_ahead_time * 60
@@ -66,7 +66,7 @@ defmodule Memoet.Cards do
   end
 
   def count_today(user, decks) do
-    config = Users.get_srs_config(user.id)
+    config = SRS.get_config(user.id)
     today = TimestampUtil.days_from_epoch(config.timezone)
 
     # Count learn ahead, too

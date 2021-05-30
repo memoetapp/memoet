@@ -1,7 +1,7 @@
 defmodule MemoetWeb.PageController do
   use MemoetWeb, :controller
   alias Memoet.Decks
-  alias Memoet.Users
+  alias Memoet.SRS
   alias Memoet.Collections
 
   def index(conn, _params) do
@@ -16,7 +16,7 @@ defmodule MemoetWeb.PageController do
       user ->
         %{entries: decks} = Decks.list_decks(%{"user_id" => user.id, "limit" => 5})
 
-        timezone = Users.get_srs_config(user.id).timezone
+        timezone = SRS.get_config(user.id).timezone
         today_collection = Collections.get_today_collection(user.id)
         stats = Decks.user_stats(user.id, timezone)
         practices = for d <- -29..0, do: stats.practice_by_date[d] || 0
