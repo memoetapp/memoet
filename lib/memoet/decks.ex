@@ -318,8 +318,11 @@ defmodule Memoet.Decks do
           c.inserted_at >= ^from_date and
           c.inserted_at <= ^to_date,
       select:
-        {fragment("date(? at time zone ?) as created_date", c.inserted_at, ^timezone),
-         fragment("round(avg(?))", c.time_answer), count(c.id)}
+        {fragment(
+           "date(? at time zone 'utc' at time zone ?) as created_date",
+           c.inserted_at,
+           ^timezone
+         ), fragment("round(avg(?))", c.time_answer), count(c.id)}
     )
     |> Repo.all()
     |> Enum.map(fn {d, s, c} -> {Date.diff(d, today_date), s, c} end)
@@ -339,8 +342,11 @@ defmodule Memoet.Decks do
             c.inserted_at >= ^from_date and
             c.inserted_at <= ^to_date,
         select:
-          {fragment("date(? at time zone ?) as created_date", c.inserted_at, ^timezone),
-           fragment("round(avg(?))", c.time_answer), count(c.id)}
+          {fragment(
+             "date(? at time zone 'utc' at time zone ?) as created_date",
+             c.inserted_at,
+             ^timezone
+           ), fragment("round(avg(?))", c.time_answer), count(c.id)}
       )
       |> Repo.all()
       |> Enum.map(fn {d, s, c} -> {Date.diff(d, today_date), s, c} end)
