@@ -7,7 +7,7 @@ defmodule Memoet.Cards do
   require Logger
 
   alias Memoet.Cards.{Card, CardLog, CardTypes, CardQueues, Choices}
-  alias Memoet.{Decks, Users, SRS, Repo}
+  alias Memoet.{Decks, SRS, Repo}
   alias Memoet.Utils.TimestampUtil
 
   @limit 1
