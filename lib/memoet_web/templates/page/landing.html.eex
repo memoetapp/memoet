@@ -54,7 +54,7 @@
     />
   </section>
   <section class="flex flex-col items-center justify-center flex-grow max-w-lg py-4 mx-auto text-center">
-    <h3 class="text-2xl">Practice your quiz anywhere</h3>
+    <h3 class="text-2xl">Practice your quizzes anywhere</h3>
     <p>No installation. No software updates. Play it instantly.</p>
   </section>
 </section>
@@ -65,7 +65,7 @@
         <h3 class="text-2xl">Never forget a thing</h3>
         <p>
           We use SuperMemo2 which is an Spaced Repetition algorithm to help
-          you remember your quiz. Forever.
+          you memorize your content. Forever.
         </p>
       </section>
       <section class="flex items-center justify-end flex-grow max-w-lg">
@@ -79,8 +79,45 @@
 </div>
 
 <section
+  class="flex flex-wrap max-w-6xl p-4 mx-auto rounded-t md:flex-nowrap"
+>
+  <section class="flex items-center justify-start flex-grow max-w-lg">
+    <img
+      src='<%= Routes.static_path(@conn, "/images/md.png") %>'
+      alt="Markdown support"
+      class="rounded-lg"
+    />
+  </section>
+  <section class="flex flex-col items-center justify-center flex-grow max-w-lg py-4 mx-auto text-center">
+    <h3 class="text-2xl">Markdown syntax</h3>
+    <p>
+      A minimal UI with rich Markdown support helps to
+      focus your mind on the content and nothing else.
+    </p>
+  </section>
+</section>
+
+<div class="bg-gray-50">
+  <section class="flex flex-wrap-reverse max-w-6xl p-4 mx-auto md:flex-nowrap">
+      <section class="flex flex-col items-center justify-center flex-grow max-w-lg py-4 mx-auto text-center">
+        <h3 class="text-2xl">Free and open source</h3>
+        <p>
+          Free as in free beer. Also free as in freedom. Always.
+        </p>
+      </section>
+      <section class="flex items-center justify-end flex-grow max-w-lg">
+        <img
+          src='<%= Routes.static_path(@conn, "/images/foss.png") %>'
+          alt="Free and open source"
+          class="rounded-lg"
+        />
+      </section>
+  </section>
+</div>
+
+<section
   id="how"
-  class="flex flex-col items-center justify-center w-full max-w-3xl p-4 mx-auto my-10 space-y-8"
+  class="flex flex-col items-center justify-center w-full max-w-4xl p-4 mx-auto my-10 space-y-8"
 >
   <h2 class="text-3xl text-indigo-800">How it works</h2>
   <ul class="flex flex-col text-lg space-y-8">
@@ -88,19 +125,19 @@
       <span class="inline-block w-8 pt-0.5 text-center text-white bg-indigo-600 rounded-full mr-2">
         1
       </span>
-      Create your own quiz or fork a shared deck from our public library
+      Create your own quizzes, bulk import, or clone a shared deck from our public library
     </li>
     <li>
       <span class="inline-block w-8 pt-0.5 text-center text-white bg-indigo-600 rounded-full mr-2">
         2
       </span>
-      When you play a quiz, we ask for your answer confidence, from <strong>Forget</strong> to <strong>Easy</strong>
+      When you play a quiz or review a flashcard, we ask for your memory confidence, from <strong>Forget</strong> to <strong>Easy</strong>
     </li>
     <li>
       <span class="inline-block w-8 pt-0.5 text-center text-white bg-indigo-600 rounded-full mr-2">
         3
       </span>
-      Base on your ratings, we will keep showing the hard quizzes more often and easy ones less so
+      Base on your ratings, we will keep showing the hard more often and the easy less so
     </li>
   </ul>
   <a class="btn-outline" href="https://docs.memoet.com/">Documentation</a>

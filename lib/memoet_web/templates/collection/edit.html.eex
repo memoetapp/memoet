@@ -16,7 +16,7 @@
       <%= for deck <- @recent_decks do %>
         <label class="flex items-center justify-start">
           <input
-            <%= if MapSet.member?(@current_decks, deck.id), do: "checked", else: "" %>
+            <%= if MapSet.member?(@current_decks, deck.id), do: "checked" %>
             name="collection[deck_ids][]"
             type="checkbox"
             value="<%= deck.id %>"
