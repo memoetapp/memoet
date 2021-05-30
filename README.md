@@ -3,7 +3,7 @@
 [![Memoet CI](https://github.com/memoetapp/memoet/actions/workflows/memoet.yml/badge.svg)](https://github.com/memoetapp/memoet/actions/workflows/memoet.yml)
 
 
-> Play quizzes to remember everything using Spaced Repetition method
+> Play quizzes & review flashcards to memorize everything using spaced repetition method 
 
 
 ## Documentation
