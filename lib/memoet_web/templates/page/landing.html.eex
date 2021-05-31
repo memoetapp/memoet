@@ -46,7 +46,7 @@
   id="features"
   class="flex flex-wrap max-w-6xl p-4 mx-auto rounded-t md:flex-nowrap"
 >
-  <section class="flex items-center justify-start flex-grow max-w-lg">
+  <section class="flex items-center justify-start flex-grow max-w-lg p-4">
     <img
       src='<%= Routes.static_path(@conn, "/images/quiz.png") %>'
       alt="Play anywhere"
@@ -65,10 +65,10 @@
         <h3 class="text-2xl">Never forget a thing</h3>
         <p>
           We use SuperMemo2 which is an Spaced Repetition algorithm to help
-          you memorize your content. Forever.
+          you memorize your quizzes. Forever.
         </p>
       </section>
-      <section class="flex items-center justify-end flex-grow max-w-lg">
+      <section class="flex items-center justify-end flex-grow max-w-lg p-4">
         <img
           src='<%= Routes.static_path(@conn, "/images/srs.png") %>'
           alt="Forgetting curve"
@@ -81,7 +81,7 @@
 <section
   class="flex flex-wrap max-w-6xl p-4 mx-auto rounded-t md:flex-nowrap"
 >
-  <section class="flex items-center justify-start flex-grow max-w-lg p-8">
+  <section class="flex items-center justify-start flex-grow max-w-lg p-4">
     <img
       src='<%= Routes.static_path(@conn, "/images/md.png") %>'
       alt="Markdown support"
@@ -102,12 +102,12 @@
       <section class="flex flex-col items-center justify-center flex-grow max-w-lg py-4 mx-auto text-center">
         <h3 class="text-2xl">Free and open source</h3>
         <p>
-          Free as in free beer. Also free as in freedom. Always.
+          Free as in free beer. Also free as in freedom.
         </p>
       </section>
-      <section class="flex items-center justify-end flex-grow max-w-lg">
+      <section class="flex items-center justify-end flex-grow max-w-lg p-4">
         <img
-          src='<%= Routes.static_path(@conn, "/images/foss.png") %>'
+          src='<%= Routes.static_path(@conn, "/images/open.png") %>'
           alt="Free and open source"
           class="rounded-lg"
         />
