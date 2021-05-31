@@ -3,7 +3,7 @@
     <a class="text-link" href="/">
       <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
     </a>
-    <%= @collection.name %>'s decks
+    Today collection
   </h1>
 </header>
 
@@ -11,7 +11,21 @@
   <%= form_for @changeset,
     Routes.today_path(@conn, :update),
     [method: "PUT", class: "mt-8 space-y-8"],
-    fn _f -> %>
+    fn f -> %>
+
+    <%= if length(@recent_decks) > 0 do %>
+      <section>
+        <%= text_input f,
+          :name,
+          required: true,
+          class: "form-control form-block",
+          placeholder: "Today",
+          value: @collection.name
+        %>
+        <%= error_tag f, :name %>
+      </section>
+    <% end %>
+
     <section class="space-y-5">
       <%= for deck <- @recent_decks do %>
         <label class="flex items-center justify-start">

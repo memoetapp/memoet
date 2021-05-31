@@ -7,7 +7,7 @@
         </span>
 
         <h2 class="truncate md:text-lg">
-          Today
+          <%= @collection.name %>
         </h2>
       </a>
 

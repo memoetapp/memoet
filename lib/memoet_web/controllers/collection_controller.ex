@@ -61,7 +61,7 @@ defmodule MemoetWeb.CollectionController do
       )
 
     case Collections.update_today_collection(collection, params) do
-      {:ok, _collection} ->
+      {:ok, collection} ->
         conn
         |> put_flash(:info, "Update " <> collection.name <> " collection success!")
         |> redirect(to: "/")

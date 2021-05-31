@@ -35,7 +35,7 @@
       %>
     </div>
     <article x-show="preview" x-html="marked(document.getElementById('content').value)"
-      class="p-3 border bg-blue-50 prose rounded-md">
+      class="p-3 border bg-blue-50 prose rounded-md" x-cloak>
     </article>
   </section>
 
@@ -80,7 +80,7 @@
       %>
     </div>
     <article x-show="preview" x-html="marked(document.getElementById('hint').value)"
-      class="p-3 border bg-blue-50 prose rounded-md">
+      class="p-3 border bg-blue-50 prose rounded-md" x-cloak>
     </article>
   </section>
 </section>
