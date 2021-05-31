@@ -36,7 +36,7 @@ defmodule Memoet.Collections do
     |> Collection.changeset(%{user_id: user_id, name: "Today"})
     |> Repo.insert()
     |> case do
-      {:ok, collection} -> collection
+      {:ok, collection} -> %Collection{collection | decks: []}
       {:serror, _reason} -> nil
     end
   end
