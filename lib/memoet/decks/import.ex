@@ -6,10 +6,11 @@ NimbleCSV.define(Memoet.Decks.Import.ExcelCSV,
 )
 
 defmodule Memoet.Decks.Import do
-  @moduledoc false
+  @moduledoc """
+  Import notes to deck and notify client in the same time
+  """
 
-  # [title, image, content, type, op1, op2, op3, op4, op5, correct_op, hint]
-  @columns 11
+  import MemoetWeb.Gettext
 
   require Logger
   require Sentry
@@ -18,17 +19,23 @@ defmodule Memoet.Decks.Import do
   alias Memoet.Notes
   alias Memoet.Notes.Types
   alias Memoet.Str
+  alias Memoet.Decks.ImportError
 
-  def import_csv(deck, filename) do
+  # [title, image, content, type, op1, op2, op3, op4, op5, correct_op, hint]
+  @columns 11
+
+  def import_csv(deck, filename, opts) do
+    notify_pid = Keyword.get(opts, :notify, self())
+
     Repo.transaction(
       fn ->
         try do
-          import_csv!(deck, filename)
+          import_csv!(deck, filename, notify_pid)
         rescue
           e ->
             Logger.error(e)
             Sentry.capture_exception(e, stacktrace: __STACKTRACE__, extra: %{deck_id: deck.id})
-            Repo.rollback(e.message)
+            Repo.rollback(e)
         end
       end,
       timeout: :infinity,
@@ -40,13 +47,20 @@ defmodule Memoet.Decks.Import do
     end
   end
 
-  defp import_csv!(deck, filename) do
+  defp import_csv!(deck, filename, notify_pid) do
     parser = determine_parser(filename)
+
+    lines =
+      File.stream!(filename)
+      |> parser.parse_stream()
+      |> Enum.count()
+
+    send(notify_pid, {:notes_import_progress, 0, lines})
 
     File.stream!(filename)
     |> parser.parse_stream()
     |> Stream.map(fn [title, image, content, type, op1, op2, op3, op4, op5, correct_op, hint] ->
-      params = %{
+      %{
         "title" => if(Str.blank?(title), do: "No title", else: title),
         "image" => image,
         "content" => content,
@@ -62,11 +76,20 @@ defmodule Memoet.Decks.Import do
         "user_id" => deck.user_id,
         "deck_id" => deck.id
       }
-
+    end)
+    |> Stream.with_index()
+    |> Stream.map(fn {params, n} ->
       Notes.create_note_with_card_transaction(params)
       |> Memoet.Repo.transaction()
+      |> case do
+        {:ok, _} -> n
+        {:error, _op, changeset, _changes} -> raise_import_error!(changeset, n + 1)
+      end
     end)
-    |> Stream.run()
+    |> Stream.chunk_every(100)
+    |> Enum.each(fn ns ->
+      send(notify_pid, {:notes_import_progress, List.last(ns) + 1, lines})
+    end)
   end
 
   defp determine_parser(filename) do
@@ -79,5 +102,24 @@ defmodule Memoet.Decks.Import do
     else
       NimbleCSV.RFC4180
     end
+  end
+
+  defp raise_import_error!(changeset, line) do
+    message =
+      case changeset.errors do
+        [{field, {message, _}} | _] ->
+          gettext("Field %{field}: %{message}", field: field, message: message)
+
+        _other ->
+          gettext("Unknown data error")
+      end
+
+    raise ImportError,
+      message:
+        gettext("Error importing note in line %{line}: %{message}",
+          line: line,
+          message: message
+        ),
+      line: line
   end
 end
