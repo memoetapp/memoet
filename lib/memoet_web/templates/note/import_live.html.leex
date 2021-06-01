@@ -44,7 +44,10 @@
     </form>
 
   <% @import_total > @import_progress -> %>
-    <h2 class="text-lg text-center">Importing <%= @import_progress %> / <%= @import_total %> notes...</h2>
+    <h2 class="flex items-center justify-center text-lg">
+      <%= Heroicons.Outline.cloud_upload(class: "w-6 h-6 mr-1") %>
+      Importing <%= @import_progress %> / <%= @import_total %> notes...
+    </h2>
     <div class="relative w-full h-3 mt-4 overflow-hidden rounded-full">
       <div class="absolute w-full h-full bg-gray-200"></div>
       <div class="absolute h-full bg-green-500" style="width:<%= @import_progress / ( case @import_total do 0 -> 1; other -> other; end) * 100 %>%"></div>
