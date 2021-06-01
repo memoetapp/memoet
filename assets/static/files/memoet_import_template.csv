@@ -1,3 +1,4 @@
-Title (required),Image,Content,Quiz type,Option 1,Option 2,Option 3,Option 4,Option 5,Correct option (1-5),Hint
+Title (required),Image,Content,Quiz type,Option 1,Option 2,Option 3,Option 4,Option 5,Correct option (1-5),Explanation
 What is the capital of France?,https://images.unsplash.com/photo-1431274172761-fca41d930114?w=640,,Multiple choice,London,Amsterdam,Roma,Paris,,4,
 What is the capital of Germany?,,,Type answer,Berlin,,,,,,
+What is Memoet?,,,Flash card,,,,,,,A free and open source spaced repetition software.
