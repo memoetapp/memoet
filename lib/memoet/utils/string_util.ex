@@ -24,7 +24,7 @@ defmodule Memoet.Str do
     end)
     |> Enum.reduce("", fn {k, v}, acc ->
       joined_errors = Enum.join(v, ", ")
-      "#{acc}#{k}: #{joined_errors}; "
+      "#{acc}#{k}: #{joined_errors}"
     end)
   end
 

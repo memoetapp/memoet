@@ -31,7 +31,7 @@ defmodule MemoetWeb.DeckController do
   end
 
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def create(conn, deck_params) do
+  def create(conn, %{"deck" => deck_params} = _params) do
     user = Pow.Plug.current_user(conn)
 
     params =
@@ -110,17 +110,20 @@ defmodule MemoetWeb.DeckController do
 
   @spec new(Plug.Conn.t(), map) :: Plug.Conn.t()
   def new(conn, _params) do
-    render(conn, "new.html")
+    changeset = Deck.changeset(%Deck{}, %{})
+    render(conn, "new.html", changeset: changeset)
   end
 
   @spec edit(Plug.Conn.t(), map) :: Plug.Conn.t()
   def edit(conn, %{"id" => id} = _params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
+    changeset = Deck.changeset(deck, %{})
 
     render(
       conn,
       "edit.html",
+      changeset: changeset,
       deck: deck
     )
   end
@@ -199,7 +202,7 @@ defmodule MemoetWeb.DeckController do
   end
 
   @spec update(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def update(conn, %{"id" => id} = deck_params) do
+  def update(conn, %{"id" => id, "deck" => deck_params} = _params) do
     user = Pow.Plug.current_user(conn)
     deck = Decks.get_deck!(id, user.id)
 
@@ -211,7 +214,8 @@ defmodule MemoetWeb.DeckController do
 
       {:error, changeset} ->
         conn
-        |> render("edit.html", changeset: changeset)
+        |> put_status(:bad_request)
+        |> render("edit.html", deck: deck, changeset: changeset)
     end
   end
 
