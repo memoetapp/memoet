@@ -47,7 +47,7 @@ defmodule MemoetWeb.DeckControllerTest do
     test "create new deck", %{conn: conn} do
       conn =
         post(conn, "/decks", %{
-          "name" => "History deck"
+          "deck" => %{"name" => "History deck"}
         })
 
       deck_detail = redirected_to(conn)

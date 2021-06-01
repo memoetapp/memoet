@@ -110,7 +110,8 @@ defmodule MemoetWeb.DeckController do
 
   @spec new(Plug.Conn.t(), map) :: Plug.Conn.t()
   def new(conn, _params) do
-    render(conn, "new.html")
+    changeset = Deck.changeset(%Deck{}, %{})
+    render(conn, "new.html", changeset: changeset)
   end
 
   @spec edit(Plug.Conn.t(), map) :: Plug.Conn.t()
