@@ -49,7 +49,7 @@
   <a class="btn-primary" href="<%= Routes.deck_note_path @conn, :new, @deck %>">
     New note
   </a>
-  <a class="btn-outline" href="<%= Routes.deck_path @conn, :upload, @deck %>">
+  <a class="btn-outline" href="<%= Routes.deck_path @conn, :import, @deck %>">
     Import notes
   </a>
 </section>
