@@ -4,7 +4,6 @@ defmodule MemoetWeb.NoteController do
   alias Memoet.Notes
   alias Memoet.Notes.{Note, Option, Types}
   alias Memoet.Decks
-  alias Memoet.Str
 
   @options_limit 5
 
@@ -32,12 +31,9 @@ defmodule MemoetWeb.NoteController do
         |> redirect(to: "/decks/" <> deck_id <> "/notes/" <> note.id)
 
       {:error, _op, changeset, _changes} ->
-        deck = Decks.get_deck!(deck_id, user.id)
-
         conn
-        |> put_status(:bad_request)
-        |> put_flash(:error, Str.changeset_error_to_string(changeset))
-        |> render("new.html", changeset: changeset, deck: deck)
+        |> put_flash(:error, Memoet.Str.changeset_error_to_string(changeset))
+        |> redirect(to: "/decks/" <> deck_id <> "/notes/new")
     end
   end
 
@@ -54,7 +50,6 @@ defmodule MemoetWeb.NoteController do
 
     if note.user_id != user.id do
       conn
-      |> put_status(:bad_request)
       |> put_flash(:error, "The desk does not exist, or you must copy it to your account first.")
       |> redirect(to: "/decks")
     else
@@ -128,8 +123,7 @@ defmodule MemoetWeb.NoteController do
 
         conn
         |> put_status(:bad_request)
-        |> put_flash(:error, Str.changeset_error_to_string(changeset))
-        |> render("edit.html", changeset: changeset, deck: deck)
+        |> render("edit.html", changeset: changeset, deck: deck, note: note)
     end
   end
 end

@@ -44,9 +44,11 @@
     </section>
 
     <%= if length(@recent_decks) > 0 do %>
-      <p class="text-xs opacity-70">
-        * We only list up to <%= @deck_limit %> most recent decks here for now.
-      </p>
+      <%= if @metadata.total_count > length(@recent_decks) do %>
+        <p class="text-xs opacity-70">
+          * We only list up to <%= @deck_limit %> most recent decks here for now.
+        </p>
+      <% end %>
       <div class="py-6 text-center space-x-2">
         <%= submit "Save", class: "btn-primary" %>
         <%= link "Cancel", to: "/", class: "btn-outline" %>

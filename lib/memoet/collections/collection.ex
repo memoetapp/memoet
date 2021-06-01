@@ -9,6 +9,8 @@ defmodule Memoet.Collections.Collection do
   alias Memoet.Collections.DeckCollection
   alias Memoet.Users.User
 
+  @name_limit 250
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "collections" do
@@ -26,6 +28,7 @@ defmodule Memoet.Collections.Collection do
     col_or_changeset
     |> cast(attrs, [:name, :user_id])
     |> validate_required([:name, :user_id])
+    |> validate_length(:name, max: @name_limit)
     |> cast_assoc(:decks_collections)
   end
 end

@@ -17,7 +17,10 @@ defmodule MemoetWeb.CollectionController do
       |> Enum.map(fn d -> d.id end)
       |> MapSet.new()
 
-    %{entries: recent_decks} = Decks.list_decks(%{"user_id" => user.id, "limit" => @decks_limit})
+    %{
+      entries: recent_decks,
+      metadata: metadata
+    } = Decks.list_decks(%{"user_id" => user.id, "limit" => @decks_limit})
 
     render(
       conn,
@@ -26,6 +29,7 @@ defmodule MemoetWeb.CollectionController do
       current_decks: current_decks,
       collection: collection,
       deck_limit: @decks_limit,
+      metadata: metadata,
       changeset: changeset
     )
   end
