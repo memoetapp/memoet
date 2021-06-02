@@ -7,7 +7,7 @@
   </h1>
 </header>
 
-<section x-data="{ public: <%= @deck.public %> }">
+<section x-data="{ public: <%= @deck.public %>, confirmDelete: false }">
   <%= form_for @changeset, Routes.deck_path(@conn, :update, @deck.id), [method: :put, class: "mt-8 space-y-6"], fn f -> %>
     <div>
       Deck name:
@@ -54,9 +54,15 @@
         readonly>
     </div>
 
-    <div class="text-center space-x-2" x-data="{ confirmDelete: false }">
+    <div class="text-center space-x-2">
       <%= submit "Save", class: "btn-primary" %>
-      <button type="button" class="btn-warning" @click="confirmDelete = confirm('This will delete all the deck\'s notes, click Confirm delete to delete it permantly')" x-show="!confirmDelete">Delete</button>
+      <button
+        type="button"
+        class="btn-warning"
+        @click="confirmDelete = confirm('This will delete all the deck\'s notes, click 'Confirm delete' to delete it permantly')"
+        x-show="!confirmDelete && !public">
+        Delete
+      </button>
 
       <%= link "Confirm delete",
           to: Routes.deck_path(@conn, :delete, @deck),
