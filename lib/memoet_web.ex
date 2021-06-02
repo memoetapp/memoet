@@ -89,6 +89,8 @@ defmodule MemoetWeb do
 
       import MemoetWeb.ErrorHelpers
       import MemoetWeb.Gettext
+      import MemoetWeb.IconHelper
+      import MemoetWeb.NumberHelper
       alias MemoetWeb.Router.Helpers, as: Routes
     end
   end

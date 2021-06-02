@@ -13,7 +13,7 @@
       <% 1 -> %>
         1 practice
       <% _ -> %>
-        <%= p |> Memoet.Str.format_number %> practices
+        <%= p |> format_number %> practices
     <% end %>
     in the last
     <%= length(@practices) %>
