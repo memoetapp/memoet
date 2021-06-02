@@ -14,7 +14,7 @@
       Make sure your file follows the
       <a href="<%= Routes.static_path(@socket, "/files/memoet_import_template.csv") %>" target="_blank" class="inline text-indigo-500 text-link">CSV template</a>, since we can not import wrong formatted files.
     <p>
-    <form phx-submit="import" phx-change="validate" class="mt-8 space-y-6">
+    <form id="import-form" phx-submit="import" phx-change="validate" class="mt-8 space-y-6">
       <label>
         <div class="flex items-center justify-center w-full p-10 bg-gray-100 cursor-pointer rounded-md">
           <span class="flex items-center justify-center">
