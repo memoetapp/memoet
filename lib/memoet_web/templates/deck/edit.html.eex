@@ -60,7 +60,8 @@
         type="button"
         class="btn-warning"
         @click="confirmDelete = confirm('This will delete all the deck\'s notes, click 'Confirm delete' to delete it permantly')"
-        x-show="!confirmDelete && !public">
+        x-show="!confirmDelete && !public"
+        x-cloak>
         Delete
       </button>
 

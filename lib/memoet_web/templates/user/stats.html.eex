@@ -3,7 +3,7 @@
     <span class="opacity-70">
       <%= Heroicons.Outline.chart_square_bar(class: "w-4 h-4 mr-2") %>
     </span>
-    Practice by date
+    Practices by date
   </h4>
 
   <div class="ct-chart ct-double-octave" id="practice_by_date"></div>
