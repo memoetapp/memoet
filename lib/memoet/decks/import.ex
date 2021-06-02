@@ -13,7 +13,6 @@ defmodule Memoet.Decks.Import do
   import MemoetWeb.Gettext
 
   require Logger
-  require Sentry
 
   alias Memoet.Repo
   alias Memoet.Notes
@@ -34,7 +33,6 @@ defmodule Memoet.Decks.Import do
         rescue
           e ->
             Logger.error(e)
-            Sentry.capture_exception(e, stacktrace: __STACKTRACE__, extra: %{deck_id: deck.id})
             Repo.rollback(e)
         end
       end,

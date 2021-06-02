@@ -8,7 +8,7 @@
 
         <%= if @note.content != "" do %>
           <article class="prose">
-            <%= raw Memoet.Utils.HtmlUtil.to_html(@note.content) %>
+            <%= raw md_to_html(@note.content) %>
           </article>
         <% end %>
 
@@ -70,7 +70,7 @@
             x-transition:enter-start="x-enter-start"
             x-transition:enter-end="x-enter-end"
           >
-            <%= raw Memoet.Utils.HtmlUtil.to_html(@note.hint) %>
+            <%= raw md_to_html(@note.hint) %>
           </div>
         <% end %>
     </section>
@@ -103,7 +103,7 @@
               class="absolute inset-0 flex items-center justify-center bg-gray-700 opacity-50 rounded-md"
               x-show="choice == <%= choice %>"
             >
-              <svg class="w-5 h-5 opacity-100" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff"><g fill="none" fill-rule="evenodd"><g transform="translate(1 1)" stroke-width="2"><circle stroke-opacity=".5" cx="18" cy="18" r="18"/><path d="M36 18c0-9.94-8.06-18-18-18"> <animateTransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="1s" repeatCount="indefinite"/></path></g></g></svg>
+              <%= render_icon(:loading) %>
             </div>
           </button>
         <% end %>

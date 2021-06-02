@@ -14,7 +14,7 @@
       Make sure your file follows the
       <a href="<%= Routes.static_path(@socket, "/files/memoet_import_template.csv") %>" target="_blank" class="inline text-indigo-500 text-link">CSV template</a>, since we can not import wrong formatted files.
     <p>
-    <form phx-submit="import" phx-change="validate" class="mt-8 space-y-6">
+    <form id="import-form" phx-submit="import" phx-change="validate" class="mt-8 space-y-6">
       <label>
         <div class="flex items-center justify-center w-full p-10 bg-gray-100 cursor-pointer rounded-md">
           <span class="flex items-center justify-center">
@@ -38,7 +38,14 @@
 
       <%= if not Enum.empty?(@uploads.csv.entries) do %>
         <div class="text-center space-x-2">
-          <%= submit "Import", class: "btn-primary" %>
+          <button type="submit" class="relative btn-primary">
+            Import
+            <%= if Enum.any?(@uploads.csv.entries, fn e -> e.progress > 0 end) do %>
+              <div class="absolute inset-0 flex items-center justify-center bg-gray-700 opacity-50 rounded-md">
+                <%= render_icon(:loading) %>
+              </div>
+            <% end %>
+          </button>
         </div>
       <% end %>
     </form>
@@ -56,7 +63,7 @@
   <% @import_total == @import_progress -> %>
     <h2 class="flex items-center justify-center text-lg">
       <%= Heroicons.Outline.thumb_up(class: "w-6 h-6 mr-1") %>
-      Imported <%= @import_total |> Memoet.Str.format_number %> notes successfully!
+      Imported <%= @import_total |> format_number %> notes successfully!
     </h2>
     <div class="mt-10 text-center">
       <%= link "View notes", to: Routes.deck_path(@socket, :show, @deck_id), class: "btn-primary" %>
