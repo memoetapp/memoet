@@ -6,8 +6,7 @@ defmodule Memoet.Notes.Option do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @content_limit 999
-  @image_limit 1_999
+  @content_limit 2_000
 
   embedded_schema do
     field(:content, :string)
@@ -20,6 +19,6 @@ defmodule Memoet.Notes.Option do
     item
     |> cast(attrs, [:content, :correct, :image])
     |> validate_length(:content, max: @content_limit)
-    |> validate_length(:image, max: @image_limit)
+    |> validate_length(:image, max: @content_limit)
   end
 end
