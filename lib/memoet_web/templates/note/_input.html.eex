@@ -3,7 +3,6 @@
     Title:
     <%= text_input @f,
     :title,
-    required: true,
     class: "form-control form-block",
     placeholder: "Short title",
     value: @note.title

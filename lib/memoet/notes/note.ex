@@ -17,7 +17,7 @@ defmodule Memoet.Notes.Note do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "notes" do
-    field(:title, :string, null: false)
+    field(:title, :string, null: false, default: "")
     field(:image, :string, null: true)
 
     field(:content, :string, null: false, default: "")
@@ -55,7 +55,7 @@ defmodule Memoet.Notes.Note do
       Types.multiple_choice(),
       Types.type_answer()
     ])
-    |> validate_required([:title, :type, :user_id, :deck_id])
+    |> validate_required([:type, :user_id, :deck_id])
   end
 
   def clean_options(changeset) do
