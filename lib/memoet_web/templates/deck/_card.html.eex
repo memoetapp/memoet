@@ -8,7 +8,7 @@
 
         <%= if @note.content != "" do %>
           <article class="prose">
-            <%= raw Memoet.Utils.HtmlUtil.to_html(@note.content) %>
+            <%= raw md_to_html(@note.content) %>
           </article>
         <% end %>
 
@@ -70,7 +70,7 @@
             x-transition:enter-start="x-enter-start"
             x-transition:enter-end="x-enter-end"
           >
-            <%= raw Memoet.Utils.HtmlUtil.to_html(@note.hint) %>
+            <%= raw md_to_html(@note.hint) %>
           </div>
         <% end %>
     </section>

@@ -91,6 +91,7 @@ defmodule MemoetWeb do
       import MemoetWeb.Gettext
       import MemoetWeb.IconHelper
       import MemoetWeb.NumberHelper
+      import MemoetWeb.StringHelper
       alias MemoetWeb.Router.Helpers, as: Routes
     end
   end
