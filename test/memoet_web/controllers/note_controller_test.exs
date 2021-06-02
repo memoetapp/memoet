@@ -5,7 +5,6 @@ defmodule MemoetWeb.NoteControllerTest do
 
   import Memoet.Factory
   import Memoet.TestUtils
-  import Phoenix.LiveViewTest
 
   describe "GET /notes/new" do
     setup [:create_user, :log_in, :create_deck]

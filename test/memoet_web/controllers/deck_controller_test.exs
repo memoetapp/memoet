@@ -5,6 +5,7 @@ defmodule MemoetWeb.DeckControllerTest do
 
   import Memoet.Factory
   import Memoet.TestUtils
+  import Phoenix.LiveViewTest
 
   describe "GET /decks/new" do
     setup [:create_user, :log_in]
