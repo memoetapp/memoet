@@ -82,7 +82,7 @@ defmodule MemoetWeb.ImportNotesLive do
         {:noreply, assign(socket, :import_error, reason)}
 
       _ ->
-        {:noreply, assign(socket, :import_error, "File format error!")}
+        {:noreply, assign(socket, :import_error, %ImportError{message: "File format error!"})}
     end
   end
 

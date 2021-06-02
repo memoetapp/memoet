@@ -12,8 +12,7 @@ defmodule Memoet.Notes.Note do
   alias Memoet.Decks.Deck
   alias Memoet.Str
 
-  @title_limit 250
-  @content_limit 2_500
+  @content_limit 5_000
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -47,8 +46,10 @@ defmodule Memoet.Notes.Note do
       :deck_id
     ])
     |> cast_embed(:options)
-    |> validate_length(:title, max: @title_limit)
+    |> validate_length(:title, max: @content_limit)
+    |> validate_length(:image, max: @content_limit)
     |> validate_length(:content, max: @content_limit)
+    |> validate_length(:hint, max: @content_limit)
     |> validate_inclusion(:type, [
       Types.flash_card(),
       Types.multiple_choice(),

@@ -105,7 +105,8 @@ defmodule Memoet.Decks.Import do
   defp raise_import_error!(changeset, line) do
     message =
       case changeset.errors do
-        [{field, {message, _}} | _] ->
+        [{field, _} | _] ->
+          message = Str.changeset_error_to_string(changeset)
           gettext("Field %{field}: %{message}", field: field, message: message)
 
         _other ->

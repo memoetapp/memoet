@@ -50,48 +50,4 @@ defmodule MemoetWeb.NoteControllerTest do
       assert Repo.exists?(Memoet.Notes.Note, name: "History note")
     end
   end
-
-  describe "LV /decks/:deck_id/import" do
-    setup [:create_user, :log_in, :create_deck]
-
-    test "import notes page", %{conn: conn, deck: deck} do
-      conn = get(conn, Routes.deck_path(conn, :import, deck.id))
-      assert html_response(conn, 200) =~ ~r{Import notes\s*</h1>}
-
-      {:ok, _view, html} = live(conn)
-      assert html =~ ~r{Import notes\s*</h1>}
-    end
-  end
-
-  describe "LV /decks/:deck_id/import CSV upload" do
-    setup [:create_user, :log_in, :create_deck]
-
-    test "upload CSV file", %{conn: conn, deck: deck} do
-      conn = get(conn, Routes.deck_path(conn, :import, deck.id))
-      {:ok, lv, _html} = live(conn)
-
-      import_file = "assets/static/files/memoet_import_template.csv"
-
-      csv =
-        file_input(lv, "#import-form", :csv, [
-          %{
-            last_modified: 1_594_171_879_000,
-            name: "import.csv",
-            content: File.read!(import_file),
-            size: File.stat!(import_file).size,
-            type: "text/csv"
-          }
-        ])
-
-      assert render_upload(csv, "import.csv") =~ "100%"
-
-      lv
-      |> element("#import-form")
-      |> render_submit(%{csv: csv})
-
-      %{metadata: metadata} = Memoet.Notes.list_notes(%{"deck_id" => deck.id})
-      assert metadata.total_count == 3
-      assert render(lv) =~ "Imported 3 notes successfully!"
-    end
-  end
 end
