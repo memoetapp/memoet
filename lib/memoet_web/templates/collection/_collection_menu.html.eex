@@ -16,13 +16,13 @@
       <li>
         <a href="<%= Routes.today_path(@conn, :edit) %>" class="dropdown-item">
           <%= Heroicons.Outline.pencil_alt(class: "w-4 h-4 mr-1") %>
-          Edit collection
+          Edit
         </a>
       </li>
       <li>
         <a href="<%= Routes.today_path(@conn, :practice) %>" class="dropdown-item">
           <%= Heroicons.Outline.play(class: "w-4 h-4 mr-1") %>
-          Practice today
+          Practice
         </a>
       </li>
     </ul>

@@ -1,5 +1,10 @@
 <header class="header__wrapper">
-  <h1 class="header__title">Practice configuration</h1>
+  <h1 class="header__title">
+    <a class="text-link" href="/">
+      <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
+    </a>
+    Settings
+  </h1>
 </header>
 
 <section>
