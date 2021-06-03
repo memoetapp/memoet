@@ -12,7 +12,7 @@ defmodule MemoetWeb.DeckControllerTest do
 
     test "shows create new deck form", %{conn: conn} do
       conn = get(conn, "/decks/new")
-      assert html_response(conn, 200) =~ "Create new deck"
+      assert html_response(conn, 200) =~ "Create a new deck"
     end
   end
 

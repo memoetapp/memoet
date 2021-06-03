@@ -11,7 +11,7 @@ defmodule MemoetWeb.NoteControllerTest do
 
     test "shows create new note form", %{conn: conn, deck: deck} do
       conn = get(conn, "/decks/" <> deck.id <> "/notes/new")
-      assert html_response(conn, 200) =~ "Create new note"
+      assert html_response(conn, 200) =~ "Create a new note"
     end
   end
 
