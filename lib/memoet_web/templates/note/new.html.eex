@@ -3,7 +3,7 @@
     <a class="text-link" href="<%= Routes.deck_path(@conn, :show, @deck) %>">
       <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
     </a>
-    Create new note
+    Create a new note
   </h1>
 </header>
 
