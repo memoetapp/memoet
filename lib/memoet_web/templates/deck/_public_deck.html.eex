@@ -15,8 +15,14 @@
       </p>
     </div>
 
-    <a href="<%= Routes.community_deck_path(@conn, :public_practice, @deck) %>" class="flex-none text-sm btn-outline">
+    <a href="<%= Routes.community_deck_path(@conn, :public_practice, @deck) %>"
+      class="flex-none hidden text-sm btn-outline md:block">
       Preview
+    </a>
+
+    <a href="<%= Routes.community_deck_path(@conn, :public_practice, @deck) %>"
+      class="text-sm text-indigo-500 text-link md:hidden">
+      <%= Heroicons.Outline.play(class: "w-7 h-7") %>
     </a>
 
     <%= render("_public_deck_menu.html", conn: @conn, deck: @deck) %>

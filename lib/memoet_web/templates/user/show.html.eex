@@ -1,6 +1,9 @@
 <header class="header__wrapper">
   <h1 class="header__title">
-    Account
+    <a class="text-link" href="/">
+      <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
+    </a>
+    My account
   </h1>
 </header>
 

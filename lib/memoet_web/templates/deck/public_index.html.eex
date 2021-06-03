@@ -1,5 +1,8 @@
 <nav class="header__wrapper">
   <h1 class="header__title">
+    <a class="text-link" href="/">
+      <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
+    </a>
     Community decks
   </h1>
 </nav>
