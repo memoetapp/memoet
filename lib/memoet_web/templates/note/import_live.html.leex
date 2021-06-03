@@ -12,7 +12,7 @@
   <% @import_total == 0 -> %>
     <p>
       Make sure your file follows the
-      <a href="<%= Routes.static_path(@socket, "/files/memoet_import_template.csv") %>" target="_blank" class="inline text-indigo-500 text-link">CSV template</a>, since we can not import wrong formatted files.
+      <a href="<%= Routes.static_path(@socket, "/files/memoet_import_template.csv") %>" target="_blank" class="inline text-indigo-500 text-link">CSV template</a>, we only support CSV files for now.
     <p>
     <form id="import-form" phx-submit="import" phx-change="validate" class="mt-8 space-y-6">
       <label>
@@ -21,7 +21,7 @@
             <%= Heroicons.Outline.upload(class: "w-6 h-6 mr-1") %>
             <%= case @uploads.csv.entries do %>
               <% [] -> %>
-                Select a file...
+                Select a CSV file...
               <% entries -> %>
                 <%= for entry <- entries do %>
                   <p class="text-sm font-italic"><%= entry.client_name %> - <%= entry.progress %>%</p>

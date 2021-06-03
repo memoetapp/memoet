@@ -1,5 +1,8 @@
 <header class="header__wrapper">
   <h1 class="header__title">
+    <a class="text-link" href="/">
+      <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
+    </a>
     All decks
   </h1>
 
@@ -40,4 +43,13 @@
       </li>
     <% end %>
   </ul>
+</section>
+
+<section class="pt-6 text-center space-x-2">
+  <a class="btn-primary" href="<%= Routes.deck_path @conn, :new %>">
+    New deck
+  </a>
+  <a class="btn-outline" href="<%= Routes.today_path @conn, :edit %>">
+    Today collection
+  </a>
 </section>

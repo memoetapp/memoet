@@ -1,4 +1,4 @@
-<section x-data="{ type: '<%= @note.type %>', confirmDelete: false }" class="mt-8 space-y-8">
+<section x-data="{ type: '<%= @note.type %>' }" class="mt-8 space-y-8">
   <section>
     Title:
     <%= text_input @f,

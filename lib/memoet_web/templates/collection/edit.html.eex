@@ -5,6 +5,7 @@
     </a>
     Today collection
   </h1>
+  <%= render("_today_menu.html", conn: @conn) %>
 </header>
 
 <section>
