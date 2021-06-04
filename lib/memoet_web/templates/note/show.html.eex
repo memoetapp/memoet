@@ -23,21 +23,21 @@
 
     <%= case @note.type do %>
       <% "multiple_choice" -> %>
-        <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 space-y-3 rounded-md">
+        <div class="flex flex-col items-start justify-center w-full p-3 border bg-indigo-50 space-y-3 rounded-md">
           <p class="w-full pb-2 font-bold border-b">
             Multiple choice
           </p>
           <ul class="space-y-6">
             <%= for o <- @note.options do %>
               <li class="flex items-start">
-                <input type="checkbox" <%= if o.correct, do: "checked" %> class="mt-0.5 mr-2 form-checkbox" disabled>
+                <input type="checkbox" <%= if o.correct, do: "checked" %> class="mt-1 mr-2 form-checkbox" disabled>
                 <p><%= o.content %></p>
               </li>
             <% end %>
           </ul>
         </div>
       <% "type_answer" -> %>
-        <div class="flex flex-col items-start justify-center w-full p-3 text-sm border bg-indigo-50 space-y-3 rounded-md">
+        <div class="flex flex-col items-start justify-center w-full p-3 border bg-indigo-50 space-y-3 rounded-md">
           <p class="w-full pb-2 font-bold border-b">
             Type answer
           </p>
