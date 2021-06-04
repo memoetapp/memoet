@@ -13,7 +13,7 @@ defmodule Memoet.Decks do
   alias Memoet.Req
   alias Memoet.Utils.{MapUtil, TimestampUtil}
 
-  @stats_days 32
+  @stats_days 31
 
   @spec list_decks(map) :: map()
   def list_decks(params \\ %{}) do

@@ -31,7 +31,7 @@
       <li>
         <a href="<%= Routes.deck_path(@conn, :stats, @deck) %>" class="dropdown-item">
           <%= Heroicons.Outline.chart_square_bar(class: "w-4 h-4 mr-1") %>
-          Report
+          Stats
         </a>
       </li>
     </ul>
