@@ -65,10 +65,12 @@
 
         <%= if @note.hint do %>
           <div
-            class="p-3 border bg-blue-50 prose rounded-md" x-show="hint || check" x-cloak
+            class="p-3 border bg-blue-50 prose rounded-md"
+            x-show="hint || check"
             x-transition:enter="x-enter"
             x-transition:enter-start="x-enter-start"
             x-transition:enter-end="x-enter-end"
+            x-cloak
           >
             <%= raw md_to_html(@note.hint) %>
           </div>
@@ -112,8 +114,11 @@
       <a class="btn-primary"
         @click="check = true; setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 100);"
         x-show="!check">Submit</a>
+
       <%= if @note.hint && @note.type != "flash_card" do %>
-        <a class="btn-outline" @click="hint = true" x-show="!check && !hint">Hint</a>
+        <a class="btn-outline" @click="hint = true" x-show="!check && !hint">
+          Hint
+        </a>
       <% end %>
     </section>
   <% end %>

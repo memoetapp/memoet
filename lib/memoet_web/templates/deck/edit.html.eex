@@ -3,7 +3,7 @@
     <a class="text-link" href="<%= Routes.deck_path @conn, :show, @deck %>">
       <%= Heroicons.Outline.chevron_left(class: "w-6 h-6 mr-2") %>
     </a>
-    Update deck
+    Edit deck
   </h1>
 </header>
 
@@ -32,12 +32,12 @@
     <div class="flex items-center justify-start space-x-4">
       <span class="flex items-center justify-center space-x-1">
         <%= radio_button f, :public, false, checked: @deck.public == false, required: true,
-            "x-value": "public", "x-on:input": "public = false" %>
+          "x-value": "public", "x-on:input": "public = false" %>
         <%= label f, :public, "Private" %>
       </span>
       <span class="flex items-center justify-center space-x-1">
         <%= radio_button f, :public, true, checked: @deck.public == true, required: true,
-            "x-value": "public", "x-on:input": "public = true" %>
+          "x-value": "public", "x-on:input": "public = true" %>
         <%= label f, :public, "Public" %>
       </span>
     </div>
@@ -45,7 +45,8 @@
     <div x-show="public"
       x-transition:enter="x-enter"
       x-transition:enter-start="x-enter-start"
-      x-transition:enter-end="x-enter-end">
+      x-transition:enter-end="x-enter-end"
+      x-cloak>
       Public link to share:
       <input
         type="text"
@@ -66,11 +67,11 @@
       </button>
 
       <%= link "Confirm delete",
-          to: Routes.deck_path(@conn, :delete, @deck),
-          method: "DELETE",
-          class: "btn-danger",
-          "x-show": "confirmDelete",
-          "x-cloak": true
+        to: Routes.deck_path(@conn, :delete, @deck),
+        method: "DELETE",
+        class: "btn-danger",
+        "x-show": "confirmDelete",
+        "x-cloak": true
       %>
     </div>
   <% end %>

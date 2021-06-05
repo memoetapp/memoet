@@ -15,7 +15,14 @@
 
   <div class="text-center space-x-2" x-data="{ confirmDelete: false }">
     <%= submit "Save", class: "btn-primary" %>
-    <button type="button" class="btn-warning" @click="confirmDelete = confirm('If you want to delete this note, click \'Confirm delete\' to delete it permantly')" x-show="!confirmDelete">Delete</button>
+    <button
+      type="button"
+      class="btn-warning"
+      @click="confirmDelete = confirm('If you want to delete this note, click \'Confirm delete\' to delete it permantly')"
+      x-show="!confirmDelete"
+      x-cloak>
+      Delete
+    </button>
 
     <%= link "Confirm delete",
         to: Routes.deck_note_path(@conn, :delete, @deck, @note),

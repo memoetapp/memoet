@@ -32,8 +32,8 @@
         <%= live_file_input(@uploads.csv, class: "hidden") %>
       </label>
 
-      <p class="text-sm opacity-80">
-        * We do not detect duplicates so make sure you only upload new notes for this deck.
+      <p class="text-sm opacity-70">
+        * We <strong>do not</strong> detect duplicate notes when importing.
       </p>
 
       <%= if not Enum.empty?(@uploads.csv.entries) do %>
