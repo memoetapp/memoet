@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <section x-data="{ type: '<%= @note.type %>' }" class="mt-8 space-y-8">
   <section>
     Title:
