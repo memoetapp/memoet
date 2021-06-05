@@ -1,7 +1,7 @@
 {
   "repository": {},
   "description": "Memoet assets files",
-  "license": "AGPL v3",
+  "license": "AGPL-3.0-only",
   "scripts": {
     "deploy": "NODE_ENV=production webpack --mode production",
     "watch": "webpack --mode development --watch-stdin"
