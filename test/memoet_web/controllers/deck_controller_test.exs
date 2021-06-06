@@ -135,4 +135,56 @@ defmodule MemoetWeb.DeckControllerTest do
       assert html_response(conn, 200) =~ deck.name
     end
   end
+
+  describe "GET /decks/:deck_id/practice" do
+    setup [:create_user, :log_in, :create_deck]
+
+    test "list no more notes", %{conn: conn, deck: deck} do
+      conn = get(conn, "/decks/" <> deck.id <> "/practice")
+
+      assert html_response(conn, 200) =~ "No more notes"
+    end
+
+    test "list & practice a new note", %{conn: conn, deck: deck} do
+      deck_practice = "/decks/" <> deck.id <> "/practice"
+      deck_notes = "/decks/" <> deck.id <> "/notes"
+
+      # List a note
+      post(conn, deck_notes, %{
+        "note" => %{
+          "title" => "A new note",
+        }
+      })
+
+      first_conn = get(conn, deck_practice)
+      assert html_response(first_conn, 200) =~ "A new note"
+      assert html_response(first_conn, 200) =~ "10m"
+
+      # Answer it first time, change from 10m -> 1d
+      card_id = List.last(Regex.run(~r/name="card_id" value="(.+)">/, html_response(first_conn, 200)))
+
+      second_conn = put(conn, deck_practice, %{
+        "id" => deck.id,
+        "card_id" => card_id,
+        "answer" => 3,
+        "visit_time" => 1234
+      })
+      assert redirected_to(second_conn, 302) =~ deck_practice
+
+      third_conn = get(conn, "/decks/" <> deck.id <> "/practice")
+      assert html_response(third_conn, 200) =~ "1d"
+
+      # Answer it second time, should be the same, because it is not due
+      second_conn = put(conn, deck_practice, %{
+        "id" => deck.id,
+        "card_id" => card_id,
+        "answer" => 3,
+        "visit_time" => 1234
+      })
+      assert redirected_to(second_conn, 302) =~ deck_practice
+
+      third_conn = get(conn, "/decks/" <> deck.id <> "/practice")
+      assert html_response(third_conn, 200) =~ "1d"
+    end
+  end
 end
