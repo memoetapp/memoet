@@ -15,20 +15,6 @@
       <%= error_tag f, :name %>
     </div>
 
-    <div class="flex items-center justify-start space-x-4">
-      <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, false, checked: true, required: true %>
-        <%= label f, :public, "Private" %>
-      </span>
-
-      <span class="flex items-center justify-center space-x-1">
-        <%= radio_button f, :public, true, required: true %>
-        <%= label f, :public, "Public" %>
-      </span>
-
-      <%= error_tag f, :public %>
-    </div>
-
     <div class="text-center space-x-2">
       <%= submit "Create", class: "btn-primary" %>
       <%= link "Cancel", to: Routes.deck_path(@conn, :index), class: "btn-outline" %>
