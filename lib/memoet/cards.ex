@@ -304,17 +304,40 @@ defmodule Memoet.Cards do
     choice = Memoet.Cards.Choices.to_atom(integer_choice)
     scheduler = SRS.get_scheduler(card.user_id)
 
-    srs_card =
-      SRS.Card.from_ecto_card(card)
-      |> SRS.Sm2.answer_card(scheduler, choice)
+    if is_card_due(card, card.user_id) do
+      srs_card =
+        SRS.Card.from_ecto_card(card)
+        |> SRS.Sm2.answer_card(scheduler, choice)
 
-    ecto_card = Map.from_struct(SRS.Card.to_ecto_card(srs_card))
-    log_card_answer(integer_choice, card, ecto_card, time_answer)
-    update_new_today(card)
+      ecto_card = Map.from_struct(SRS.Card.to_ecto_card(srs_card))
+      log_card_answer(integer_choice, card, ecto_card, time_answer)
+      update_new_today(card)
 
-    card
-    |> Card.srs_changeset(ecto_card)
-    |> Repo.update()
+      card
+      |> Card.srs_changeset(ecto_card)
+      |> Repo.update()
+    else
+      {:ok, card}
+    end
+  end
+
+  defp is_card_due(card, user_id) do
+    config = SRS.get_config(user_id)
+    today = TimestampUtil.days_from_epoch(config.timezone)
+    now = TimestampUtil.now() + config.learn_ahead_time * 60
+
+    cond do
+      card.card_queue == CardQueues.new()
+        -> true
+
+      card.card_queue == CardQueues.learn()
+        -> card.due <= now
+
+      card.card_queue == CardQueues.day_learn() or card.card_queue == CardQueues.review()
+        -> card.due <= today
+
+      true -> false
+    end
   end
 
   defp update_new_today(card) do
