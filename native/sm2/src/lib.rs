@@ -92,6 +92,13 @@ fn schedule_card_as_new(card: Card, scheduler: ResourceArc<Scheduler>) -> Result
 }
 
 #[rustler::nif]
+fn set_new_position(card: Card, position: i64) -> Result<Card, Error> {
+    let mut card = card.clone();
+    card.set_new_position(position);
+    Ok(card)
+}
+
+#[rustler::nif]
 fn schedule_card_as_review(
     card: Card,
     scheduler: ResourceArc<Scheduler>,

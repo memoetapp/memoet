@@ -10,6 +10,7 @@ impl Timestamp {
         now()
     }
 
+    #[allow(dead_code)]
     pub fn new() -> Self {
         let now = Local::now();
         let next_day = (now + Duration::days(1)).date().and_hms(0, 0, 0);

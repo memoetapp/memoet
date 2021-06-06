@@ -16,6 +16,7 @@ pub fn answer_button_time(seconds: f32) -> String {
 /// Describe the given seconds using the largest appropriate unit.
 /// If precise is true, show to two decimal places, eg
 /// eg 70 seconds -> "1.17 minutes"
+#[allow(dead_code)]
 pub fn time_span(seconds: f32, precise: bool) -> String {
     let span = Timespan::from_secs(seconds).natural_span();
     let amount = if precise {
