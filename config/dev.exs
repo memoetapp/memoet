@@ -6,7 +6,7 @@ config :memoet, Memoet.Repo,
   password: "postgres",
   database: "memoet_dev",
   hostname: "localhost",
-  port: System.get_env("DATABASE_PORT") || 5433,
+  port: System.get_env("DATABASE_PORT") || 5432,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

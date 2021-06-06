@@ -12,7 +12,7 @@ defmodule MemoetWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
-    plug :put_root_layout, {MemoetWeb.LayoutView, :root}
+    plug MemoetWeb.Plugs.RootLayoutPlug
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -114,12 +114,14 @@ defmodule MemoetWeb.Router do
     pow_routes()
     pow_extension_routes()
 
-    get "/community/:id/practice", MemoetWeb.DeckController, :public_practice, as: :community_deck
-    put "/community/:id/practice", MemoetWeb.DeckController, :public_answer, as: :community_deck
+    scope "/", MemoetWeb do
+      get "/community/:id/practice", DeckController, :public_practice, as: :community_deck
+      put "/community/:id/practice", DeckController, :public_answer, as: :community_deck
 
-    get "/community/:id", MemoetWeb.DeckController, :public_show, as: :community_deck
-    get "/community", MemoetWeb.DeckController, :public_index, as: :community_deck
-    get "/", MemoetWeb.PageController, :index
+      get "/community/:id", DeckController, :public_show, as: :community_deck
+      get "/community", DeckController, :public_index, as: :community_deck
+      get "/", PageController, :index
+    end
   end
 
   scope "/" do

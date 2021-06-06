@@ -40,7 +40,7 @@ defmodule Memoet.MixProject do
   def application do
     [
       mod: {Memoet.Application, []},
-      extra_applications: [:logger, :runtime_tools, :cachex, :os_mon]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
