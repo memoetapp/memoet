@@ -162,6 +162,7 @@ defmodule MemoetWeb.DeckControllerTest do
 
       # Answer it first time, change from 10m -> 1d
       card_id = List.last(Regex.run(~r/name="card_id" value="(.+)">/, html_response(first_conn, 200)))
+      note_id = List.last(Regex.run(~r/notes\/(.+)\/edit/, html_response(first_conn, 200)))
 
       second_conn = put(conn, deck_practice, %{
         "id" => deck.id,
@@ -171,20 +172,32 @@ defmodule MemoetWeb.DeckControllerTest do
       })
       assert redirected_to(second_conn, 302) =~ deck_practice
 
-      third_conn = get(conn, "/decks/" <> deck.id <> "/practice")
+      third_conn = get(conn, deck_practice)
       assert html_response(third_conn, 200) =~ "1d"
 
-      # Answer it second time, should be the same, because it is not due
-      second_conn = put(conn, deck_practice, %{
+      # Answer it second time, from 1d -> 3d
+      fourth_conn = put(conn, deck_practice, %{
         "id" => deck.id,
         "card_id" => card_id,
         "answer" => 3,
         "visit_time" => 1234
       })
-      assert redirected_to(second_conn, 302) =~ deck_practice
+      assert redirected_to(fourth_conn, 302) =~ deck_practice
 
-      third_conn = get(conn, "/decks/" <> deck.id <> "/practice")
-      assert html_response(third_conn, 200) =~ "1d"
+      fifth_conn = get(conn, deck_practice <> "?note_id=" <> note_id)
+      assert html_response(fifth_conn, 200) =~ "3d"
+
+      # Answer it third time, still 3d
+      sixth_conn = put(conn, deck_practice, %{
+        "id" => deck.id,
+        "card_id" => card_id,
+        "answer" => 3,
+        "visit_time" => 1234
+      })
+      assert redirected_to(sixth_conn, 302) =~ deck_practice
+
+      seventh_conn = get(conn, deck_practice <> "?note_id=" <> note_id)
+      assert html_response(seventh_conn, 200) =~ "3d"
     end
   end
 end
