@@ -38,6 +38,7 @@ defmodule Memoet.Decks.Deck do
     |> cast(attrs, [
       :name,
       :public,
+      :listed,
       :learning_order,
       :new_per_day,
       :new_today,

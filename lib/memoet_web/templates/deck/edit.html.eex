@@ -53,6 +53,17 @@
         class="form-control form-block"
         value="<%= MemoetWeb.Router.Helpers.url(@conn) <> Routes.community_deck_path(@conn, :public_show, @deck) %>"
         readonly>
+
+      <label class="flex items-center justify-start my-4">
+        <%= checkbox f,
+          :listed,
+          class: "mr-2 form-checkbox",
+          checked: @deck.listed == true
+        %>
+        <p>
+          Show this deck on the community page
+        </p>
+      </label>
     </div>
 
     <div class="text-center space-x-2">
