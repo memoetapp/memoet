@@ -2,6 +2,7 @@ defmodule MemoetWeb.DeckControllerTest do
   use MemoetWeb.ConnCase
 
   alias Memoet.Repo
+  alias Memoet.Decks.Deck
 
   import Memoet.Factory
   import Memoet.TestUtils
@@ -98,6 +99,40 @@ defmodule MemoetWeb.DeckControllerTest do
       %{metadata: metadata} = Memoet.Notes.list_notes(%{"deck_id" => deck.id})
       assert metadata.total_count == 3
       assert render(lv) =~ "Imported 3 notes successfully!"
+    end
+  end
+
+  describe "GET /community" do
+    setup [:create_user, :log_in, :create_deck]
+
+    test "lists none", %{conn: conn} do
+      conn = get(conn, "/community")
+
+      assert html_response(conn, 200) =~ "No decks is listed here"
+    end
+
+    test "public deck is accessable", %{conn: conn, deck: deck} do
+      deck
+      |> Deck.changeset(%{public: true})
+      |> Repo.update()
+
+      conn = get(conn, "/community/" <> deck.id)
+      assert html_response(conn, 200) =~ deck.name
+
+      conn = get(conn, "/community")
+      assert html_response(conn, 200) =~ "No decks is listed here"
+    end
+
+    test "public & listed deck is accessable and listed", %{conn: conn, deck: deck} do
+      deck
+      |> Deck.changeset(%{public: true, listed: true})
+      |> Repo.update()
+
+      conn = get(conn, "/community/" <> deck.id)
+      assert html_response(conn, 200) =~ deck.name
+
+      conn = get(conn, "/community")
+      assert html_response(conn, 200) =~ deck.name
     end
   end
 end
