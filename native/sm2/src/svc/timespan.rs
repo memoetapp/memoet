@@ -13,28 +13,6 @@ pub fn answer_button_time(seconds: f32) -> String {
     format!("{}{}", amount, key)
 }
 
-/// Describe the given seconds using the largest appropriate unit.
-/// If precise is true, show to two decimal places, eg
-/// eg 70 seconds -> "1.17 minutes"
-#[allow(dead_code)]
-pub fn time_span(seconds: f32, precise: bool) -> String {
-    let span = Timespan::from_secs(seconds).natural_span();
-    let amount = if precise {
-        span.as_unit()
-    } else {
-        span.as_rounded_unit()
-    };
-    let key = match span.unit() {
-        TimespanUnit::Seconds => "second",
-        TimespanUnit::Minutes => "minute",
-        TimespanUnit::Hours => "hour",
-        TimespanUnit::Days => "day",
-        TimespanUnit::Months => "month",
-        TimespanUnit::Years => "year",
-    };
-    format!("{} {}{}", amount, key, if amount > 1.0 { "s" } else { "" })
-}
-
 const SECOND: f32 = 1.0;
 const MINUTE: f32 = 60.0 * SECOND;
 const HOUR: f32 = 60.0 * MINUTE;
@@ -129,15 +107,5 @@ mod test {
         assert_eq!(answer_button_time(30.0), "30s");
         assert_eq!(answer_button_time(70.0), "1.2m");
         assert_eq!(answer_button_time(1.1 * MONTH), "1.1mo");
-    }
-
-    #[test]
-    fn time_spans() {
-        assert_eq!(time_span(1.0, false), "1 second");
-        assert_eq!(time_span(30.3, false), "30 seconds");
-        assert_eq!(time_span(30.3, true), "30.3 seconds");
-        assert_eq!(time_span(90.0, false), "1.5 minutes");
-        assert_eq!(time_span(45.0 * 86_400.0, false), "1.5 months");
-        assert_eq!(time_span(365.0 * 86_400.0 * 1.5, false), "1.5 years");
     }
 }
