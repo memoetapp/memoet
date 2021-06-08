@@ -15,7 +15,7 @@
         <%= case @note.type do %>
           <%= "multiple_choice" -> %>
             <div class="flex flex-col items-start justify-center w-full p-4 border bg-indigo-50 rounded-md space-y-2" x-cloak>
-              <div class="space-y-6">
+              <div class="space-y-3">
                 <%= for {o, i} <- Enum.with_index(@note.options) do %>
                   <label class="flex items-start">
                     <input

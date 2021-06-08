@@ -27,7 +27,7 @@
           <p class="w-full pb-2 font-bold border-b">
             Multiple choice
           </p>
-          <ul class="space-y-6">
+          <ul class="space-y-3">
             <%= for o <- @note.options do %>
               <li class="flex items-start">
                 <input type="checkbox" <%= if o.correct, do: "checked" %> class="mt-1 mr-2 form-checkbox" disabled>
