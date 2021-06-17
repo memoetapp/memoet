@@ -31,6 +31,18 @@ defmodule Memoet.Req do
 
     limit = min(limit, @max_limit)
 
-    {cursor_before, cursor_after, limit}
+    if Map.has_key?(params, "cursor_fields") do
+      try do
+        Paginator.Config.validate!(Paginator.Config.new(%{
+          after: cursor_after,
+          before: cursor_before,
+          cursor_fields: params["cursor_fields"],
+        }))
+      rescue
+        _ -> {nil, nil, limit}
+      end
+    else
+      {cursor_before, cursor_after, limit}
+    end
   end
 end

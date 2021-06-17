@@ -28,7 +28,12 @@ defmodule Memoet.Notes do
 
   @spec list_public_notes(map) :: map()
   def list_public_notes(params) do
-    {cursor_before, cursor_after, limit} = Req.get_pagination_params(params)
+    cursor_fields = [{:inserted_at, :desc}, {:id, :asc}]
+
+    {cursor_before, cursor_after, limit} = Req.get_pagination_params(
+      params
+      |> Map.merge(%{"cursor_fields" => cursor_fields})
+    )
 
     Note
     |> where(^filter_where(params))
@@ -37,7 +42,7 @@ defmodule Memoet.Notes do
       before: cursor_before,
       after: cursor_after,
       include_total_count: true,
-      cursor_fields: [{:inserted_at, :desc}, {:id, :asc}],
+      cursor_fields: cursor_fields,
       limit: limit
     )
   end
