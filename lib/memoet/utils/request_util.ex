@@ -38,6 +38,7 @@ defmodule Memoet.Req do
           before: cursor_before,
           cursor_fields: params["cursor_fields"],
         }))
+        {cursor_before, cursor_after, limit}
       rescue
         _ -> {nil, nil, limit}
       end
