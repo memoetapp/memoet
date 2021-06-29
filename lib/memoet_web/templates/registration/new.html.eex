@@ -25,12 +25,10 @@
           <%= label f, :password %>:
           <%= password_input f, :password, class: "form-control form-block", "x-model": "password" %>
           <%= error_tag f, :password %>
-        </div>
-        <div x-show="password" x-cloak>
-          <%= label f, :password_confirmation %>:
-          <%= password_input f, :password_confirmation, class: "form-control form-block" %>
           <%= error_tag f, :password_confirmation %>
         </div>
+        <%= hidden_input f, :password_confirmation,
+          class: "form-control form-block", "x-bind:value": "password" %>
         <%= hidden_input f, :persistent_session, value: true %>
         <%= hidden_input f, :timezone_offset, "x-model": "timezone_offset" %>
       </div>
