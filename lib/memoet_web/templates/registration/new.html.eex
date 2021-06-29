@@ -1,5 +1,5 @@
 <div class="flex items-center justify-center py-12"
-     x-data="{timezone_offset: 0}"
+     x-data="{timezone_offset: 0, password: ''}"
      x-init="timezone_offset = new Date().getTimezoneOffset()">
   <div class="w-full max-w-md space-y-8">
     <div>
@@ -17,17 +17,17 @@
 
       <div class="space-y-3">
         <div>
-          <%= label f, :email %>
+          <%= label f, :email %>:
           <%= email_input f, :email, class: "form-control form-block" %>
           <%= error_tag f, :email %>
         </div>
         <div>
-          <%= label f, :password %>
-          <%= password_input f, :password, class: "form-control form-block" %>
+          <%= label f, :password %>:
+          <%= password_input f, :password, class: "form-control form-block", "x-model": "password" %>
           <%= error_tag f, :password %>
         </div>
-        <div>
-          <%= label f, :password_confirmation %>
+        <div x-show="password" x-cloak>
+          <%= label f, :password_confirmation %>:
           <%= password_input f, :password_confirmation, class: "form-control form-block" %>
           <%= error_tag f, :password_confirmation %>
         </div>
