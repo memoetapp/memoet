@@ -44,7 +44,7 @@
           </form>
         </span>
 
-        <a href="https://docs.memoet.com" class="text-link" target="_blank">
+        <a href="https://memoet.gitbook.io/docs" class="text-link" target="_blank">
           <%= Heroicons.Outline.external_link(class: "w-4 h-4 mr-1") %>
           Docs
         </a>

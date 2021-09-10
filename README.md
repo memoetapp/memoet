@@ -8,7 +8,7 @@
 
 ## Documentation
 
-See [docs.memoet.com](https://docs.memoet.com).
+See [memoet.gitbook.io](https://memoet.gitbook.io/docs).
 
 
 ## Local setup
@@ -25,12 +25,12 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Deployment
 
-- Ubuntu 18.04: [Guide](scripts/ubuntu.sh)
+- Ubuntu: [ubuntu.sh](scripts/ubuntu.sh)
 
-- Heroku: [Deprecated guide](scripts/heroku.sh)
+- Heroku: [heroku.sh](scripts/heroku.sh)
 
 
 ## Hosted version
 
 
-[Memoet.com](https://memoet.com)
+[memoet.manhtai.com](https://memoet.manhtai.com)

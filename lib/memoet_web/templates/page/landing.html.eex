@@ -140,7 +140,7 @@
       Base on your ratings, we will keep showing the hard more often and the easy less so
     </li>
   </ul>
-  <a class="btn-outline" href="https://docs.memoet.com/">Documentation</a>
+  <a class="btn-outline" href="https://memoet.gitbook.io/docs">Documentation</a>
 </section>
 
 <section class="flex flex-col items-center justify-center p-4 py-10 mx-auto text-center bg-gray-50 space-y-4">
@@ -172,7 +172,7 @@
   </h4>
   <section class="flex flex-wrap items-center justify-center space-x-8">
     <a
-      href="mailto:team@memoet.com"
+      href="mailto:memoet@manhtai.com"
       target="_blank"
       rel="noreferrer"
       class="hover:opacity-50"
@@ -188,14 +188,14 @@
       GitHub
     </a>
     <a
-      href="https://docs.memoet.com"
+      href="https://memoet.gitbook.io/docs"
       target="_blank"
       class="hover:opacity-50"
     >
       Docs
     </a>
     <a
-      href="https://blog.memoet.com"
+      href="https://memoetapp.github.io/blog"
       target="_blank"
       class="hover:opacity-50"
     >

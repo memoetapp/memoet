@@ -1,3 +1,3 @@
 <footer class="relative inset-x-0 bottom-0 mt-16 mb-4 text-xs text-center opacity-50">
-  <a href="https://memoet.com">Memoet</a> &copy; <%= DateTime.utc_now.year %>
+  <a href="https://github.com/memoetapp">Memoet</a> &copy; <%= DateTime.utc_now.year %>
 </footer>
