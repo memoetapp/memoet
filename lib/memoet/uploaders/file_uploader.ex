@@ -46,7 +46,7 @@ defmodule Memoet.FileUploader do
   def s3_object_headers(_version, {file, _scope}) do
     [
       content_type: MIME.from_path(file.file_name),
-      cache_control: "max-age=2160000"
+      cache_control: "max-age=31536000"
     ]
   end
 end
