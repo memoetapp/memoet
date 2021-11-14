@@ -10,7 +10,7 @@ path = "src/lib.rs"
 crate-type = ["dylib"]
 
 [dependencies]
-rustler = "0.22.0-rc.0"
+rustler = "0.22.2"
 chrono = { version = "0.4"}
 rand = "0.8"
 serde = { version = "1.0", features = ["derive"] }

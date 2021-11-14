@@ -7,8 +7,7 @@ defmodule Memoet.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:rustler, :phoenix, :gettext] ++ Mix.compilers(),
-      rustler_crates: rustler_crates(),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -21,18 +20,6 @@ defmodule Memoet.MixProject do
       ]
     ]
   end
-
-  defp rustler_crates do
-    [
-      sm2: [
-        path: "native/sm2",
-        mode: rustc_mode(Mix.env())
-      ]
-    ]
-  end
-
-  defp rustc_mode(:prod), do: :release
-  defp rustc_mode(_), do: :debug
 
   # Configuration for the OTP application.
   #
@@ -77,10 +64,10 @@ defmodule Memoet.MixProject do
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.4"},
       # Sm2
-      {:rustler, "~> 0.21.1"},
+      {:rustler, "~> 0.22.2"},
       # Auth
-      {:pow, "~> 1.0.22"},
-      {:pow_postgres_store, "~> 1.0.0-rc2"},
+      {:pow, "~> 1.0"},
+      {:pow_postgres_store, "~> 1.0"},
       # Cron
       {:oban, "~> 2.5"},
       # S3 upload
