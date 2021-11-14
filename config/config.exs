@@ -27,6 +27,10 @@ config :logger,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :mime, :types, %{
+  "text/csv" => ["csv", "tsv", "txt"]
+}
+
 # Read .env
 try do
   File.stream!("./.env")

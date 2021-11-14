@@ -70,7 +70,7 @@ defmodule MemoetWeb.DeckControllerTest do
     end
   end
 
-  describe "LV /decks/:deck_id/import CSV upload" do
+  describe "LV /decks/:deck_id/import CSV" do
     setup [:create_user, :log_in, :create_deck]
 
     test "upload CSV file", %{conn: conn, deck: deck} do
