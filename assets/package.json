@@ -10,6 +10,7 @@
     "@fontsource/nunito-sans": "^4.5.1",
     "alpinejs": "^2.8.2",
     "marked": "^4.0.3",
+    "node-sass": "^6.0.1",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
     "phoenix_live_view": "file:../deps/phoenix_live_view",
