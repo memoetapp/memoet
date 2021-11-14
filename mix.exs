@@ -7,8 +7,7 @@ defmodule Memoet.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:rustler, :phoenix, :gettext] ++ Mix.compilers(),
-      rustler_crates: rustler_crates(),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -21,18 +20,6 @@ defmodule Memoet.MixProject do
       ]
     ]
   end
-
-  defp rustler_crates do
-    [
-      sm2: [
-        path: "native/sm2",
-        mode: rustc_mode(Mix.env())
-      ]
-    ]
-  end
-
-  defp rustc_mode(:prod), do: :release
-  defp rustc_mode(_), do: :debug
 
   # Configuration for the OTP application.
   #
@@ -53,16 +40,16 @@ defmodule Memoet.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.8"},
-      {:phoenix_ecto, "~> 4.1"},
-      {:ecto_sql, "~> 3.4"},
+      {:phoenix, "~> 1.5.9"},
+      {:phoenix_ecto, "~> 4.4"},
+      {:ecto_sql, "~> 3.7"},
       {:db_connection, "~> 2.3.1"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_view, "~> 0.15"},
+      {:phoenix_live_view, "~> 0.17"},
       {:floki, ">= 0.27.0", only: :test},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.4"},
+      {:phoenix_html, "~> 3.1"},
+      {:phoenix_live_reload, "~> 1.3", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.6"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:ecto_psql_extras, "~> 0.2"},
@@ -77,10 +64,10 @@ defmodule Memoet.MixProject do
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.4"},
       # Sm2
-      {:rustler, "~> 0.21.1"},
+      {:rustler, "~> 0.22.2"},
       # Auth
-      {:pow, "~> 1.0.22"},
-      {:pow_postgres_store, "~> 1.0.0-rc2"},
+      {:pow, "~> 1.0"},
+      {:pow_postgres_store, "~> 1.0"},
       # Cron
       {:oban, "~> 2.5"},
       # S3 upload

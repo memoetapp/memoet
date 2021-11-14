@@ -1,5 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
 <section x-data="{ type: '<%= @note.type %>' }" class="mt-8 space-y-8">
   <section>
     Title:
@@ -35,7 +33,7 @@
         value: @note.content
       %>
     </div>
-    <article x-show="preview" x-html="marked(document.getElementById('content').value)"
+    <article x-show="preview" x-html="marked.parse(document.getElementById('content').value)"
       class="p-3 border bg-blue-50 prose rounded-md" x-cloak>
     </article>
   </section>
@@ -80,7 +78,7 @@
         placeholder: "Easy peasy..."
       %>
     </div>
-    <article x-show="preview" x-html="marked(document.getElementById('hint').value)"
+    <article x-show="preview" x-html="marked.parse(document.getElementById('hint').value)"
       class="p-3 border bg-blue-50 prose rounded-md" x-cloak>
     </article>
   </section>
