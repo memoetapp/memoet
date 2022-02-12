@@ -13,12 +13,22 @@ See [memoet.gitbook.io](https://memoet.gitbook.io/docs).
 
 ## Local setup
 
-To start your Phoenix server:
+1. Install `asdf`
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm i` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
+Instruction [here](https://asdf-vm.com/)
+
+2. Install `erlang`, `elixir` and `nodejs`
+
+```sh
+asdf install
+```
+
+3. Start your Phoenix server
+
+- Install dependencies with `mix deps.get`
+- Create and migrate your database with `mix ecto.setup`
+- Install Node.js dependencies with `npm i` inside the `assets` directory
+- Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
