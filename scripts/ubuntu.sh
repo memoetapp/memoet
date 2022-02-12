@@ -14,7 +14,7 @@ sudo apt install esl-erlang
 sudo apt install elixir
 
 # Node
-curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt install -y nodejs
 
 # Postgres
@@ -30,10 +30,10 @@ sudo apt install postgresql-13
 # grant all privileges on database memoet to memoet;
 
 # Power to open lower ports (80)
-sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/lib/erlang/erts-11.1.7/bin/beam.smp
+# sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/lib/erlang/erts-11.1.7/bin/beam.smp
 
 # Clone
-git clone https://github.com/manhtai/memoet.git
+git clone https://github.com/memoetapp/memoet.git
 cd memoet/
 
 mix deps.get

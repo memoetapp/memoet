@@ -1,6 +1,6 @@
 [package]
 name = "sm2"
-version = "0.1.0"
+version = "0.1.1"
 authors = []
 edition = "2018"
 
@@ -10,7 +10,7 @@ path = "src/lib.rs"
 crate-type = ["dylib"]
 
 [dependencies]
-rustler = "0.22.2"
+rustler = "0.23.0"
 chrono = { version = "0.4"}
 rand = "0.8"
 serde = { version = "1.0", features = ["derive"] }

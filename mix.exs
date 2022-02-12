@@ -64,7 +64,7 @@ defmodule Memoet.MixProject do
       {:earmark, "~> 1.4"},
       {:html_sanitize_ex, "~> 1.4"},
       # Sm2
-      {:rustler, "~> 0.22.2"},
+      {:rustler, "~> 0.23.0"},
       # Auth
       {:pow, "~> 1.0"},
       {:pow_postgres_store, "~> 1.0"},
