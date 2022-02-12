@@ -15,9 +15,14 @@ See [memoet.gitbook.io](https://memoet.gitbook.io/docs).
 
 1. Install `asdf`
 
-Instruction [here](https://asdf-vm.com/)
+Instruction [here](https://asdf-vm.com/).
 
-2. Install `erlang`, `elixir` and `nodejs`
+2. Install `Rust`
+
+Instruction [here](https://www.rust-lang.org/tools/install).
+
+
+3. Install `erlang`, `elixir` and `nodejs`
 
 ```sh
 asdf install
