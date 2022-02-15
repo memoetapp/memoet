@@ -11,7 +11,7 @@ defmodule Memoet.Emails do
   def cast(%{user: user, subject: subject, text: text, html: html}) do
     %Swoosh.Email{}
     |> to({"", user.email})
-    |> from({"Memoet", "memoet@manhtai.com"})
+    |> from({"Memoet", System.get_env("SYSTEM_EMAIL", "plain@manhtai.com")})
     |> subject(subject)
     |> html_body(html)
     |> text_body(text)
