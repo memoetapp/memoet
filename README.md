@@ -53,12 +53,12 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 - Basic setup:
 
-| Environment          | Required? |
-|----------------------|-----------|
-| `SECRET_KEY_BASE`    | Yes       |
-| `DATABASE_URL`       | Yes       |
-| `DATABASE_SSL`       | No        |
-| `DATABASE_CERT`      | No        |
+| Environment          | Required? | Hints |
+|----------------------|-----------|-------|
+| `SECRET_KEY_BASE`    | Yes       |Should be at least 30 chars long|
+| `DATABASE_URL`       | Yes       | |
+| `DATABASE_SSL`       | No        | |
+| `DATABASE_CERT`      | No        | |
 
 - For your custom domain:
 
