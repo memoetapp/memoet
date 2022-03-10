@@ -53,12 +53,12 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 - Basic setup:
 
-| Environment          | Required? |
-|----------------------|-----------|
-| `SECRET_KEY_BASE`    | Yes       |
-| `DATABASE_URL`       | Yes       |
-| `DATABASE_SSL`       | No        |
-| `DATABASE_CERT`      | No        |
+| Environment          | Required? | Why?                                                                |
+|----------------------|-----------|---------------------------------------------------------------------|
+| `SECRET_KEY_BASE`    | Yes       | For cookies encryption, can be generate with `openssl rand -hex 48` |
+| `DATABASE_URL`       | Yes       | For saving stuffs, only Postgres is supported for now               |
+| `DATABASE_SSL`       | No        |                                                                     |
+| `DATABASE_CERT`      | No        |                                                                     |
 
 - For your custom domain:
 
@@ -71,7 +71,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 - For uploading images to S3:
 
 | Environment             | Example                |
-| ----------------------- | ---------------------- |
+|-------------------------|------------------------|
 | `AWS_BUCKET_NAME`       | cdn.memoet.com         |
 | `AWS_ACCESS_KEY_ID`     | xxxxxxxxxxxxxxxx       |
 | `AWS_SECRET_ACCESS_KEY` | xxxxxxxxxxxxxxxx       |
@@ -80,10 +80,10 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 - Extra configuration:
 
-| Environment          | Info                  |
-|----------------------|-----------------------|
-| `SENDINBLUE_API_KEY` | For password recovery |
-| `SENTRY_DSN`         | For error logging     |
+| Environment          | Why?                        |
+|----------------------|-----------------------------|
+| `SENDINBLUE_API_KEY` | For password recovery email |
+| `SENTRY_DSN`         | For error logging           |
 
 ## Hosted version
 
