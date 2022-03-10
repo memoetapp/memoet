@@ -1,14 +1,16 @@
-use Mix.Config
+import Config
 
 # Configure your database
 config :memoet, Memoet.Repo,
   username: "postgres",
   password: "postgres",
-  database: "memoet_dev",
+  database: "postgres",
   hostname: "localhost",
   port: System.get_env("DATABASE_PORT") || 5432,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
+
+config :memoet, skip_migrations: true
 
 # For development, we disable any cache and enable
 # debugging and code reloading.

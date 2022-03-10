@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # Configure your database
 #
@@ -8,10 +8,12 @@ use Mix.Config
 config :memoet, Memoet.Repo,
   username: "postgres",
   password: "postgres",
-  database: "memoet_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "postgres#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   port: System.get_env("DATABASE_PORT") || 5433,
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :memoet, skip_migrations: true
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
