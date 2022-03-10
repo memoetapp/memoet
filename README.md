@@ -55,7 +55,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 | Environment          | Required? | Hints |
 |----------------------|-----------|-------|
-| `SECRET_KEY_BASE`    | Yes       |Should be at least 30 chars long|
+| `SECRET_KEY_BASE`    | Yes       |Used for Cookie, should be at least 30 chars long|
 | `DATABASE_URL`       | Yes       | |
 | `DATABASE_SSL`       | No        | |
 | `DATABASE_CERT`      | No        | |
