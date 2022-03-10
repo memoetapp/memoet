@@ -6,6 +6,8 @@ defmodule Memoet.Application do
   use Application
 
   def start(_type, _args) do
+    maybe_run_migrations()
+
     children = [
       # Start the Ecto repository
       Memoet.Repo,
@@ -39,5 +41,11 @@ defmodule Memoet.Application do
 
   defp oban_config do
     Application.get_env(:memoet, Oban)
+  end
+
+  defp maybe_run_migrations() do
+    unless Application.get_env(:memoet, :skip_migrations) do
+      Memoet.ReleaseTasks.init()
+    end
   end
 end

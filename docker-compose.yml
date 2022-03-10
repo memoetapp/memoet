@@ -1,16 +1,29 @@
 version: '3'
 services:
+    memoet:
+      image: manhtai/memoet:latest
+      ports:
+        - "4000:4000"
+      depends_on:
+        - postgres
+      build:
+        context: .
+      environment:
+        DATABASE_URL: "postgres://postgres:postgres@postgres/postgres"
+        SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
+        URL_HOST: "${URL_HOST:-localhost}"
+        URL_SCHEMA: "${URL_SCHEMA:-http}"
+        URL_PORT: "${URL_PORT:-4000}"
+
     postgres:
       image: postgres:13
       environment:
-        - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
-        - POSTGRES_DB=memoet_dev
         - PGDATA=/var/lib/postgresql/data/pgdata
       volumes:
         - pgdata:/var/lib/postgresql/data/pgdata
       ports:
-        - "5432:5432"
+        - "${DATABASE_PORT:-5432}:5432"
 
 volumes:
     pgdata:
