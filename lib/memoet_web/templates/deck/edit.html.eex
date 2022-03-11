@@ -24,6 +24,19 @@
     </div>
 
     <div>
+      <label class="flex items-center justify-start my-4">
+        <%= checkbox f,
+          :shuffled,
+          class: "mr-2 form-checkbox",
+          checked: @deck.shuffled == true
+        %>
+        <p>
+          Shuffle options in multiple choice
+        </p>
+      </label>
+    </div>
+
+    <div>
       New notes per day:
       <%= number_input f, :new_per_day, required: true, value: @deck.new_per_day,
         class: "form-control w-full" %>

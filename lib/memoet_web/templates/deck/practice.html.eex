@@ -15,7 +15,8 @@
 </header>
 
 <%= if @card do %>
-  <%= render("_card.html", conn: @conn, card_id: @card.id, note: @card.note, intervals: @intervals,
+  <%= render("_card.html", conn: @conn, card_id: @card.id, note: may_shuffle(@card.note, @deck.shuffled),
+    intervals: @intervals,
     action: Routes.deck_path(@conn, :answer, @deck)) %>
 <% else %>
   <p class="py-6 text-center">

@@ -18,6 +18,7 @@ defmodule Memoet.Decks.Deck do
     field(:name, :string, null: false)
     field(:public, :boolean, null: false, default: false)
     field(:listed, :boolean, null: false, default: false)
+    field(:shuffled, :boolean, null: false, default: false)
 
     field(:learning_order, :string, null: false, default: "random")
 
@@ -39,6 +40,7 @@ defmodule Memoet.Decks.Deck do
       :name,
       :public,
       :listed,
+      :shuffled,
       :learning_order,
       :new_per_day,
       :new_today,
