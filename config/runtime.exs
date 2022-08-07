@@ -31,6 +31,7 @@ if config_env() == :prod do
 
     config :memoet, Memoet.Repo,
       ssl: ssl,
+      socket_options: [:inet6],
       url: database_url,
       ssl_opts: ssl_opts,
       pool_size: String.to_integer(System.get_env("DATABASE_POOL") || "10")

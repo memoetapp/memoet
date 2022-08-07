@@ -87,4 +87,4 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Hosted version
 
-[memoet.herokuapp.com](https://memoet.herokuapp.com)
+[memoet.fly.dev](https://memoet.fly.dev)
