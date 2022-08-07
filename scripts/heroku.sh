@@ -11,9 +11,10 @@ heroku addons:create heroku-postgresql:hobby-dev
 
 # Set environment
 heroku config:set SECRET_KEY_BASE=XXXXXXXXXXXXXXXXXXXX
+heroku config:set DATABASE_SSL=true
 
 # Deploy
 git push heroku master
 
 # Migrate
-heroku run "POOL_SIZE=2 mix ecto.migrate --no-compile"
+heroku run "POOL_SIZE=2 ENV=prod mix ecto.create --no-compile"
