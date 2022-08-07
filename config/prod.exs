@@ -11,7 +11,7 @@ import Config
 # before starting your production server.
 config :memoet, MemoetWeb.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "memoet.manhtai.com", port: 443],
+  url: [scheme: "https", host: "memoet.herokuapp.com", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true
 

@@ -87,4 +87,4 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Hosted version
 
-[memoet.manhtai.com](https://memoet.manhtai.com)
+[memoet.herokuapp.com](https://memoet.herokuapp.com)
