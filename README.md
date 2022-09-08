@@ -59,6 +59,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 | `DATABASE_URL`       | Yes       | For saving stuffs, only Postgres is supported for now               |
 | `DATABASE_SSL`       | No        |                                                                     |
 | `DATABASE_CERT`      | No        |                                                                     |
+| `DATABASE_IPV6`      | No        | For database conn with IP v6                                        |
 
 - For your custom domain:
 
