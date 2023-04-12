@@ -85,7 +85,3 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 |----------------------|-----------------------------|
 | `SENDINBLUE_API_KEY` | For password recovery email |
 | `SENTRY_DSN`         | For error logging           |
-
-## Hosted version
-
-[memoet.fly.dev](https://memoet.fly.dev)
