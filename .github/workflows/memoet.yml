@@ -8,7 +8,7 @@ on:
 jobs:
   run-tests:
     name: Run tests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     env:
       MIX_ENV: test
       ELIXIR_ENV: test
