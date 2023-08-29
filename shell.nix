@@ -21,8 +21,7 @@ pkgs.mkShell {
 
     # create the .env file
     echo "export DATABASE_URL=postgres://postgres:postgres@postgres/postgres" > .env
-    echo "export SECRET_KEY_BASE=0d98bff53500feb68c7cbb20c69ff94b5b96fdf2f3dc2677b605e390f534505bb209304ac451b603f3f695eaa8f0bd48
-" >> .env
+    echo "export SECRET_KEY_BASE=$(openssl rand -hex 48)" >> .env
     echo "export URL_HOST=localhost" >> .env
     echo "export URL_SCHEMA=http" >> .env
     echo "export URL_PORT=4000" >> .env
