@@ -11,6 +11,8 @@ See [memoet.gitbook.io](https://memoet.gitbook.io/docs).
 
 ## Developer guide
 
+### Standard way of setting up your development environment
+
 1. Install `asdf`
 
 Follow instructions [here](https://asdf-vm.com/).
@@ -28,6 +30,7 @@ asdf install
 4. Install project dependencies
 
 ```sh
+mix setup
 mix deps.get
 (cd assets && npm i)
 ```
@@ -37,6 +40,14 @@ mix deps.get
 ```sh
 mix ecto.setup
 mix phx.server
+```
+
+### Nix-shell way of setting up your development environment
+
+This way of setup works only wwhen you have Nix configured for your OS, or are using NixOS
+
+```sh
+NIX_ENFORCE_PURITY=0 nix-shell
 ```
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
